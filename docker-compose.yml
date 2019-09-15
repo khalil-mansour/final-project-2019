@@ -1,0 +1,14 @@
+version: '3'
+
+services: 
+  dev-db:
+    image: postgres:latest
+    ports:
+      - "8083:5432"
+    volumes:
+      - ./Sample-SQL-File-10-Rows.sql:/docker-entrypoint-initdb.d/Sample-SQL-File-10-Rows.sql
+    restart: always
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
