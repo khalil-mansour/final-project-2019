@@ -14,6 +14,7 @@ stages:
 
 build:
   stage: build
+  image: microsoft/dotnet:latest
   before_script:
     - "dotnet restore"
   script:
@@ -21,6 +22,7 @@ build:
 
 test:
   stage: test
+  image: microsoft/dotnet:latest
   script: 
     - echo "Running tests"
 
