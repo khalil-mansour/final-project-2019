@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using Dapper;
 
 namespace Web.Api.Controllers
 {
@@ -15,9 +16,16 @@ namespace Web.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            string connstring = "Server=testDB;Port=8083;" + 
+
+            /*string connstring = "Server=localhost;Port=8083;" + 
                     "User Id=postgres;Password=postgres;Database=postgres;";
-            
+            NpgsqlConnection conn = new NpgsqlConnection(connstring);
+            using (conn)
+            {
+                conn.Open();
+                var test = conn.Query($"SELECT * FROM public.{"user"}"); 
+            }*/
+
             return new string[] { "value1", "value2" };
         }
 

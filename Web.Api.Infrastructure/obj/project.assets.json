@@ -179,28 +179,30 @@
     ]
   },
   "packageFolders": {
-    "/home/local/USHERBROOKE/mank3002/.nuget/packages/": {},
-    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\phili\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/local/USHERBROOKE/mank3002/Lecteurs_Reseau/Personnel/InsuranceBrokerApp/Web.Api.Infrastructure/Web.Api.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
       "projectName": "Web.Api.Infrastructure",
-      "projectPath": "/home/local/USHERBROOKE/mank3002/Lecteurs_Reseau/Personnel/InsuranceBrokerApp/Web.Api.Infrastructure/Web.Api.Infrastructure.csproj",
-      "packagesPath": "/home/local/USHERBROOKE/mank3002/.nuget/packages/",
-      "outputPath": "/home/local/USHERBROOKE/mank3002/Lecteurs_Reseau/Personnel/InsuranceBrokerApp/Web.Api.Infrastructure/obj/",
+      "projectPath": "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/home/local/USHERBROOKE/mank3002/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

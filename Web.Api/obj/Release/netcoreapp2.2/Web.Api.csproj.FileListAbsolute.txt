@@ -1,0 +1,14 @@
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\bin\Release\netcoreapp2.2\Web.Api.deps.json
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\bin\Release\netcoreapp2.2\Web.Api.runtimeconfig.json
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\bin\Release\netcoreapp2.2\Web.Api.runtimeconfig.dev.json
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\bin\Release\netcoreapp2.2\Web.Api.dll
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\bin\Release\netcoreapp2.2\Web.Api.pdb
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Release\netcoreapp2.2\Web.Api.csprojAssemblyReference.cache
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Release\netcoreapp2.2\Web.Api.csproj.CoreCompileInputs.cache
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Release\netcoreapp2.2\Web.Api.RazorAssemblyInfo.cache
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Release\netcoreapp2.2\Web.Api.RazorAssemblyInfo.cs
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Release\netcoreapp2.2\Web.Api.AssemblyInfoInputs.cache
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Release\netcoreapp2.2\Web.Api.AssemblyInfo.cs
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Release\netcoreapp2.2\Web.Api.RazorTargetAssemblyInfo.cache
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Release\netcoreapp2.2\Web.Api.dll
+C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Release\netcoreapp2.2\Web.Api.pdb

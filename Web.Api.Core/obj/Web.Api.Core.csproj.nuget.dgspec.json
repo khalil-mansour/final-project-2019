@@ -1,28 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/home/local/USHERBROOKE/mank3002/Lecteurs_Reseau/Personnel/InsuranceBrokerApp/Web.Api.Core/Web.Api.Core.csproj": {}
+    "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj": {}
   },
   "projects": {
-    "/home/local/USHERBROOKE/mank3002/Lecteurs_Reseau/Personnel/InsuranceBrokerApp/Web.Api.Core/Web.Api.Core.csproj": {
+    "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/local/USHERBROOKE/mank3002/Lecteurs_Reseau/Personnel/InsuranceBrokerApp/Web.Api.Core/Web.Api.Core.csproj",
+        "projectUniqueName": "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj",
         "projectName": "Web.Api.Core",
-        "projectPath": "/home/local/USHERBROOKE/mank3002/Lecteurs_Reseau/Personnel/InsuranceBrokerApp/Web.Api.Core/Web.Api.Core.csproj",
-        "packagesPath": "/home/local/USHERBROOKE/mank3002/.nuget/packages/",
-        "outputPath": "/home/local/USHERBROOKE/mank3002/Lecteurs_Reseau/Personnel/InsuranceBrokerApp/Web.Api.Core/obj/",
+        "projectPath": "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj",
+        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/local/USHERBROOKE/mank3002/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
