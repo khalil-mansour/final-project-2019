@@ -1,0 +1,46 @@
+
+image: docker:latest
+
+variables:
+  DOCKER_DRIVER: overlay
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test 
+  - deploy
+
+build:
+  stage: build
+  before_script:
+    - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+    - docker login -u _json_key --password-stdin https://gcr.io < ${HOME}/gcloud-service-key.json
+    
+  script: 
+    - echo "building and pushin docker image"
+    - docker build -t gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME .
+    - docker push "gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME"
+
+test:
+  stage: test
+  script: 
+    - echo "Running tests"
+
+deploy_staging:
+  image: google/cloud-sdk:latest
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+    - echo $GCLOUD_SERVICE_KUBERNETESE > ${HOME}/gcloud-service-key.json
+    - gcloud auth activate-service-account --key-file=key.json
+    - gcloud config set project $GCLOUD_PROJECT_ID
+    - glcoud config set zone compute/zone us-central1-a
+    - kubectl run hello-web --image=gcr.io/${PROJECT_ID}/hello-app:v2 --port 80
+    - kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 80
+  environment:
+    name: staging
+  when: manual
+  only:
+    - master
