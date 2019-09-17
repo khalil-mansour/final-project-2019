@@ -25,13 +25,13 @@ test:
     - echo "Running tests"
 
 deploy_staging:
+  stage: deploy
   before_script:
     - echo "pushing docker image"
     - docker push "gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME"
   image: google/cloud-sdk:latest
-  stage: deploy
-    script:
-     - echo "deploying..."
+  script:
+    - echo "deploying..."
   environment:
     name: staging
   when: manual
