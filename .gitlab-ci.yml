@@ -8,6 +8,7 @@ services:
 
 stages:
   - build
+  - mapping
   - test 
   - deploy-image
   - deploy-staging
@@ -19,6 +20,11 @@ build:
     - "dotnet restore"
   script:
     - "dotnet build"
+
+mapping:
+  stage: mapping
+  script:
+    - python3 env_mapper.py CONNECTION_STRING=$CONNECTION_STRING
 
 test:
   stage: test
