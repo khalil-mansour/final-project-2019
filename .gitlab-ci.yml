@@ -1,10 +1,10 @@
-image: docker:latest
+image: docker:18.09.7
 
 variables:
   DOCKER_DRIVER: overlay
 
 services:
-  - docker:dind
+  - docker:18.09.7-dind
 
 stages:
   - build
