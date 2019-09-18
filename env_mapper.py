@@ -5,10 +5,6 @@ import io
 import os
 import configparser
 
-
-    def before_get(self, parser, section, option, value, defaults):
-        return os.path.expandvars(value)
-
 def get_json(path):
 	# open the json file
 	with open(path, "r") as f:
