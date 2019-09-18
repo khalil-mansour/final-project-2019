@@ -4,6 +4,13 @@ import pprint
 import os
 from configparser import ConfigParser
 
+
+class EnvInterpolation(configparser.BasicInterpolation):
+    """Interpolation which expands environment variables in values."""
+
+    def before_get(self, parser, section, option, value, defaults):
+        return os.path.expandvars(value)
+
 def get_json(path):
 	# open the json file
 	with open(path, "r") as f:
@@ -21,7 +28,7 @@ def post_json(path, datastore):
 
 def main():
 	# read ini file
-	parser = ConfigParser(os.environ)
+	parser = ConfigParser(interpolation=EnvInterpolation())
 	parser.read('config.ini')
 	# path
 	path = "Web.Api/appsettings.json"
