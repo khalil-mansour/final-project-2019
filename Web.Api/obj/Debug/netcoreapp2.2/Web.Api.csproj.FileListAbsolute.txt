@@ -26,3 +26,17 @@ C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreap
 C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.RazorTargetAssemblyInfo.cache
 C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.dll
 C:\Users\phili\source\repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.pdb
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\bin\Debug\netcoreapp2.2\Web.Api.deps.json
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\bin\Debug\netcoreapp2.2\Web.Api.runtimeconfig.json
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\bin\Debug\netcoreapp2.2\Web.Api.runtimeconfig.dev.json
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\bin\Debug\netcoreapp2.2\Web.Api.dll
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\bin\Debug\netcoreapp2.2\Web.Api.pdb
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.csprojAssemblyReference.cache
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.csproj.CoreCompileInputs.cache
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.RazorAssemblyInfo.cache
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.RazorAssemblyInfo.cs
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.AssemblyInfoInputs.cache
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.AssemblyInfo.cs
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.RazorTargetAssemblyInfo.cache
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.dll
+C:\Users\mank3002\Source\Repos\projet_assurance_backend\Web.Api\obj\Debug\netcoreapp2.2\Web.Api.pdb

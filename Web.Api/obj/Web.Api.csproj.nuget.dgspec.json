@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api\\Web.Api.csproj": {}
+    "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api\\Web.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api\\Web.Api.csproj": {
+    "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api\\Web.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api\\Web.Api.csproj",
+        "projectUniqueName": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api\\Web.Api.csproj",
         "projectName": "Web.Api",
-        "projectPath": "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api\\Web.Api.csproj",
-        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phili\\source\\repos\\projet_assurance_backend\\Web.Api\\obj\\",
+        "projectPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api\\Web.Api.csproj",
+        "packagesPath": "C:\\Users\\mank3002\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mank3002\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
