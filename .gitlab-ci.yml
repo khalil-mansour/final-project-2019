@@ -23,6 +23,7 @@ build:
 
 mapping:
   stage: mapping
+  imagine: python:latest
   script:
     - python3 env_mapper.py CONNECTION_STRING=$CONNECTION_STRING
 
