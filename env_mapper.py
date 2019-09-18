@@ -2,8 +2,7 @@ import json
 import sys
 import pprint
 import os
-import configparser
-from io import StringIO
+from configparser import SafeConfigParser
 
 def get_json(path):
 	# open the json file
@@ -21,11 +20,8 @@ def post_json(path, datastore):
 		json.dump(datastore, f, indent=4)
 
 def get_values():
-	with open('config.ini', 'r') as config_file:
-		config_text = os.path.expandvars(config_file.read())
-	config = configparser.ConfigParser()
-	config.readfp(StringIO(config_text))
-	return config
+	parser = SafeConfigParser(os.environ)
+	parser.read('config.ini')
 
 def main():
 	# read ini file
