@@ -46,20 +46,22 @@ In order to add environment variables, refer to the following steps:
 
     Make sure $VALUE is the same as the key you entered in the repo.
 
-##### Source : [gcloud.doc.kurbernetes](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app?hl=fr)
+
 
 ## Deployment staging
+##### Source : [gcloud.doc.kurbernetes](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app?hl=fr)
+
 1. In the gcloud console set-up the console so it is bind to your project
-`gcloud config set project [PROJECT_ID]`
-`gcloud config set compute/zone [COMPUTE_ZONE]` *northamerica-northeast1-a*
-`gcloud container clusters get-credentials [CLUSTER_NAME]`
+ `gcloud config set project [PROJECT_ID]`
+ `gcloud config set compute/zone [COMPUTE_ZONE]` *northamerica-northeast1-a*
+ `gcloud container clusters get-credentials [CLUSTER_NAME]`
 
 2. This step is only require if it's the first time deploying
-`kubectl run hello-web --image=gcr.io/${PROJECT_ID}/${IMAGE} --port 8080` *gcr.io/${PROJECT_ID}/${IMAGE} path in gcloud container registery*
-`kubectl get pods` *Check if your pod is up*
-`kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8080`
+ `kubectl run hello-web --image=gcr.io/${PROJECT_ID}/${IMAGE} --port 8080` *gcr.io/${PROJECT_ID}/${IMAGE} path in gcloud container registery*
+ `kubectl get pods` *Check if your pod is up*
+ `kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8080`
 
 3. Update the the pod with the latest image
-`kubectl set image deployment/hello-web hello-web=gcr.io/${PROJECT_ID}/{$IMAGE}`
+ `kubectl set image deployment/hello-web hello-web=gcr.io/${PROJECT_ID}/{$IMAGE}`
 
 
