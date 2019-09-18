@@ -5,6 +5,12 @@ import io
 import os
 import configparser
 
+class ExpandingParser(configparser.ConfigParser):
+
+     def getexpanded(self, section, option):
+             return self._get(section, os.path.expandvars, option)
+
+
 def get_json(path):
 	# open the json file
 	with open(path, "r") as f:
@@ -12,8 +18,11 @@ def get_json(path):
 	return datastore
 
 def map_values(data, parser):
-	for option in parser['CONNECTIONSTRING']:
-		data["env"][option] = parser['CONNECTIONSTRING'][option]
+	for section in parser.sections():
+		for option in parser.options(section):
+			print(parser.get(section, option))
+			print(parser.getexpanded(section,option))
+			data["env"][option] = parser[section][option]
 
 def post_json(path, datastore):
 	# write to json file
@@ -21,12 +30,8 @@ def post_json(path, datastore):
 		json.dump(datastore, f, indent=4)
 
 def main():
-	# read ini file
-	with open('config.ini', 'r') as cfg_file:
-		cfg_txt = os.path.expandvars(cfg_file.read())
-		print(cfg_txt)
-	parser = configparser.ConfigParser()
-	parser.read_file(io.StringIO(cfg_txt))
+	parser = ExpandingParser()
+	parser.read('config.ini')
 	# path
 	path = "Web.Api/appsettings.json"
 	# fetch json data
