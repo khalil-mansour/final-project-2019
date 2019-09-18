@@ -31,5 +31,4 @@ def main(**kwargs):
 	post_json(path, data)
 
 if __name__ == "__main__":
-	print(sys.argv)
-	main(**dict(arg.split('=') for arg in sys.argv[1:]))
+	main(**dict(arg.split('::') for arg in sys.argv[1:]))
