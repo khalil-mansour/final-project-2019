@@ -2,7 +2,7 @@ import json
 import sys
 import pprint
 import os
-from configparser import ConfigParser
+import configparser
 
 
 class EnvInterpolation(configparser.BasicInterpolation):
@@ -28,7 +28,7 @@ def post_json(path, datastore):
 
 def main():
 	# read ini file
-	parser = ConfigParser(interpolation=EnvInterpolation())
+	parser = configparser.ConfigParser(interpolation=EnvInterpolation())
 	parser.read('config.ini')
 	# path
 	path = "Web.Api/appsettings.json"
