@@ -2,7 +2,7 @@ import json
 import sys
 import pprint
 import os
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 
 def get_json(path):
 	# open the json file
@@ -19,13 +19,10 @@ def post_json(path, datastore):
 	with open(path, "w") as f:
 		json.dump(datastore, f, indent=4)
 
-def get_values():
-	parser = SafeConfigParser(os.environ)
-	parser.read('config.ini')
-
 def main():
 	# read ini file
-	parser = get_values()
+	parser = ConfigParser(os.environ)
+	parser.read('config.ini')
 	# path
 	path = "Web.Api/appsettings.json"
 	# fetch json data
