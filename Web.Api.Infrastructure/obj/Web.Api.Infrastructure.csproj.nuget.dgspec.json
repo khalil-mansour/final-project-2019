@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj": {}
+    "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj": {
+    "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
         "projectName": "Web.Api.Infrastructure",
-        "projectPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\mank3002\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\obj\\",
+        "projectPath": "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
+        "outputPath": "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\mank3002\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

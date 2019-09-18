@@ -17,14 +17,14 @@ namespace Web.Api.Controllers
         public ActionResult<IEnumerable<string>> Get()
         {
 
-            string connstring = "Server=localhost;Port=8083;" + 
+            /*string connstring = "Server=localhost;Port=8083;" + 
                     "User Id=postgres;Password=postgres;Database=postgres;";
             NpgsqlConnection conn = new NpgsqlConnection(connstring);
             using (conn)
             {
                 conn.Open();
                 var test = conn.Query($"SELECT * FROM public.{"user"}"); 
-            }
+            }*/
 
             return new string[] { "value1", "value2" };
         }
