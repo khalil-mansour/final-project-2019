@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using Dapper;
+using Web.Api.Core.Interfaces.UseCases;
+using Web.Api.Presenters;
+using Web.Api.Core.Dto.UseCaseRequests;
 
 namespace Web.Api.Controllers
 {
@@ -12,46 +15,33 @@ namespace Web.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        // GET api/values
+        private readonly IRegisterUserUseCase _registerUserUseCase;
+        private readonly RegisterUserPresenter _registerUserPresenter;
+
+        public UserController(IRegisterUserUseCase registerUserUseCase, RegisterUserPresenter registerUserPresenter)
+        {
+            _registerUserUseCase = registerUserUseCase;
+            _registerUserPresenter = registerUserPresenter;            
+        }
+
+        // GET api/user
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
-        {
-
-            /*string connstring = "Server=localhost;Port=8083;" + 
-                    "User Id=postgres;Password=postgres;Database=postgres;";
-            NpgsqlConnection conn = new NpgsqlConnection(connstring);
-            using (conn)
-            {
-                conn.Open();
-                var test = conn.Query($"SELECT * FROM public.{"user"}"); 
-            }*/
+        { 
 
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
+        // POST api/user
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] Models.Request.RegisterUserRequest request)
         {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            if (!ModelState.IsValid)
+            { // re-render the view when validation failed.
+                return BadRequest(ModelState);
+            }
+            await _registerUserUseCase.Handle(new RegisterUserRequest(request.Id, request.FirstName, request.LastName, request.Email), _registerUserPresenter);
+            return _registerUserPresenter.ContentResult;
         }
     }
 }

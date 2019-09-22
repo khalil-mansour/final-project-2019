@@ -179,23 +179,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Khalil\\.nuget\\packages\\": {},
+    "C:\\Users\\mank3002\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Khalil\\Documents\\Universite\\AUTOMNE2019\\PROJET\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj",
+      "projectUniqueName": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj",
       "projectName": "Web.Api.Core",
-      "projectPath": "C:\\Users\\Khalil\\Documents\\Universite\\AUTOMNE2019\\PROJET\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj",
-      "packagesPath": "C:\\Users\\Khalil\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Khalil\\Documents\\Universite\\AUTOMNE2019\\PROJET\\projet_assurance_backend\\Web.Api.Core\\obj\\",
+      "projectPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj",
+      "packagesPath": "C:\\Users\\mank3002\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Khalil\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mank3002\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

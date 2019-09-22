@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj": {}
+    "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj": {
+    "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
-        "projectName": "Web.Api.Infrastructure",
-        "projectPath": "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
-        "outputPath": "C:\\Université\\projet_assurance_backend\\Web.Api.Infrastructure\\obj\\",
+        "projectUniqueName": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj",
+        "projectName": "Web.Api.Core",
+        "projectPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj",
+        "packagesPath": "C:\\Users\\mank3002\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mank3002\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -46,6 +46,70 @@
               "target": "Package",
               "version": "[2.0.3, )",
               "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
+        "projectName": "Web.Api.Infrastructure",
+        "projectPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\Web.Api.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\mank3002\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\mank3002\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {
+              "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj": {
+                "projectPath": "C:\\Users\\mank3002\\Source\\Repos\\projet_assurance_backend\\Web.Api.Core\\Web.Api.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.4, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[4.0.10, )"
             }
           },
           "imports": [
