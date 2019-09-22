@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Web.Api.Core;
-using Web.Api.Core.Dto.UseCaseResponses;
-using Web.Api.Core.Interfaces;
 using Web.Api.Infrastructure;
 using Web.Api.Presenters;
 
