@@ -34,7 +34,5 @@ def main():
 	# update the file
 	post_json(path, data)
 
-	print(data)
-
 if __name__ == "__main__":
 	main()

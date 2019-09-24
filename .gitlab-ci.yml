@@ -41,6 +41,8 @@ deploy-image:
     - echo "building and pushing docker image"
     - docker build -t gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME .
     - docker push "gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME"
+  only:
+    - master
 
 deploy-staging:
   stage: deploy-staging
