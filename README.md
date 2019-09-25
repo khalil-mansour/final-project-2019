@@ -18,7 +18,14 @@ Select one of the following links for your setup
 
 [`https://docs.docker.com/docker-for-mac/install/`](https://docs.docker.com/docker-for-mac/install/)
 
-
+## Usefull command
+    ```bash
+    docker-compose ps # <-- list the running containers
+	docker-compose down <container name> # <-- remove the container. It will be rebuild next docker-compose up
+    docker-compose stop <container name> # <-- stop the container without removing it
+	docker-compose start <container name> # <-- start the container
+    ```
+##### Source : [Docker-compose command](https://docs.docker.com/compose/reference/)
 
 ## Building the docker image with the dev-database
 
