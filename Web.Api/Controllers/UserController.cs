@@ -34,7 +34,7 @@ namespace Web.Api.Controllers
         }
 
         // POST api/user
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Models.Request.RegisterUserRequest request)
         {
