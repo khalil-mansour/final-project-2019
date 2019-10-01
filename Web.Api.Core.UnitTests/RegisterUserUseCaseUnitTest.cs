@@ -17,7 +17,7 @@ namespace Web.Api.Core.UnitTests
     public class RegisterUserUseCaseUnitTest
     {   
         // mocked data
-        private readonly string id = "1";
+        private readonly int id = 1;
         private readonly string firstName = "boubou";
         private readonly string lastName = "Bouboubou";
         private readonly string email = "boubou@boubou.com";
@@ -30,14 +30,18 @@ namespace Web.Api.Core.UnitTests
 
             // userRepository symbolizes database
             var mockUserRepository = new Mock<IUserRepository>();
-            mockUserRepository.Setup(repo => repo.Create(It.IsAny<User>())).Returns(Task.FromResult(new CreateUserResponse("", true)));
+            mockUserRepository
+                .Setup(repo => repo.Create(It.IsAny<User>()))
+                .Returns(Task.FromResult(new CreateUserResponse(null, true)));
 
             // the main use case
             var useCase = new RegisterUserUseCase(mockUserRepository.Object);
 
             // link between layers
             var mockOutputPort = new Mock<IOutputPort<RegisterUserResponse>>();
-            mockOutputPort.Setup(outputPort => outputPort.Handle(It.IsAny<RegisterUserResponse>()));
+            mockOutputPort
+                .Setup(outputPort => outputPort
+                .Handle(It.IsAny<RegisterUserResponse>()));
 
             // when
 

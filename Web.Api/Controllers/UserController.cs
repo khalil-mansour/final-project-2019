@@ -8,6 +8,7 @@ using Dapper;
 using Web.Api.Core.Interfaces.UseCases;
 using Web.Api.Presenters;
 using Web.Api.Core.Dto.UseCaseRequests;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Api.Controllers
 {
@@ -33,6 +34,7 @@ namespace Web.Api.Controllers
         }
 
         // POST api/user
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Models.Request.RegisterUserRequest request)
         {

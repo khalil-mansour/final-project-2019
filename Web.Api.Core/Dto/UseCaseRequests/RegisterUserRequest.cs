@@ -8,12 +8,12 @@ namespace Web.Api.Core.Dto.UseCaseRequests
 {
     public class RegisterUserRequest : IUseCaseRequest<RegisterUserResponse>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; }
         public string LastName { get; }
         public string Email { get; }
 
-        public RegisterUserRequest(string id, string firstName, string lastName, string email)
+        public RegisterUserRequest(int id, string firstName, string lastName, string email)
         {
             Id = id;
             FirstName = firstName;

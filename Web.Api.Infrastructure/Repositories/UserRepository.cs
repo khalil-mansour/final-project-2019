@@ -6,9 +6,7 @@ using Web.Api.Core.Interfaces.Gateways.Repositories;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Dapper;
-using System.Collections;
 using System.Linq;
-using System.Collections.Generic;
 using System;
 using Web.Api.Core.Dto;
 
@@ -18,42 +16,34 @@ namespace Web.Api.Infrastructure.Repositories
     internal sealed class UserRepository : IUserRepository
     {
         private IConfiguration _configuration;
-        public UserRepository(IConfiguration configuration) {
+        public UserRepository(IConfiguration configuration)
+        {
             _configuration = configuration;
         }
         public async Task<CreateUserResponse> Create(User user)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
-            /*string connstring = "Server=localhost;Port=8083;" + 
-                  "User Id=postgres;Password=postgres;Database=postgres;";*/
-            var query = $@"SELECT id AS {nameof(User.Id)}, 
-                                  firstname AS {nameof(User.FirstName)},
-                                  lastname AS {nameof(User.LastName)},
-                                  email AS {nameof(User.Email)}
-                        FROM public.{"user"}";
-            List<User> results = new List<User>();
-            
+
+            var add_query = $@"INSERT INTO public.{"user"} (id, firstname, lastname, email)
+                               VALUES (@id, @firstname, @lastname, @email);";
+
+            var select_query = $@"SELECT * FROM public.{"user"} WHERE id=@id";
+
             using (var conn = new NpgsqlConnection(connectionString))
             {
-                var success = true;
-                CreateUserResponse response;
-                Exception exception = new Exception();
                 try
                 {
-                    conn.Open();
-                    results = conn.Query<User>(query).ToList();
-                }
-                catch (Exception e)
-                {
-                    success = false;
-                    exception = e;
-                }
-                finally {
-                    var myUser = results.First();
-                    response = new CreateUserResponse(myUser.Id, success, new Error(exception.HResult.ToString(), exception.Message));
-                }
+                    // add user
+                    var success = Convert.ToBoolean(conn.Execute(add_query, user));
 
-                return response;
+                    // return the response
+                    return new CreateUserResponse(conn.Query<User>(select_query, new { user.Id }).FirstOrDefault(), success);
+                }
+                catch (NpgsqlException e)
+                {
+                    // return the response
+                    return new CreateUserResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                }
             }
         }
     }
