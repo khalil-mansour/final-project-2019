@@ -8,13 +8,11 @@ namespace Web.Api.Core.Dto.UseCaseRequests
 {
     public class LoginUserRequest : IUseCaseRequest<LoginUserResponse>
     {
-        public string Email { get; }
-        public string Password { get; }
+        public int ID { get; }
 
-        public LoginUserRequest(string email, string password)
+        public LoginUserRequest(int id)
         {
-            Email = email;
-            Password = password;
+            ID = id;
         }
     }
 }

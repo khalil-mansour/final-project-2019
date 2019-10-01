@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Web.Api.Core.Domain.Entities;
 using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseResponses
 {
     public class LoginUserResponse : UseCaseResponseMessage
     {
-        public Token Token { get; }
+        public User User { get; }
         public IEnumerable<Error> Errors { get; }
 
         public LoginUserResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base (success, message)
@@ -15,9 +14,9 @@ namespace Web.Api.Core.Dto.UseCaseResponses
             Errors = errors;
         }
 
-        public LoginUserResponse(Token token, bool success = false, string message = null) : base(success, message)
+        public LoginUserResponse(User user, bool success = false, string message = null) : base(success, message)
         {
-            Token = token;
+            User = user;
         }
     }
 }

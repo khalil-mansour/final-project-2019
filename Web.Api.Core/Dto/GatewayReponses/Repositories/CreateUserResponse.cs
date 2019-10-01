@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Web.Api.Core.Domain.Entities;
+﻿using Web.Api.Core.Domain.Entities;
 
 namespace Web.Api.Core.Dto.GatewayResponses.Repositories
 {

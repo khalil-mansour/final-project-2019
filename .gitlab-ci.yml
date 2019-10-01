@@ -2,6 +2,7 @@ image: docker:18.09.7
 
 variables:
   DOCKER_DRIVER: overlay
+  test: "Web.Api.Core.UnitTests"
 
 services:
   - docker:18.09.7-dind
@@ -31,7 +32,8 @@ test:
   stage: test
   image: microsoft/dotnet:latest
   script: 
-    - echo "Running tests"
+    - "cd $test"
+    - "dotnet test"
 
 deploy-image:
   stage: deploy-image

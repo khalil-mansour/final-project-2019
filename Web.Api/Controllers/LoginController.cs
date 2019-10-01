@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Web.Api.Core.Interfaces.UseCases;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Web.Api.Presenters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Api.Controllers
 {
@@ -30,13 +31,14 @@ namespace Web.Api.Controllers
 
         // POST: api/Login
         [HttpPost("login")]
+        [Authorize]
         public async Task<ActionResult> Login([FromBody] Models.Request.LoginUserRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            await _loginUserUseCase.Handle(new LoginUserRequest(request.Email, request.Password), _loginUserPresenter);
+            await _loginUserUseCase.Handle(new LoginUserRequest(request.ID), _loginUserPresenter);
             return _loginUserPresenter.ContentResult;
         }
     }
