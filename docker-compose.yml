@@ -6,7 +6,7 @@ services:
     ports:
       - "8083:5432"
     volumes:
-      - ./Sample-SQL-File-10-Rows.sql:/docker-entrypoint-initdb.d/Sample-SQL-File-10-Rows.sql
+      - ./dev-database-creation-script.sql:/docker-entrypoint-initdb.d/dev-database-creation-script.sql
     restart: always
     environment:
       POSTGRES_DB: "postgres"
