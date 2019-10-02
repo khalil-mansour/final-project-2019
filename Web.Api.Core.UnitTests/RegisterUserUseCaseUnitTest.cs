@@ -19,6 +19,10 @@ namespace Web.Api.Core.UnitTests
         private readonly string firstName = "boubou";
         private readonly string lastName = "Bouboubou";
         private readonly string email = "boubou@boubou.com";
+        private readonly int userType = 1;
+        private readonly string phone = "";
+        private readonly string province  = "Qc";
+        private readonly string postalcode = "1221";
 
 
         [Fact]
@@ -43,7 +47,7 @@ namespace Web.Api.Core.UnitTests
 
             // when
 
-            var response = await useCase.Handle(new RegisterUserRequest(id, firstName, lastName, email), mockOutputPort.Object);
+            var response = await useCase.Handle(new RegisterUserRequest(id, firstName, lastName, email, userType, phone, postalcode, province), mockOutputPort.Object);
                         
             // done
 

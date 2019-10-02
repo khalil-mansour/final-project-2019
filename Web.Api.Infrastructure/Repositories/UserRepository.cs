@@ -45,8 +45,8 @@ namespace Web.Api.Infrastructure.Repositories
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
-            var add_query = $@"INSERT INTO public.{"user"} (id, firstname, lastname, email)
-                               VALUES (@id, @firstname, @lastname, @email);";
+            var add_query = $@"INSERT INTO public.users (id, name, surname, email, user_type_id, phone, postalcode, province)
+                               VALUES (@id, @firstname, @lastname, @email, @usertype, @phone, @postalcode, @province);";
 
             var select_query = $@"SELECT * FROM public.users WHERE id=@id";
 

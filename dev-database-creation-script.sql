@@ -19,8 +19,8 @@ DROP TABLE IF EXISTS quote_request_document CASCADE;
 
 CREATE TABLE user_type (
 	id serial PRIMARY KEY,
-	type char(1) NOT NULL,
-	description varchar(100) NOT NULL
+	type varchar(100) NOT NULL,
+	description varchar(100)
 );
 
 CREATE TABLE users (
@@ -29,8 +29,9 @@ CREATE TABLE users (
 	name varchar(100) NOT NULL,
 	surname varchar(50),
 	email varchar(50) NOT NULL,
-	phone varchar(50) NOT NULL,
-	postalcode varchar(50) NOT NULL,
+	phone varchar(50),
+	postalcode varchar(50),
+	province varchar(3),
 	birthday date, 
 	
 	CONSTRAINT user_type_id_fkey FOREIGN KEY (user_type_id)
@@ -218,10 +219,10 @@ CREATE TABLE quote_request_document (
       REFERENCES document (id) MATCH SIMPLE
 );
 
+INSERT INTO user_type(type) VALUES ('broker');
+INSERT INTO user_type(type) VALUES ('client');
 INSERT INTO document_type(type) VALUES ('required_doc1');
 INSERT INTO document_type(type) VALUES ('required_doc2');
 INSERT INTO document_type(type) VALUES ('required_doc3');
 INSERT INTO document_type(type) VALUES ('required_doc4');
 INSERT INTO document_type(type) VALUES ('general');
-
-select * from document_type
