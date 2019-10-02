@@ -9,6 +9,7 @@ using Dapper;
 using System.Linq;
 using System;
 using Web.Api.Core.Dto;
+using Web.Api.Core.Dto.GatewayReponses.Repositories;
 
 [assembly: InternalsVisibleTo("Web.Api.Core.UnitTests")]
 namespace Web.Api.Infrastructure.Repositories
@@ -20,6 +21,26 @@ namespace Web.Api.Infrastructure.Repositories
         {
             _configuration = configuration;
         }
+
+        public async Task<LoginUserResponse> FindById(int id)
+        {
+            var connectionString = _configuration.GetSection("ConnectionString").Value;
+
+            var select_query = $@"SELECT * FROM public.users WHERE id=@id";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                try
+                {
+                    return new LoginUserResponse(conn.Query<User>(select_query, id).FirstOrDefault(), true);
+                }
+                catch (NpgsqlException e)
+                {
+                    return new LoginUserResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                }
+            }
+        }
+
         public async Task<CreateUserResponse> Create(User user)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
@@ -27,7 +48,7 @@ namespace Web.Api.Infrastructure.Repositories
             var add_query = $@"INSERT INTO public.{"user"} (id, firstname, lastname, email)
                                VALUES (@id, @firstname, @lastname, @email);";
 
-            var select_query = $@"SELECT * FROM public.{"user"} WHERE id=@id";
+            var select_query = $@"SELECT * FROM public.users WHERE id=@id";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {

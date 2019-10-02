@@ -1,7 +1,5 @@
-using System;
 using Xunit;
 using FluentAssertions;
-using Web.Api.Infrastructure.Repositories;
 using Web.Api.Core.UseCases;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
 using Moq;
