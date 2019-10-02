@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS city CASCADE;
+DROP TABLE IF EXISTS province CASCADE;
+DROP TABLE IF EXISTS house_location CASCADE;
 DROP TABLE IF EXISTS quote_request_house CASCADE;
 DROP TABLE IF EXISTS quote_request_type_table CASCADE;
 DROP TABLE IF EXISTS quote_request_type CASCADE;
@@ -24,7 +27,7 @@ CREATE TABLE users (
 	surname varchar(50),
 	email varchar(50) NOT NULL,
 	phone varchar(50) NOT NULL,
-	postalCode varchar(50) NOT NULL,
+	postalcode varchar(50) NOT NULL,
 	birthday date, 
 	
 	CONSTRAINT user_type_id_fkey FOREIGN KEY (user_type_id)
@@ -87,7 +90,7 @@ CREATE TABLE quote (
 	user_id integer NOT NULL,
 	quote_request_id integer NOT NULL,
 	quote_type_id char(3) NOT NULL,
-	price money NOT NULL,
+	price numeric NOT NULL,
 	details varchar(500),
 	status char(1) NOT NULL,
 	
@@ -124,11 +127,54 @@ CREATE TABLE quote_request_type_table (
       REFERENCES quote_request_type (type) MATCH SIMPLE
 );
 
+
+CREATE TABLE city (
+	id integer PRIMARY KEY,
+	name varchar(200)
+);
+
+CREATE TABLE province (
+	id integer PRIMARY KEY,
+	name varchar(200)
+);
+
+CREATE TABLE house_type (
+	id integer PRIMARY KEY,
+	property_type varchar(100)
+);
+
+CREATE TABLE house_location (
+	id integer PRIMARY KEY,
+	postalcode varchar(100) NOT NULL,
+	city_id integer NOT NULL,
+	province_id integer NOT NULL,
+	street varchar(100) NOT NULL,
+	appartement_units integer NOT NULL,
+	
+	CONSTRAINT city_id_fkey FOREIGN KEY (city_id)
+      REFERENCES city (id) MATCH SIMPLE,
+
+	CONSTRAINT province_id_fkey FOREIGN KEY (province_id)
+      REFERENCES province (id) MATCH SIMPLE
+);
+
+
 CREATE TABLE quote_request_house (
 	id integer PRIMARY KEY,
-	construction_date date NOT NULL,
+	house_type_id integer NOT NULL,
+    house_location_id integer NOT NULL,
+	offer numeric NOT NULL,
+	listing integer NOT NULL,
+	down_payment numeric NOT NULL,
+	first_house boolean NOT NULL,
 	description varchar(1000),
-	municipal_evaluation varchar(100) -- Lien URL vers un document de l'évaluation municipale
+	municipal_evaluation varchar(100), -- Lien URL vers un document de l'évaluation municipale
+
+	CONSTRAINT house_type_id_fkey FOREIGN KEY (house_type_id)
+      REFERENCES house_type (id) MATCH SIMPLE,
+
+	CONSTRAINT house_location_id_fkey FOREIGN KEY (house_location_id)
+      REFERENCES house_location (id) MATCH SIMPLE
 );
 
 -- Si un utilisateur essaie d'uploader un fichier avec un (user_id, name)
