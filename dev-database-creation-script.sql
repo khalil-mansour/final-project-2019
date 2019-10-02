@@ -13,15 +13,18 @@ DROP TABLE IF EXISTS profession CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS user_type CASCADE;
 DROP TABLE IF EXISTS document CASCADE;
+DROP TABLE IF EXISTS document_type CASCADE;
+DROP TABLE IF EXISTS house_type CASCADE;
+DROP TABLE IF EXISTS quote_request_document CASCADE;
 
 CREATE TABLE user_type (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	type char(1) NOT NULL,
 	description varchar(100) NOT NULL
 );
 
 CREATE TABLE users (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	user_type_id integer NOT NULL,
 	name varchar(100) NOT NULL,
 	surname varchar(50),
@@ -35,13 +38,13 @@ CREATE TABLE users (
 );
 
 CREATE TABLE profession (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	name varchar(100) NOT NULL,
 	description varchar(200) NOT NULL
 );
 
 CREATE TABLE profession_profile (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	gender char(1) NOT NULL,
 	photo varchar(200),
 	business_name varchar(100) NOT NULL,
@@ -51,7 +54,7 @@ CREATE TABLE profession_profile (
 );
 
 CREATE TABLE user_profession (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	user_id integer NOT NULL,
 	profession_profile_id integer NOT NULL,
 	profession_id integer NOT NULL,
@@ -72,7 +75,7 @@ CREATE TABLE quote_request_type (
 );
 
 CREATE TABLE quote_request (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	user_id integer NOT NULL,
 	quote_request_type_id char(3) NOT NULL,
 	title varchar(100) NOT NULL,
@@ -86,7 +89,7 @@ CREATE TABLE quote_request (
 );
 
 CREATE TABLE quote (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	user_id integer NOT NULL,
 	quote_request_id integer NOT NULL,
 	quote_type_id char(3) NOT NULL,
@@ -105,7 +108,7 @@ CREATE TABLE quote (
 );
 
 CREATE TABLE comment (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	quote_id integer NOT NULL,
 	user_id integer NOT NULL,
 	message varchar(500) NOT NULL,
@@ -119,7 +122,7 @@ CREATE TABLE comment (
 );
 
 CREATE TABLE quote_request_type_table (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	quote_request_type_id char(3) UNIQUE NOT NULL,
 	table_name varchar(50) NOT NULL,
 	
@@ -129,22 +132,22 @@ CREATE TABLE quote_request_type_table (
 
 
 CREATE TABLE city (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	name varchar(200)
 );
 
 CREATE TABLE province (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	name varchar(200)
 );
 
 CREATE TABLE house_type (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	property_type varchar(100)
 );
 
 CREATE TABLE house_location (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	postalcode varchar(100) NOT NULL,
 	city_id integer NOT NULL,
 	province_id integer NOT NULL,
@@ -160,7 +163,7 @@ CREATE TABLE house_location (
 
 
 CREATE TABLE quote_request_house (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	house_type_id integer NOT NULL,
     house_location_id integer NOT NULL,
 	offer numeric NOT NULL,
@@ -177,18 +180,48 @@ CREATE TABLE quote_request_house (
       REFERENCES house_location (id) MATCH SIMPLE
 );
 
+CREATE TABLE document_type (
+	id serial PRIMARY KEY,
+	type varchar(100) NOT NULL
+);
+
 -- Si un utilisateur essaie d'uploader un fichier avec un (user_id, name)
 -- déjà existant, lui demander confirmation pour écraser l'ancienne version.
 -- Si (user_id, name, last_modified) pareil, est-ce qu'on assume que c'est
 -- la même version déjà uploadée ou bien on confirme pareil avec lui?
 CREATE TABLE document (
-	id integer PRIMARY KEY,
+	id serial PRIMARY KEY,
 	user_id integer NOT NULL,
+	document_type_id integer NOT NULL,
 	name varchar(100) NOT NULL,
 	description varchar(500),
 	last_modified timestamp NOT NULL,
 	url varchar(200) NOT NULL,
+	visible boolean NOT NULL,
 	
 	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
-      REFERENCES users (id) MATCH SIMPLE
+      REFERENCES users (id) MATCH SIMPLE,
+	
+	CONSTRAINT document_type_id_fkey FOREIGN KEY (document_type_id)
+      REFERENCES document_type (id) MATCH SIMPLE
 );
+
+CREATE TABLE quote_request_document (
+	id serial PRIMARY KEY,
+	quote_request_id integer NOT NULL,
+	document_id integer NOT NULL,
+	
+	CONSTRAINT quote_request_id_fkey FOREIGN KEY (quote_request_id)
+      REFERENCES quote_request (id) MATCH SIMPLE,
+	
+	CONSTRAINT document_id_fkey FOREIGN KEY (document_id)
+      REFERENCES document (id) MATCH SIMPLE
+);
+
+INSERT INTO document_type(type) VALUES ('required_doc1');
+INSERT INTO document_type(type) VALUES ('required_doc2');
+INSERT INTO document_type(type) VALUES ('required_doc3');
+INSERT INTO document_type(type) VALUES ('required_doc4');
+INSERT INTO document_type(type) VALUES ('general');
+
+select * from document_type
