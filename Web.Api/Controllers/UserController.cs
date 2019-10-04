@@ -25,14 +25,6 @@ namespace Web.Api.Controllers
             _registerUserPresenter = registerUserPresenter;            
         }
 
-        // GET api/user
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        { 
-
-            return new string[] { "value1", "value2" };
-        }
-
         // POST api/user
         //[Authorize]
         [HttpPost]

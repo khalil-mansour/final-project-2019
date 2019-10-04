@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS city CASCADE;
+﻿DROP TABLE IF EXISTS city CASCADE;
 DROP TABLE IF EXISTS province CASCADE;
 DROP TABLE IF EXISTS house_location CASCADE;
 DROP TABLE IF EXISTS quote_request_house CASCADE;
@@ -195,7 +195,6 @@ CREATE TABLE document (
 	user_id integer NOT NULL,
 	document_type_id integer NOT NULL,
 	name varchar(100) NOT NULL,
-	description varchar(500),
 	last_modified timestamp NOT NULL,
 	url varchar(200) NOT NULL,
 	visible boolean NOT NULL,
