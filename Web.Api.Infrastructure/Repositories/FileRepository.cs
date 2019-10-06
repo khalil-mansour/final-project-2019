@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
-using Web.Api.Core.Dto.UseCaseResponses;
+using Web.Api.Core.Dto;
+using Web.Api.Core.Dto.GatewayResponses.Repositories;
+using Web.Api.Core.Interfaces.Gateways.Repositories;
 
 namespace Web.Api.Infrastructure.Repositories
 {
@@ -17,31 +18,36 @@ namespace Web.Api.Infrastructure.Repositories
         {
             _configuration = configuration;
         }
-        public async Task<FileUploadResponse> Create(int userId, string uploadedFileID)
+        public async Task<FileUploadResponse> Create(File file, string uploadedFileID)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
-            var add_query = $@"INSERT INTO public.users (id, name, surname, email, user_type_id, phone, postalcode, province)
-                               VALUES (@id, @firstname, @lastname, @email, @usertype, @phone, @postalcode, @province);";
+            var add_query = $@"INSERT INTO public.document (id, user_id, document_type_id, name, last_modified, url, visible)
+                               VALUES (@id, @userid, @documenttype, @name, @lastmodified, @url, @visible);";
 
-            var select_query = $@"SELECT * FROM public.users WHERE id=@id";
+            var select_query = $@"SELECT * FROM public.document WHERE id=@id";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
                 try
                 {
                     // add user
-                    var success = Convert.ToBoolean(conn.Execute(add_query, user));
+                    var success = Convert.ToBoolean(conn.Execute(add_query));
 
                     // return the response
-                    return new CreateUserResponse(conn.Query<User>(select_query, new { user.Id }).FirstOrDefault(), success);
+                    return new FileUploadResponse(conn.Query<File>(select_query, new { user.Id }).FirstOrDefault(), success);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new CreateUserResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                    return new FileUploadResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
                 }
             }
+        }
+
+        public Task<FetchFileResponse> Fetch(int user_id, int doc_type, string name)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,15 +1,14 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Web.Api.Core.Domain.Entities;
-using Web.Api.Core.Dto.GatewayResponses.Repositories;
-using Web.Api.Core.Interfaces.Gateways.Repositories;
-using Microsoft.Extensions.Configuration;
-using Npgsql;
+﻿using Npgsql;
 using Dapper;
 using System.Linq;
 using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Web.Api.Core.Domain.Entities;
 using Web.Api.Core.Dto;
-using Web.Api.Core.Dto.GatewayReponses.Repositories;
+using Web.Api.Core.Dto.GatewayResponses.Repositories;
+using Web.Api.Core.Interfaces.Gateways.Repositories;
 
 [assembly: InternalsVisibleTo("Web.Api.Core.UnitTests")]
 namespace Web.Api.Infrastructure.Repositories

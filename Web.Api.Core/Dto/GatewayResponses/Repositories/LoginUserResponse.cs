@@ -1,7 +1,6 @@
 ﻿using Web.Api.Core.Domain.Entities;
-using Web.Api.Core.Dto.GatewayResponses;
 
-namespace Web.Api.Core.Dto.GatewayReponses.Repositories
+namespace Web.Api.Core.Dto.GatewayResponses.Repositories
 {
     public sealed class LoginUserResponse : BaseGatewayResponse
     {

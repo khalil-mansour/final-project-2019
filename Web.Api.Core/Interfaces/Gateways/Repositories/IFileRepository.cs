@@ -4,9 +4,9 @@ using Web.Api.Core.Dto.GatewayResponses.Repositories;
 
 namespace Web.Api.Core.Interfaces.Gateways.Repositories
 {
-    public interface IUserRepository
+    public interface IFileRepository
     {
-        Task<CreateUserResponse> Create(User user);
-        Task<LoginUserResponse> FindById(int id);
+        Task<FileUploadResponse> Create(File file, string file_id);
+        Task<FetchFileResponse> Fetch(int user_id, int doc_type, string name);
     }
 }

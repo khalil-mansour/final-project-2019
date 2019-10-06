@@ -1,18 +1,18 @@
 ﻿using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Web.Api.Core.Domain.Entities;
 using Web.Api.Core.Dto;
+using Web.Api.Core.Dto.UseCaseRequests;
 using Web.Api.Core.Dto.UseCaseResponses;
+using Web.Api.Core.Interfaces.Gateways.Repositories;
 using Web.Api.Core.Interfaces.UseCases;
 
 namespace Web.Api.Core.UseCases
 {
    public sealed class FileUploadUseCase : IFileUploadUseCase
-    {
-        
+    {       
 
         private readonly IFileRepository _fileRepository;
 
@@ -20,17 +20,16 @@ namespace Web.Api.Core.UseCases
         {
             _fileRepository = fileRepository;
         }
-
-        public Task<bool> Handle(FileUploadRequest message, Interfaces.IOutputPort<FileUploadResponse> outputPort)
+        
+        public async Task<bool> Handle(FileUploadRequest message, Interfaces.IOutputPort<FileUploadResponse> outputPort)
         {
             var uploadedFileId = UploadFile(message);
-            var response = await _fileRepository.CreateFile(message.UserId, uploadedFileId);
+            var response = await _fileRepository.Create(new File(message.UserId, 0, DateTime.Now, "url", true), uploadedFileId);
             
-            outputPort.Handle(response.Success ? new LoginUserResponse(response.User, false, null) : new LoginUserResponse(new[] { new Error("login_failure", "Invalid credentials.") }));
-
+            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileId, false, null) : new FileUploadResponse(new[] { new Error("upload_failure", "File could not be uploaded.") }));
             return response.Success;
         }
-
+        
         private string UploadFile(FileUploadRequest message)
         { 
             StorageClient storage = StorageClient.Create();
@@ -41,8 +40,5 @@ namespace Web.Api.Core.UseCases
                 return response.Id;
             }
         }
-
-    }
-    }
     }
 }

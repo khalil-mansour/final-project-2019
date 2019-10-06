@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.UseCases;
-using Web.Api.Models.Request;
+using Web.Api.Presenters;
+using Web.Api.Core.Dto.UseCaseRequests;
 
 namespace Web.Api.Controllers
 {
@@ -18,7 +15,7 @@ namespace Web.Api.Controllers
     {   
         private IConfiguration _configuration;
         private readonly FileUploadUseCase _fileUploadUseCase;
-        private readonly FileUplaodPresenter _fileUploadPresenter;
+        private readonly FileUploadPresenter _fileUploadPresenter;
 
         public FileController(IConfiguration configuration) {
             _configuration = configuration;
@@ -28,7 +25,8 @@ namespace Web.Api.Controllers
         // POST: api/file
         [HttpPost("file")]
         [Authorize]
-        public async Task<ActionResult> Login(IFormFile file, int id)
+        // AJOUTER MODEL REQUEST POUR FILE ?? //
+        public async Task<ActionResult> Post(IFormFile file, int id /*, [FromBody...] */)
         {
             if (!ModelState.IsValid)
             {

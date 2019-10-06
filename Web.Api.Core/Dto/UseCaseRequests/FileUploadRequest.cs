@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Web.Api.Core.Interfaces;
+using Web.Api.Core.Dto.UseCaseResponses;
 
-namespace Web.Api.Core.Dto.UseCaseResponses
+
+namespace Web.Api.Core.Dto.UseCaseRequests
 {
     public class FileUploadRequest : IUseCaseRequest<FileUploadResponse>
     {
@@ -14,7 +16,6 @@ namespace Web.Api.Core.Dto.UseCaseResponses
            File = file;
            UserId = userId;
            BucketName = bucketName;
-
         }
     }
 }
