@@ -32,7 +32,17 @@ namespace Web.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            await _fileUploadUseCase.Handle(new FileUploadRequest(file, request, _configuration.GetSection("BucketName").Value), _fileUploadPresenter);
+            await _fileUploadUseCase.Handle(
+                new FileUploadRequest(
+                    file,
+                    request.Id,
+                    request.UserId,
+                    request.DocumentTypeId,
+                    request.Name,
+                    request.LastModified,
+                    request.Url,
+                    request.Visible,
+                    _configuration.GetSection("BucketName").Value), _fileUploadPresenter);
             return _fileUploadPresenter.ContentResult;
         }
     }

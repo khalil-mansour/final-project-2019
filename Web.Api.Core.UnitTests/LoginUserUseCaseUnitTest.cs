@@ -2,6 +2,7 @@
 using Moq;
 using System.Threading.Tasks;
 using Web.Api.Core.Dto.UseCaseRequests;
+using Web.Api.Core.Dto.GatewayResponses.Repositories;
 using Web.Api.Core.Interfaces;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
 using Web.Api.Core.UseCases;
@@ -22,7 +23,7 @@ namespace Web.Api.Core.UnitTests
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository
                 .Setup(repo => repo.FindById(It.IsAny<int>()))
-                .Returns(Task.FromResult(new Dto.GatewayReponses.Repositories.LoginUserResponse(null, true)));
+                .Returns(Task.FromResult(new LoginUserResponse(null, true)));
 
             // the main use case
             var useCase = new LoginUserUseCase(mockUserRepository.Object);

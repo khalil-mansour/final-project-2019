@@ -24,7 +24,14 @@ namespace Web.Api.Core.UseCases
         public async Task<bool> Handle(FileUploadRequest message, Interfaces.IOutputPort<FileUploadResponse> outputPort)
         {
             var uploadedFileId = UploadFile(message);
-            var response = await _fileRepository.Create(new File(message.UserId, 0, DateTime.Now, "url", true), uploadedFileId);
+            var response = await _fileRepository.
+                Create(new File(
+                    message.UserId,
+                    message.DocTypeId,
+                    message.LastModified,
+                    message.Url,
+                    message.Visible),
+                    uploadedFileId);
             
             outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileId, false, null) : new FileUploadResponse(new[] { new Error("upload_failure", "File could not be uploaded.") }));
             return response.Success;
@@ -35,7 +42,9 @@ namespace Web.Api.Core.UseCases
             StorageClient storage = StorageClient.Create();
             using (var f = message.File.OpenReadStream())
             {
+                // *** TO VERIFY ***
                 string objectName = message.UserId.ToString() + DateTime.Now.ToString(); 
+
                 var response = storage.UploadObject(message.BucketName, objectName, null, f);
                 return response.Id;
             }
