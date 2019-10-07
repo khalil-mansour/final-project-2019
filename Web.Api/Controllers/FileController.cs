@@ -26,13 +26,13 @@ namespace Web.Api.Controllers
         [HttpPost("file")]
         [Authorize]
         // AJOUTER MODEL REQUEST POUR FILE ?? //
-        public async Task<ActionResult> Post(IFormFile file, int id /*, [FromBody...] */)
+        public async Task<ActionResult> Post(IFormFile file, [FromBody] Models.Request.FileUploadRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            await _fileUploadUseCase.Handle(new FileUploadRequest(file, id, _configuration.GetSection("BucketName").Value), _fileUploadPresenter);
+            await _fileUploadUseCase.Handle(new FileUploadRequest(file, request, _configuration.GetSection("BucketName").Value), _fileUploadPresenter);
             return _fileUploadPresenter.ContentResult;
         }
     }
