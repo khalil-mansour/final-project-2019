@@ -56,7 +56,7 @@ CREATE TABLE profession_profile (
 
 CREATE TABLE user_profession (
 	id serial PRIMARY KEY,
-	user_id integer NOT NULL,
+	user_id varchar(200) NOT NULL,
 	profession_profile_id integer NOT NULL,
 	profession_id integer NOT NULL,
 	
@@ -77,7 +77,7 @@ CREATE TABLE quote_request_type (
 
 CREATE TABLE quote_request (
 	id serial PRIMARY KEY,
-	user_id integer NOT NULL,
+	user_id varchar(200) NOT NULL,
 	quote_request_type_id char(3) NOT NULL,
 	title varchar(100) NOT NULL,
 	details varchar(500) NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE quote_request (
 
 CREATE TABLE quote (
 	id serial PRIMARY KEY,
-	user_id integer NOT NULL,
+	user_id varchar(200) NOT NULL,
 	quote_request_id integer NOT NULL,
 	quote_type_id char(3) NOT NULL,
 	price numeric NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE quote (
 CREATE TABLE comment (
 	id serial PRIMARY KEY,
 	quote_id integer NOT NULL,
-	user_id integer NOT NULL,
+	user_id varchar(200) NOT NULL,
 	message varchar(500) NOT NULL,
 	date_time timestamp NOT NULL,
 	
@@ -192,7 +192,7 @@ CREATE TABLE document_type (
 -- la même version déjà uploadée ou bien on confirme pareil avec lui?
 CREATE TABLE document (
 	id serial PRIMARY KEY,
-	user_id integer NOT NULL,
+	user_id varchar(200) NOT NULL,
 	document_type_id integer NOT NULL,
 	user_file_name varchar(200) NOT NULL,
 	storage_file_id varchar (200) NOT NULL,
@@ -225,3 +225,4 @@ INSERT INTO document_type(type) VALUES ('required_doc2');
 INSERT INTO document_type(type) VALUES ('required_doc3');
 INSERT INTO document_type(type) VALUES ('required_doc4');
 INSERT INTO document_type(type) VALUES ('general');
+insert into users(type)  VALUES ('2w2w2e', 1, 'craackhead', 'jawnny', 'shermail', '8196445878', 'r3rw3w', 'qc')
