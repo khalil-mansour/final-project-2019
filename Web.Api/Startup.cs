@@ -42,6 +42,7 @@ namespace Web.Api
             InfrastructureConfigureServices.MapInfrastructureServices(services);
             CoreConfigureServices.MapCoreServices(services);
             services.AddSingleton<RegisterUserPresenter>();
+            services.AddSingleton<FileUploadPresenter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

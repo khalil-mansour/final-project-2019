@@ -24,7 +24,7 @@ CREATE TABLE user_type (
 );
 
 CREATE TABLE users (
-	id serial PRIMARY KEY,
+	id varchar(200) PRIMARY KEY,
 	user_type_id integer NOT NULL,
 	name varchar(100) NOT NULL,
 	surname varchar(50),
@@ -194,7 +194,8 @@ CREATE TABLE document (
 	id serial PRIMARY KEY,
 	user_id integer NOT NULL,
 	document_type_id integer NOT NULL,
-	name varchar(200) NOT NULL,
+	user_file_name varchar(200) NOT NULL,
+	storage_file_id varchar (200) NOT NULL,
 	created_date timestamp NOT NULL,
 	visible boolean NOT NULL,
 	

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Web.Api.Core.Interfaces;
 using Web.Api.Core.Dto.UseCaseResponses;
-using System;
 
 namespace Web.Api.Core.Dto.UseCaseRequests
 {

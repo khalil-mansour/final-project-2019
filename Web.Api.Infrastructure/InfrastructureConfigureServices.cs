@@ -10,6 +10,7 @@ namespace Web.Api.Infrastructure
         public static void MapInfrastructureServices(this IServiceCollection services)
         {
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IFileRepository, FileRepository>();
         }
     }
 }

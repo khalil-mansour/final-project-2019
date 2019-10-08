@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Web.Api.Core.Domain.Entities;
 using Web.Api.Core.Interfaces;
 
@@ -6,11 +7,11 @@ namespace Web.Api.Core.Dto.UseCaseResponses
     public class RegisterUserResponse : UseCaseResponseMessage
     {
         public User User { get; }
-        public string Error { get; }
+        public IEnumerable<Error> Errors { get; }
 
-        public RegisterUserResponse(Error error, bool success = false, string message = null) : base(success, message)
+        public RegisterUserResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
         {
-            Error = error.Description;
+            Errors = errors;
         }
 
         public RegisterUserResponse(User user, bool success = false, string message = null) : base(success, message)

@@ -7,6 +7,6 @@ namespace Web.Api.Models.Request
 {
     public class LoginUserRequest
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
     }
 }

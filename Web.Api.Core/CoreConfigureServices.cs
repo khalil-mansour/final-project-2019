@@ -9,6 +9,8 @@ namespace Web.Api.Core
         public static void MapCoreServices(this IServiceCollection services)
         {
             services.AddTransient<IRegisterUserUseCase, RegisterUserUseCase>();
+            services.AddTransient<ILoginUserUseCase, LoginUserUseCase>();
+            services.AddTransient<IFileUploadUseCase, FileUploadUseCase>();
         }
     }
 }
