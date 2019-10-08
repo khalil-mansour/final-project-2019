@@ -9,7 +9,7 @@ namespace Web.Api.Models.Request
     public class RegisterUserRequest
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("firstname")]
         public string FirstName { get; set; }

@@ -47,6 +47,7 @@ namespace Web.Api
             InfrastructureConfigureServices.MapInfrastructureServices(services);
             CoreConfigureServices.MapCoreServices(services);
             services.AddSingleton<RegisterUserPresenter>();
+<<<<<<< HEAD
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -76,6 +77,9 @@ namespace Web.Api
                 c.IncludeXmlComments(xmlPath);
 
             });
+=======
+            services.AddSingleton<FileUploadPresenter>();
+>>>>>>> 0977e862e254d12fe125ebdbdcc74dc3c84c9873
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

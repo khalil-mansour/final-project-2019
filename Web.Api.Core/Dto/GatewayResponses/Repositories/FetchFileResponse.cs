@@ -9,7 +9,7 @@ namespace Web.Api.Core.Dto.GatewayResponses.Repositories
     {
         public File File { get; }
 
-        public FetchFileResponse(File file = null, bool success = false, Error error = null) : base(success, error)
+        public FetchFileResponse(File file = null, bool success = false, IEnumerable<Error> errors = null) : base(success, errors)
         {
             File = file;
         }

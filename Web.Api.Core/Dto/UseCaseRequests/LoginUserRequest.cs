@@ -8,9 +8,9 @@ namespace Web.Api.Core.Dto.UseCaseRequests
 {
     public class LoginUserRequest : IUseCaseRequest<LoginUserResponse>
     {
-        public int ID { get; }
+        public string ID { get; }
 
-        public LoginUserRequest(int id)
+        public LoginUserRequest(string id)
         {
             ID = id;
         }

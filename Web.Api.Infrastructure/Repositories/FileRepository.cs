@@ -23,25 +23,25 @@ namespace Web.Api.Infrastructure.Repositories
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
-            var add_query = $@"INSERT INTO public.document (user_id, document_type_id, name, created_date, visible)
-                               VALUES (@userid, @documenttype, @name, @createddate, @visible);";
+            var add_query = $@"INSERT INTO public.document (user_id, document_type_id, user_file_name, storage_file_id, created_date, visible)
+                               VALUES (@userid, @documenttype, @filename, @storageid, @createddate, @visible);";
 
-            var select_query = $@"SELECT * FROM public.document WHERE name=@name";
+            var select_query = $@"SELECT * FROM public.document WHERE storage_file_id=@storageid";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
                 try
                 {
                     // add user
-                    var success = Convert.ToBoolean(conn.Execute(add_query));
+                    var success = Convert.ToBoolean(conn.Execute(add_query, file));
 
                     // return the response
-                    return new FileUploadResponse(conn.Query<File>(select_query, new { file.Name }).FirstOrDefault(), success);
+                    return new FileUploadResponse(conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault(), success);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new FileUploadResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                    return new FileUploadResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }

@@ -12,18 +12,18 @@ using Web.Api.Core.Interfaces.UseCases;
 
 namespace Web.Api.Core.UseCases
 {
-   public sealed class FileUploadUseCase : IFileUploadUseCase
-    {       
+    public sealed class FileUploadUseCase : IFileUploadUseCase
+    {
 
         private readonly IFileRepository _fileRepository;
         private readonly IConfiguration _configuration;
 
         public FileUploadUseCase(IConfiguration configuraton, IFileRepository fileRepository)
         {
-            _configuration = configuraton; 
+            _configuration = configuraton;
             _fileRepository = fileRepository;
         }
-        
+
         public async Task<bool> Handle(FileUploadRequest message, Interfaces.IOutputPort<FileUploadResponse> outputPort)
         {
             var uploadedFileName = UploadFile(message);
@@ -34,22 +34,21 @@ namespace Web.Api.Core.UseCases
                     message.DocTypeId,
                     DateTime.Now,
                     uploadedFileName,
-                    message.Visible)
-                   );
-            
-            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, false, null) : new FileUploadResponse(new[] { new Error("upload_failure", "File could not be uploaded.") }));
+                    message.Visible,
+                    message.File.FileName));
+
+            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(response.Errors));
             return response.Success;
         }
-        
-        private string UploadFile(FileUploadRequest message)
-        { 
-            StorageClient storage = StorageClient.Create();
-                        using (var f = message.File.OpenReadStream())
-            {
-                // *** TO VERIFY ***
-                string objectName = $"{message.UserId}{message.DocTypeId}{DateTime.Now.ToString("MM/dd/yyyy")}";
 
-                var response = storage.UploadObject(_configuration.GetSection("BucketName").Value, objectName, null, f);
+        private string UploadFile(FileUploadRequest message)
+        {
+            StorageClient storage = StorageClient.Create();
+            using (var f = message.File.OpenReadStream())
+            {
+                var bucket = _configuration.GetSection("BucketName").Value;
+                string objectName = $"{message.UserId}{message.DocTypeId}{DateTime.Now.ToString("MM/dd/yyyy")}";
+                var response = storage.UploadObject(bucket, objectName, message.File.ContentType, f);
                 return response.Name;
             }
         }

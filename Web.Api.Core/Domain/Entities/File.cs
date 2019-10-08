@@ -6,17 +6,19 @@ namespace Web.Api.Core.Domain.Entities
     {
         public int UserId { get; }
         public int DocumentType { get; }
-        public string Name { get; }
+        public string StorageId { get; }
         public DateTime CreatedDate { get; }
-        public bool  Visible { get; }
+        public bool Visible { get; }
+        public string FileName { get; }
 
-        internal File(int userId, int documentType, DateTime createdDate, string name, bool visible)
+        internal File(int userId, int documentType, DateTime createdDate, string storageId, bool visible, string fileName)
         {
             UserId = userId;
             DocumentType = documentType;
             CreatedDate = createdDate;
-            Name = name;
+            StorageId = storageId;
             Visible = visible;
+            FileName = fileName;
         }
     }
 }

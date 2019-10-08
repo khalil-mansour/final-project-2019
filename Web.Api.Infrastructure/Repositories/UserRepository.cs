@@ -21,7 +21,7 @@ namespace Web.Api.Infrastructure.Repositories
             _configuration = configuration;
         }
 
-        public async Task<LoginUserResponse> FindById(int id)
+        public async Task<LoginUserResponse> FindById(string id)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
@@ -35,7 +35,7 @@ namespace Web.Api.Infrastructure.Repositories
                 }
                 catch (NpgsqlException e)
                 {
-                    return new LoginUserResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                    return new LoginUserResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace Web.Api.Infrastructure.Repositories
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new CreateUserResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                    return new CreateUserResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }

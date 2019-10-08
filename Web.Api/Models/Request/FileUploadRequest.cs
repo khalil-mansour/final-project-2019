@@ -1,13 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Web.Api.Models.Request
 {
     public class FileUploadRequest
     {
+
+        public IFormFile File { get; set; }
 
         [JsonProperty("userid")]
         public int UserId { get; set; }
