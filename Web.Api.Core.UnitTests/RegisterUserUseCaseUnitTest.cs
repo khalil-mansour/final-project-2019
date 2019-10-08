@@ -15,7 +15,7 @@ namespace Web.Api.Core.UnitTests
     public class RegisterUserUseCaseUnitTest
     {   
         // mocked data
-        private readonly int id = 1;
+        private readonly string id = "1w23e";
         private readonly string firstName = "boubou";
         private readonly string lastName = "Bouboubou";
         private readonly string email = "boubou@boubou.com";

@@ -7,11 +7,11 @@ namespace Web.Api.Core.Dto.UseCaseRequests
     public class FileUploadRequest : IUseCaseRequest<FileUploadResponse>
     {
         public IFormFile File {get;}
-        public int UserId { get; }
+        public string UserId { get; }
         public int DocTypeId { get; }
         public bool Visible { get; }
 
-        public FileUploadRequest(IFormFile file, int userId, int docTypeId, bool visible)
+        public FileUploadRequest(IFormFile file, string userId, int docTypeId, bool visible)
         {
             File = file;
             UserId = userId;

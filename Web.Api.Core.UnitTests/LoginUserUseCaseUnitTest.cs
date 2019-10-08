@@ -12,7 +12,7 @@ namespace Web.Api.Core.UnitTests
 {
     public class LoginUserUseCaseUnitTest
     {
-        private readonly int id = 123;
+        private readonly string id = "1234";
 
         [Fact]
         public async void Should_LoginUser_When_Submit()
@@ -22,7 +22,7 @@ namespace Web.Api.Core.UnitTests
             // userRepository symobolizes database
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository
-                .Setup(repo => repo.FindById(It.IsAny<int>()))
+                .Setup(repo => repo.FindById(It.IsAny<string>()))
                 .Returns(Task.FromResult(new LoginUserResponse(null, true)));
 
             // the main use case
