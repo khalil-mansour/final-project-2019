@@ -23,8 +23,8 @@ namespace Web.Api.Controllers
         }
 
         // POST: api/user/Login
-        [HttpPost("login")]
         [Authorize]
+        [HttpPost]
         public async Task<ActionResult> Login([FromBody] Models.Request.LoginUserRequest request)
         {
             if (!ModelState.IsValid)

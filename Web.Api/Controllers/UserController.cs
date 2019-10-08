@@ -22,11 +22,30 @@ namespace Web.Api.Controllers
         public UserController(IRegisterUserUseCase registerUserUseCase, RegisterUserPresenter registerUserPresenter)
         {
             _registerUserUseCase = registerUserUseCase;
-            _registerUserPresenter = registerUserPresenter;            
+            _registerUserPresenter = registerUserPresenter;
         }
 
-        // POST api/user
-        //[Authorize]
+
+        /// <summary>
+        /// Creates the client.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "id": 14423,
+        ///        "firstname": "lala",
+        ///        "lastname": "vboub",
+        ///        "email": "dsadsa",
+        ///        "user_type_id": 1"id": 1,
+        ///     }
+        ///
+        /// </remarks>
+        /// <param></param>
+        /// <returns>A newly created user</returns>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>    
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Models.Request.RegisterUserRequest request)
         {
