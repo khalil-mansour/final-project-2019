@@ -7,6 +7,7 @@ using Web.Api.Core.Domain.Entities;
 using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.GatewayResponses.Repositories;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
+using System.Linq;
 
 namespace Web.Api.Infrastructure.Repositories
 {
@@ -18,14 +19,14 @@ namespace Web.Api.Infrastructure.Repositories
         {
             _configuration = configuration;
         }
-        public async Task<FileUploadResponse> Create(File file, string uploadedFileID)
+        public async Task<FileUploadResponse> Create(File file)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
-            var add_query = $@"INSERT INTO public.document (id, user_id, document_type_id, name, last_modified, url, visible)
-                               VALUES (@id, @userid, @documenttype, @name, @lastmodified, @url, @visible);";
+            var add_query = $@"INSERT INTO public.document (user_id, document_type_id, name, created_date, visible)
+                               VALUES (@userid, @documenttype, @name, @createddate, @visible);";
 
-            var select_query = $@"SELECT * FROM public.document WHERE id=@id";
+            var select_query = $@"SELECT * FROM public.document WHERE name=@name";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
@@ -35,7 +36,7 @@ namespace Web.Api.Infrastructure.Repositories
                     var success = Convert.ToBoolean(conn.Execute(add_query));
 
                     // return the response
-                    return new FileUploadResponse(conn.Query<File>(select_query, new { user.Id }).FirstOrDefault(), success);
+                    return new FileUploadResponse(conn.Query<File>(select_query, new { file.Name }).FirstOrDefault(), success);
                 }
                 catch (NpgsqlException e)
                 {

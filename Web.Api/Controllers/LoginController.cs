@@ -22,14 +22,7 @@ namespace Web.Api.Controllers
             _loginUserUseCase = loginUserUseCase;
         }
 
-        // GET: api/Login
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // POST: api/Login
+        // POST: api/user/Login
         [HttpPost("login")]
         [Authorize]
         public async Task<ActionResult> Login([FromBody] Models.Request.LoginUserRequest request)

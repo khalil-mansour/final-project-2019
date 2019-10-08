@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Web.Api.Core.UseCases;
 using Web.Api.Presenters;
 using Web.Api.Core.Dto.UseCaseRequests;
+using Web.Api.Core.Interfaces.UseCases;
 
 namespace Web.Api.Controllers
 {
@@ -14,18 +15,18 @@ namespace Web.Api.Controllers
     public class FileController : ControllerBase
     {   
         private IConfiguration _configuration;
-        private readonly FileUploadUseCase _fileUploadUseCase;
+        private readonly IFileUploadUseCase _fileUploadUseCase;
         private readonly FileUploadPresenter _fileUploadPresenter;
 
-        public FileController(IConfiguration configuration) {
-            _configuration = configuration;
+        public FileController( IFileUploadUseCase fileUploadUseCase, FileUploadPresenter fileUploadPresenter) {
+            _fileUploadUseCase = fileUploadUseCase;
+            _fileUploadPresenter = fileUploadPresenter;
         }
 
 
-        // POST: api/file
-        [HttpPost("file")]
-        [Authorize]
-        // AJOUTER MODEL REQUEST POUR FILE ?? //
+        // POST: api/file/upload
+        [HttpPost("upload")]
+        //[Authorize]
         public async Task<ActionResult> Post(IFormFile file, [FromBody] Models.Request.FileUploadRequest request)
         {
             if (!ModelState.IsValid)
@@ -35,14 +36,10 @@ namespace Web.Api.Controllers
             await _fileUploadUseCase.Handle(
                 new FileUploadRequest(
                     file,
-                    request.Id,
                     request.UserId,
                     request.DocumentTypeId,
-                    request.Name,
-                    request.LastModified,
-                    request.Url,
-                    request.Visible,
-                    _configuration.GetSection("BucketName").Value), _fileUploadPresenter);
+                    request.Visible
+                    ), _fileUploadPresenter);
             return _fileUploadPresenter.ContentResult;
         }
     }

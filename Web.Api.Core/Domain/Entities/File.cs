@@ -7,16 +7,15 @@ namespace Web.Api.Core.Domain.Entities
         public int UserId { get; }
         public int DocumentType { get; }
         public string Name { get; }
-        public DateTime LastModified { get; }
-        public string Url { get; }
+        public DateTime CreatedDate { get; }
         public bool  Visible { get; }
 
-        internal File(int userId, int documentType, DateTime lastModified, string url, bool visible)
+        internal File(int userId, int documentType, DateTime createdDate, string name, bool visible)
         {
             UserId = userId;
             DocumentType = documentType;
-            LastModified = lastModified;
-            Url = url;
+            CreatedDate = createdDate;
+            Name = name;
             Visible = visible;
         }
     }

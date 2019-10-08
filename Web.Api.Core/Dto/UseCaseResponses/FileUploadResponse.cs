@@ -13,9 +13,9 @@ namespace Web.Api.Core.Dto.UseCaseResponses
             Errors = errors;
         }
 
-        public FileUploadResponse(string id, bool success = false, string message = null) : base(success, message)
+        public FileUploadResponse(string name, bool success = false, string message = null) : base(success, message)
         {
-            UploadedFileId = id;
+            UploadedFileId = name;
         }
     }
 }

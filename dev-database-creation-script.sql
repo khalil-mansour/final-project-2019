@@ -194,9 +194,8 @@ CREATE TABLE document (
 	id serial PRIMARY KEY,
 	user_id integer NOT NULL,
 	document_type_id integer NOT NULL,
-	name varchar(100) NOT NULL,
-	last_modified timestamp NOT NULL,
-	url varchar(200) NOT NULL,
+	name varchar(200) NOT NULL,
+	created_date timestamp NOT NULL,
 	visible boolean NOT NULL,
 	
 	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
