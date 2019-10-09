@@ -7,7 +7,7 @@ namespace Web.Api.Models.Request
 {
     public class FileFetchRequest
     {
-        public string UploadedFileId { get; set; }
+        public string StorageId { get; set; }
 
     }
 }

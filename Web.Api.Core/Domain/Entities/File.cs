@@ -10,6 +10,7 @@ namespace Web.Api.Core.Domain.Entities
         public DateTime CreatedDate { get; }
         public bool Visible { get; }
         public string FileName { get; }
+        public string Url { get; set; }
 
         internal File(string userId, int documentType, string fileName, string storageId, DateTime createdDate, bool visible)
         {

@@ -35,7 +35,7 @@ namespace Web.Api.Controllers
             _fileFetchPresenter = fileFetchPresenter;
         }
 
-        // GET: api/file/userId
+        // GET: api/file/fetchall/userId
         [HttpGet("fetchall/{userId}")]
         // Authorize
         public async Task<ActionResult> GetAllUserFiles([FromRoute] Models.Request.FileFetchAllRequest request)
@@ -47,15 +47,15 @@ namespace Web.Api.Controllers
             return _fileFetchAllPresenter.ContentResult;
         }
 
-        // GET: api/file/uploadedFileId
-        [HttpGet("fetch/{uploadedFileId}")]
+        // GET: api/file/fetch/storageId
+        [HttpGet("fetch/{storageId}")]
         // Authorize
         public async Task<ActionResult> GetSingleFile([FromRoute] Models.Request.FileFetchRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _fileFetchUseCase.Handle(new FileFetchRequest(request.UploadedFileId), _fileFetchPresenter);
+            await _fileFetchUseCase.Handle(new FileFetchRequest(request.StorageId), _fileFetchPresenter);
             return _fileFetchPresenter.ContentResult;
         }
 
