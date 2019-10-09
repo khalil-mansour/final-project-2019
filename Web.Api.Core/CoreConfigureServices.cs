@@ -8,8 +8,8 @@ namespace Web.Api.Core
     {
         public static void MapCoreServices(this IServiceCollection services)
         {
-            services.AddTransient<IRegisterUserUseCase, RegisterUserUseCase>();
-            services.AddTransient<ILoginUserUseCase, LoginUserUseCase>();
+            services.AddTransient<IUserRegisterUseCase, RegisterUserUseCase>();
+            services.AddTransient<IUserLoginUseCase, LoginUserUseCase>();
             services.AddTransient<IFileUploadUseCase, FileUploadUseCase>();
             services.AddTransient<IFileFetchUseCase, FileFetchUseCase>();
             services.AddTransient<IFileFetchAllUseCase, FileFetchAllUseCase>();

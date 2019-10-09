@@ -9,7 +9,7 @@ using Web.Api.Core.Interfaces.UseCases;
 
 namespace Web.Api.Core.UseCases
 {
-    public sealed class RegisterUserUseCase : IRegisterUserUseCase
+    public sealed class RegisterUserUseCase : IUserRegisterUseCase
     {
         private readonly IUserRepository _userRepository;
 
@@ -18,7 +18,7 @@ namespace Web.Api.Core.UseCases
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(RegisterUserRequest message, IOutputPort<RegisterUserResponse> outputPort)
+        public async Task<bool> Handle(UserRegisterRequest message, IOutputPort<UserRegisterResponse> outputPort)
         {
             var response = await _userRepository.
                 Create(new User(
@@ -31,7 +31,7 @@ namespace Web.Api.Core.UseCases
                     message?.PostalCode,
                     message?.Province));
 
-            outputPort.Handle(response.Success ? new RegisterUserResponse(response.User, true) : new RegisterUserResponse(response.Errors));
+            outputPort.Handle(response.Success ? new UserRegisterResponse(response.User, true) : new UserRegisterResponse(response.Errors));
             return response.Success;
         }
     }

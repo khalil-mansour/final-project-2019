@@ -5,16 +5,16 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Presenters
 {
-    public class LoginUserPresenter : IOutputPort<LoginUserResponse>
+    public class UserLoginPresenter : IOutputPort<UserLoginResponse>
     {
         public JsonContentResult ContentResult { get; }
 
-        public LoginUserPresenter()
+        public UserLoginPresenter()
         {
             ContentResult = new JsonContentResult();
         }
 
-        public void Handle(LoginUserResponse response)
+        public void Handle(UserLoginResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.Unauthorized);
             ContentResult.Content = response.Success ? JsonConvert.SerializeObject(response.User, Formatting.Indented) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);

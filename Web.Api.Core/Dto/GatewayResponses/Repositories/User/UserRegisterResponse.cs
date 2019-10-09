@@ -3,10 +3,10 @@ using Web.Api.Core.Domain.Entities;
 
 namespace Web.Api.Core.Dto.GatewayResponses.Repositories
 {
-    public sealed class CreateUserResponse : BaseGatewayResponse
+    public sealed class UserRegisterResponse : BaseGatewayResponse
     {
         public User User { get; }
-        public CreateUserResponse(User user = null, bool success = false, IEnumerable<Error> errors = null) : base(success, errors)
+        public UserRegisterResponse(User user = null, bool success = false, IEnumerable<Error> errors = null) : base(success, errors)
         {
             User = user;
         }

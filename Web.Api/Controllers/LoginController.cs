@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Web.Api.Core.Interfaces.UseCases;
 using Web.Api.Core.Dto.UseCaseRequests;
@@ -13,26 +12,26 @@ namespace Web.Api.Controllers
     public class LoginController : ControllerBase
     {
 
-        private readonly ILoginUserUseCase _loginUserUseCase;
-        private readonly LoginUserPresenter _loginUserPresenter;
+        private readonly IUserLoginUseCase _loginUserUseCase;
+        private readonly UserLoginPresenter _UserLoginPresenter;
 
-        public LoginController(ILoginUserUseCase loginUserUseCase, LoginUserPresenter loginUserPresenter)
+        public LoginController(IUserLoginUseCase loginUserUseCase, UserLoginPresenter UserLoginPresenter)
         {
-            _loginUserPresenter = loginUserPresenter;
+            _UserLoginPresenter = UserLoginPresenter;
             _loginUserUseCase = loginUserUseCase;
         }
 
         // POST: api/user/Login
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Login([FromBody] Models.Request.LoginUserRequest request)
+        public async Task<ActionResult> Login([FromBody] Models.Request.UserLoginRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            await _loginUserUseCase.Handle(new LoginUserRequest(request.ID), _loginUserPresenter);
-            return _loginUserPresenter.ContentResult;
+            await _loginUserUseCase.Handle(new UserLoginRequest(request.ID), _UserLoginPresenter);
+            return _UserLoginPresenter.ContentResult;
         }
     }
 }

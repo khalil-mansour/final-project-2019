@@ -7,7 +7,7 @@ using Web.Api.Core.Interfaces;
 using Web.Api.Core.Dto;
 namespace Web.Api.Core.UseCases
 {
-    public sealed class LoginUserUseCase : ILoginUserUseCase
+    public sealed class LoginUserUseCase : IUserLoginUseCase
     {
         private readonly IUserRepository _userRepository;
 
@@ -16,12 +16,12 @@ namespace Web.Api.Core.UseCases
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(LoginUserRequest message, IOutputPort<LoginUserResponse> outputPort)
+        public async Task<bool> Handle(UserLoginRequest message, IOutputPort<UserLoginResponse> outputPort)
         {
             // confirm user exists with ID
             var response = await _userRepository.FindById(message.ID);
 
-            outputPort.Handle(response.Success ? new LoginUserResponse(response.User, false, null) : new LoginUserResponse(new[] { new Error("login_failure", "Invalid credentials.") }));
+            outputPort.Handle(response.Success ? new UserLoginResponse(response.User, false, null) : new UserLoginResponse(new[] { new Error("login_failure", "Invalid credentials.") }));
             return response.Success;
 
         }

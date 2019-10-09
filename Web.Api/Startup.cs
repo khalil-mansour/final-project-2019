@@ -47,7 +47,7 @@ namespace Web.Api
             InfrastructureConfigureServices.MapInfrastructureServices(services);
             CoreConfigureServices.MapCoreServices(services);
 
-            services.AddSingleton<RegisterUserPresenter>();
+            services.AddSingleton<UserRegisterPresenter>();
             services.AddSingleton<FileUploadPresenter>();
             services.AddSingleton<FileFetchAllPresenter>();
             services.AddSingleton<FileFetchPresenter>();

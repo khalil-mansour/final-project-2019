@@ -34,20 +34,20 @@ namespace Web.Api.Core.UnitTests
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository
                 .Setup(repo => repo.Create(It.IsAny<User>()))
-                .Returns(Task.FromResult(new CreateUserResponse(null, true)));
+                .Returns(Task.FromResult(new UserRegisterResponse(null, true)));
 
             // the main use case
             var useCase = new RegisterUserUseCase(mockUserRepository.Object);
 
             // link between layers
-            var mockOutputPort = new Mock<IOutputPort<RegisterUserResponse>>();
+            var mockOutputPort = new Mock<IOutputPort<UserRegisterResponse>>();
             mockOutputPort
                 .Setup(outputPort => outputPort
-                .Handle(It.IsAny<RegisterUserResponse>()));
+                .Handle(It.IsAny<UserRegisterResponse>()));
 
             // when
 
-            var response = await useCase.Handle(new RegisterUserRequest(id, firstName, lastName, email, userType, phone, postalcode, province), mockOutputPort.Object);
+            var response = await useCase.Handle(new UserRegisterRequest(id, firstName, lastName, email, userType, phone, postalcode, province), mockOutputPort.Object);
                         
             // done
 

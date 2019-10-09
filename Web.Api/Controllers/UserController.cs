@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Npgsql;
-using Dapper;
 using Web.Api.Core.Interfaces.UseCases;
 using Web.Api.Presenters;
 using Web.Api.Core.Dto.UseCaseRequests;
@@ -16,13 +11,13 @@ namespace Web.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IRegisterUserUseCase _registerUserUseCase;
-        private readonly RegisterUserPresenter _registerUserPresenter;
+        private readonly IUserRegisterUseCase _registerUserUseCase;
+        private readonly UserRegisterPresenter _UserRegisterPresenter;
 
-        public UserController(IRegisterUserUseCase registerUserUseCase, RegisterUserPresenter registerUserPresenter)
+        public UserController(IUserRegisterUseCase registerUserUseCase, UserRegisterPresenter UserRegisterPresenter)
         {
             _registerUserUseCase = registerUserUseCase;
-            _registerUserPresenter = registerUserPresenter;
+            _UserRegisterPresenter = UserRegisterPresenter;
         }
 
 
@@ -47,14 +42,14 @@ namespace Web.Api.Controllers
         /// <response code="201">Returns the newly created item</response>
         /// <response code="400">If the item is null</response>    
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Models.Request.RegisterUserRequest request)
+        public async Task<ActionResult> Post([FromBody] Models.Request.UserRegisterRequest request)
         {
             if (!ModelState.IsValid)
             { // re-render the view when validation failed.
                 return BadRequest(ModelState);
             }
-            await _registerUserUseCase.Handle(new RegisterUserRequest(request.Id, request.FirstName, request.LastName, request.Email, request.UserType, request?.Phone, request?.PostalCode, request?.Province), _registerUserPresenter);
-            return _registerUserPresenter.ContentResult;
+            await _registerUserUseCase.Handle(new UserRegisterRequest(request.Id, request.FirstName, request.LastName, request.Email, request.UserType, request?.Phone, request?.PostalCode, request?.Province), _UserRegisterPresenter);
+            return _UserRegisterPresenter.ContentResult;
         }
     }
 }

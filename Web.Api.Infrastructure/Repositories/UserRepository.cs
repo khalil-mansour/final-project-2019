@@ -21,7 +21,7 @@ namespace Web.Api.Infrastructure.Repositories
             _configuration = configuration;
         }
 
-        public async Task<LoginUserResponse> FindById(string id)
+        public async Task<UserLoginResponse> FindById(string id)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
@@ -31,16 +31,16 @@ namespace Web.Api.Infrastructure.Repositories
             {
                 try
                 {
-                    return new LoginUserResponse(conn.Query<User>(select_query, id).FirstOrDefault(), true);
+                    return new UserLoginResponse(conn.Query<User>(select_query, id).FirstOrDefault(), true);
                 }
                 catch (NpgsqlException e)
                 {
-                    return new LoginUserResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new UserLoginResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }
 
-        public async Task<CreateUserResponse> Create(User user)
+        public async Task<UserRegisterResponse> Create(User user)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
@@ -57,12 +57,12 @@ namespace Web.Api.Infrastructure.Repositories
                     var success = Convert.ToBoolean(conn.Execute(add_query, user));
 
                     // return the response
-                    return new CreateUserResponse(conn.Query<User>(select_query, new { user.Id }).FirstOrDefault(), success);
+                    return new UserRegisterResponse(conn.Query<User>(select_query, new { user.Id }).FirstOrDefault(), success);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new CreateUserResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new UserRegisterResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }

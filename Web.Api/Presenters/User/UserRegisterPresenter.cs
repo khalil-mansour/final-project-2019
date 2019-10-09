@@ -5,16 +5,16 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Presenters
 {
-    public class RegisterUserPresenter : IOutputPort<RegisterUserResponse>
+    public class UserRegisterPresenter : IOutputPort<UserRegisterResponse>
     {
         public JsonContentResult ContentResult { get; }
 
-        public RegisterUserPresenter()
+        public UserRegisterPresenter()
         {
             ContentResult = new JsonContentResult();
         }
 
-        public void Handle(RegisterUserResponse response)
+        public void Handle(UserRegisterResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
             ContentResult.Content = JsonConvert.SerializeObject(response);

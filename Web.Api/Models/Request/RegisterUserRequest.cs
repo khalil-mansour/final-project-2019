@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Web.Api.Models.Request
 {
-    public class RegisterUserRequest
+    public class UserRegisterRequest
     {
         [JsonProperty("id")]
         public string Id { get; set; }

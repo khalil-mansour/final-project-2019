@@ -3,11 +3,11 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseRequests
 {
-    public class LoginUserRequest : IUseCaseRequest<LoginUserResponse>
+    public class UserLoginRequest : IUseCaseRequest<UserLoginResponse>
     {
         public string ID { get; }
 
-        public LoginUserRequest(string id)
+        public UserLoginRequest(string id)
         {
             ID = id;
         }

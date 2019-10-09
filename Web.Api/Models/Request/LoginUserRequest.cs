@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Web.Api.Models.Request
 {
-    public class LoginUserRequest
+    public class UserLoginRequest
     {
         public string ID { get; set; }
     }
