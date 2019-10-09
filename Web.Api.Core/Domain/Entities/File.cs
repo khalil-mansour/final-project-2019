@@ -11,7 +11,7 @@ namespace Web.Api.Core.Domain.Entities
         public bool Visible { get; }
         public string FileName { get; }
 
-        internal File(string userId, int documentType, DateTime createdDate, string storageId, bool visible, string fileName)
+        internal File(string userId, int documentType, string fileName, string storageId, DateTime createdDate, bool visible)
         {
             UserId = userId;
             DocumentType = documentType;

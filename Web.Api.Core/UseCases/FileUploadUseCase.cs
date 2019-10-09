@@ -1,10 +1,8 @@
 ﻿using Google.Cloud.Storage.V1;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
-using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
@@ -32,10 +30,11 @@ namespace Web.Api.Core.UseCases
                 Create(new File(
                     message.UserId,
                     message.DocTypeId,
-                    DateTime.Now,
+                    message.File.FileName,
                     uploadedFileName,
-                    message.Visible,
-                    message.File.FileName));
+                    DateTime.Now,                    
+                    message.Visible
+                    ));
 
             outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(response.Errors));
             return response.Success;

@@ -46,8 +46,16 @@ namespace Web.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             InfrastructureConfigureServices.MapInfrastructureServices(services);
             CoreConfigureServices.MapCoreServices(services);
+
             services.AddSingleton<RegisterUserPresenter>();
             services.AddSingleton<FileUploadPresenter>();
+            services.AddSingleton<FileFetchAllPresenter>();
+            services.AddSingleton<FileFetchPresenter>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hestia API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

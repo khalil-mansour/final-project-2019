@@ -11,6 +11,8 @@ namespace Web.Api.Core
             services.AddTransient<IRegisterUserUseCase, RegisterUserUseCase>();
             services.AddTransient<ILoginUserUseCase, LoginUserUseCase>();
             services.AddTransient<IFileUploadUseCase, FileUploadUseCase>();
+            services.AddTransient<IFileFetchUseCase, FileFetchUseCase>();
+            services.AddTransient<IFileFetchAllUseCase, FileFetchAllUseCase>();
         }
     }
 }

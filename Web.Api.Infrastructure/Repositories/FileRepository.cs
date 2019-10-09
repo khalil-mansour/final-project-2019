@@ -14,7 +14,7 @@ namespace Web.Api.Infrastructure.Repositories
     internal sealed class FileRepository : IFileRepository
     {
         private IConfiguration _configuration;
-        
+
         public FileRepository(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -26,7 +26,15 @@ namespace Web.Api.Infrastructure.Repositories
             var add_query = $@"INSERT INTO public.document (user_id, document_type_id, user_file_name, storage_file_id, created_date, visible)
                                VALUES (@userid, @documenttype, @filename, @storageid, @createddate, @visible);";
 
-            var select_query = $@"SELECT * FROM public.document WHERE storage_file_id=@storageid";
+            var select_query = $@"SELECT 
+                                  user_id as { nameof(File.UserId) },
+                                  document_type_id as { nameof(File.DocumentType) },
+                                  user_file_name as { nameof(File.FileName) },
+                                  storage_file_id as { nameof(File.StorageId) },
+                                  created_date as { nameof(File.CreatedDate) },
+                                  visible as { nameof(File.Visible) }
+                                  FROM public.document
+                                  WHERE storage_file_id = @storageid";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
@@ -46,9 +54,62 @@ namespace Web.Api.Infrastructure.Repositories
             }
         }
 
-        public Task<FetchFileResponse> Fetch(int user_id, int doc_type, string name)
+        public async Task<FileFetchResponse> Fetch(string storageId)
         {
-            throw new NotImplementedException();
+            var connectionString = _configuration.GetSection("ConnectionString").Value;
+
+            var select_query = $@"SELECT 
+                                  user_id as { nameof(File.UserId) },
+                                  document_type_id as { nameof(File.DocumentType) },
+                                  user_file_name as { nameof(File.FileName) },
+                                  storage_file_id as { nameof(File.StorageId) },
+                                  created_date as { nameof(File.CreatedDate) },
+                                  visible as { nameof(File.Visible) }
+                                  FROM public.document
+                                  WHERE storage_file_id = @storageid";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                try
+                {
+                    // return the response
+                    return new FileFetchResponse(conn.Query<File>(select_query, new { storageId }).FirstOrDefault(), true);
+                }
+                catch (NpgsqlException e)
+                {
+                    // return the response
+                    return new FileFetchResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                }
+            }
+        }
+
+        public async Task<FileFetchAllResponse> FetchAll(string userId)
+        {
+            var connectionString = _configuration.GetSection("ConnectionString").Value;
+
+            var select_all_query = $@"SELECT 
+                                  user_id as { nameof(File.UserId) },
+                                  document_type_id as { nameof(File.DocumentType) },
+                                  user_file_name as { nameof(File.FileName) },
+                                  storage_file_id as { nameof(File.StorageId) },
+                                  created_date as { nameof(File.CreatedDate) },
+                                  visible as { nameof(File.Visible) }
+                                  FROM public.document
+                                  WHERE user_id = @userid";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                try
+                {
+                    // return the response
+                    return new FileFetchAllResponse(conn.Query<File>(select_all_query, new { userId }).ToList(), true);
+                }
+                catch (NpgsqlException e)
+                {
+                    // return the response
+                    return new FileFetchAllResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                }
+            }
         }
     }
 }
