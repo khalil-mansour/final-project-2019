@@ -34,7 +34,7 @@ namespace Web.Api.Core.UnitTests
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository
                 .Setup(repo => repo.Create(It.IsAny<User>()))
-                .Returns(Task.FromResult(new UserRegisterResponse(null, true)));
+                .Returns(Task.FromResult(new UserRegisterRepoResponse(null, true)));
 
             // the main use case
             var useCase = new RegisterUserUseCase(mockUserRepository.Object);

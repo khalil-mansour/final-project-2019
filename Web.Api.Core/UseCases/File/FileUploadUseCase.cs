@@ -32,7 +32,7 @@ namespace Web.Api.Core.UseCases
                     message.DocTypeId,
                     message.File.FileName,
                     uploadedFileName,
-                    DateTime.Now,                    
+                    DateTime.Now,
                     message.Visible
                     ));
 
@@ -46,7 +46,7 @@ namespace Web.Api.Core.UseCases
             using (var f = message.File.OpenReadStream())
             {
                 var bucket = _configuration.GetSection("BucketName").Value;
-                string objectName = $"{message.UserId}{message.DocTypeId}{DateTime.Now.ToString("MM/dd/yyyy")}";
+                string objectName = $"{message.UserId}{message.DocTypeId}{DateTime.Now.ToString("MM/dd/yyyy/ HH:mm:ss")}";
                 var response = storage.UploadObject(bucket, objectName, message.File.ContentType, f);
                 return response.Name;
             }

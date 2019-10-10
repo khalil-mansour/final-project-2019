@@ -19,7 +19,7 @@ namespace Web.Api.Infrastructure.Repositories
         {
             _configuration = configuration;
         }
-        public async Task<FileUploadResponse> Create(File file)
+        public async Task<FileUploadRepoResponse> Create(File file)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
@@ -44,17 +44,17 @@ namespace Web.Api.Infrastructure.Repositories
                     var success = Convert.ToBoolean(conn.Execute(add_query, file));
 
                     // return the response
-                    return new FileUploadResponse(conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault(), success);
+                    return new FileUploadRepoResponse(conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault(), success);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new FileUploadResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new FileUploadRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }
 
-        public async Task<FileFetchResponse> Fetch(string storageId)
+        public async Task<FileFetchRepoResponse> Fetch(string storageId)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
@@ -73,17 +73,17 @@ namespace Web.Api.Infrastructure.Repositories
                 try
                 {
                     // return the response
-                    return new FileFetchResponse(conn.Query<File>(select_query, new { storageId }).FirstOrDefault(), true);
+                    return new FileFetchRepoResponse(conn.Query<File>(select_query, new { storageId }).FirstOrDefault(), true);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new FileFetchResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new FileFetchRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }
 
-        public async Task<FileFetchAllResponse> FetchAll(string userId)
+        public async Task<FileFetchAllRepoResponse> FetchAll(string userId)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
@@ -102,12 +102,12 @@ namespace Web.Api.Infrastructure.Repositories
                 try
                 {
                     // return the response
-                    return new FileFetchAllResponse(conn.Query<File>(select_all_query, new { userId }).ToList(), true);
+                    return new FileFetchAllRepoResponse(conn.Query<File>(select_all_query, new { userId }).ToList(), true);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new FileFetchAllResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new FileFetchAllRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }

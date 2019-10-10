@@ -21,7 +21,7 @@ namespace Web.Api.Infrastructure.Repositories
             _configuration = configuration;
         }
 
-        public async Task<UserLoginResponse> FindById(string id)
+        public async Task<UserLoginRepoResponse> FindById(string id)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
@@ -31,16 +31,16 @@ namespace Web.Api.Infrastructure.Repositories
             {
                 try
                 {
-                    return new UserLoginResponse(conn.Query<User>(select_query, id).FirstOrDefault(), true);
+                    return new UserLoginRepoResponse(conn.Query<User>(select_query, id).FirstOrDefault(), true);
                 }
                 catch (NpgsqlException e)
                 {
-                    return new UserLoginResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new UserLoginRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }
 
-        public async Task<UserRegisterResponse> Create(User user)
+        public async Task<UserRegisterRepoResponse> Create(User user)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
@@ -57,12 +57,12 @@ namespace Web.Api.Infrastructure.Repositories
                     var success = Convert.ToBoolean(conn.Execute(add_query, user));
 
                     // return the response
-                    return new UserRegisterResponse(conn.Query<User>(select_query, new { user.Id }).FirstOrDefault(), success);
+                    return new UserRegisterRepoResponse(conn.Query<User>(select_query, new { user.Id }).FirstOrDefault(), success);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new UserRegisterResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new UserRegisterRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }

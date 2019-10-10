@@ -23,7 +23,7 @@ namespace Web.Api.Core.UnitTests
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository
                 .Setup(repo => repo.FindById(It.IsAny<string>()))
-                .Returns(Task.FromResult(new UserLoginResponse(null, true)));
+                .Returns(Task.FromResult(new UserLoginRepoResponse(null, true)));
 
             // the main use case
             var useCase = new LoginUserUseCase(mockUserRepository.Object);

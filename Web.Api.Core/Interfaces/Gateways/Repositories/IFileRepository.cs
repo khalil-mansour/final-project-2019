@@ -6,8 +6,8 @@ namespace Web.Api.Core.Interfaces.Gateways.Repositories
 {
     public interface IFileRepository
     {
-        Task<FileUploadResponse> Create(File file);
-        Task<FileFetchResponse> Fetch(string storageId);
-        Task<FileFetchAllResponse> FetchAll(string userId);
+        Task<FileUploadRepoResponse> Create(File file);
+        Task<FileFetchRepoResponse> Fetch(string storageId);
+        Task<FileFetchAllRepoResponse> FetchAll(string userId);
     }
 }
