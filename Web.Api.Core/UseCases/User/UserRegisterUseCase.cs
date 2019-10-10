@@ -9,11 +9,11 @@ using Web.Api.Core.Interfaces.UseCases;
 
 namespace Web.Api.Core.UseCases
 {
-    public sealed class RegisterUserUseCase : IUserRegisterUseCase
+    public sealed class UserRegisterUseCase : IUserRegisterUseCase
     {
         private readonly IUserRepository _userRepository;
 
-        public RegisterUserUseCase(IUserRepository userRepository)
+        public UserRegisterUseCase(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

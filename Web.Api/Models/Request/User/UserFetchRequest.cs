@@ -7,5 +7,6 @@ namespace Web.Api.Models.Request
 {
     public class UserFetchRequest
     {
+        public string ID { get; set; }
     }
 }

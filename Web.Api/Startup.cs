@@ -12,7 +12,7 @@ using System.Reflection;
 using Web.Api.Core;
 using Web.Api.Infrastructure;
 using Web.Api.Presenters;
-
+using Web.Api.Presenters.User;
 
 namespace Web.Api
 {
@@ -48,6 +48,7 @@ namespace Web.Api
             CoreConfigureServices.MapCoreServices(services);
 
             services.AddSingleton<UserRegisterPresenter>();
+            services.AddSingleton<UserFetchPresenter>();
             services.AddSingleton<FileUploadPresenter>();
             services.AddSingleton<FileFetchAllPresenter>();
             services.AddSingleton<FileFetchPresenter>();
@@ -57,7 +58,6 @@ namespace Web.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hestia API", Version = "v1" });
             });
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

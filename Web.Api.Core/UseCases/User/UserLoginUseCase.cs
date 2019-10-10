@@ -7,11 +7,11 @@ using Web.Api.Core.Interfaces;
 using Web.Api.Core.Dto;
 namespace Web.Api.Core.UseCases
 {
-    public sealed class LoginUserUseCase : IUserLoginUseCase
+    public sealed class UserLoginUseCase : IUserLoginUseCase
     {
         private readonly IUserRepository _userRepository;
 
-        public LoginUserUseCase(IUserRepository userRepository)
+        public UserLoginUseCase(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

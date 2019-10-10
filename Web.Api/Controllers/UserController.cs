@@ -4,6 +4,9 @@ using Web.Api.Core.Interfaces.UseCases;
 using Web.Api.Presenters;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Microsoft.AspNetCore.Authorization;
+using Web.Api.Models.Request;
+using Web.Api.Core.Interfaces.UseCases.User;
+using Web.Api.Presenters.User;
 
 namespace Web.Api.Controllers
 {
@@ -12,26 +15,21 @@ namespace Web.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRegisterUseCase _userRegisterUseCase;
-        private readonly IUserFetchAllUseCase _userFetchAllUseCase;
         private readonly IUserFetchUseCase _userFetchUseCase;
 
         private readonly UserRegisterPresenter _userRegisterPresenter;
-        private readonly UserFetchAllPresenter _userFetchAllPresenter;
         private readonly UserFetchPresenter _userFetchPresenter;
 
 
         public UserController(
             IUserRegisterUseCase userRegisterUseCase,
-            IUserFetchAllUseCase userFetchAllUseCase,
             IUserFetchUseCase userFetchUseCase,
             UserRegisterPresenter userRegisterPresenter,
-            UserFetchAllPresenter userFetchAllPresenter,
             UserFetchPresenter userFetchPresenter)
         {
             _userRegisterUseCase = userRegisterUseCase;
-            _userFetchAllUseCase = userFetchAllUseCase;
             _userFetchUseCase = userFetchUseCase;
-            _userFetchPresenter = _userFetchPresenter;
+            _userFetchPresenter = userFetchPresenter;
             _userRegisterPresenter = userRegisterPresenter;
         }
 
@@ -63,30 +61,20 @@ namespace Web.Api.Controllers
             { // re-render the view when validation failed.
                 return BadRequest(ModelState);
             }
-            await _registerUserUseCase.Handle(new UserRegisterRequest(request.Id, request.FirstName, request.LastName, request.Email, request.UserType, request?.Phone, request?.PostalCode, request?.Province), _UserRegisterPresenter);
+            await _userRegisterUseCase.Handle(new Core.Dto.UseCaseRequests.UserRegisterRequest(request.Id, request.FirstName, request.LastName, request.Email, request.UserType, request?.Phone, request?.PostalCode, request?.Province), _userRegisterPresenter);
             return _userRegisterPresenter.ContentResult;
         }
 
-        // GET : api/user/fetchall/
-        [HttpGet("fetchall")]
-        public async Task<ActionResult> GetAllUsers([FromRoute] Models.Request.UserFetchAllRequest)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
-            await _userFetchAllUseCase.Handle(new UserFetchAllRequest(request), _userFetchAllPresenter);
-            return _fileFetchAllPresenter.ContentResult;
-        }
-
-        // GET : api/user/fetch/
-        [HttpGet("fetch/{userId}")]
+        // GET : api/user
+        [HttpGet("{userId}")]
         public async Task<ActionResult> GetUser([FromRoute] Models.Request.UserFetchRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _userFetchUseCase.Handle(new UserFetchRequest(request), _userFetchPresenter);
-            return _fileFetchPresenter.ContentResult;
+            await _userFetchUseCase.Handle(request, _userFetchPresenter);
+            return _userFetchPresenter.ContentResult;
         }
 
     }
