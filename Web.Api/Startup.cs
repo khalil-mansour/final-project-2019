@@ -5,9 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Reflection;
 using Web.Api.Core;
 using Web.Api.Infrastructure;
 using Web.Api.Presenters;
+
 
 namespace Web.Api
 {
@@ -42,12 +47,32 @@ namespace Web.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             InfrastructureConfigureServices.MapInfrastructureServices(services);
             CoreConfigureServices.MapCoreServices(services);
-            services.AddSingleton<RegisterUserPresenter>();
+
+            services.AddSingleton<UserRegisterPresenter>();
+            services.AddSingleton<FileUploadPresenter>();
+            services.AddSingleton<UserLoginPresenter>();
+            services.AddSingleton<FileFetchAllPresenter>();
+            services.AddSingleton<FileFetchPresenter>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hestia API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hestia API");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

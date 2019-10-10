@@ -1,15 +1,14 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
-using Web.Api.Core.Dto.GatewayResponses.Repositories;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Dapper;
 using System.Linq;
 using System;
+using Web.Api.Core.Dto.GatewayResponses.Repositories;
 using Web.Api.Core.Dto;
-using Web.Api.Core.Dto.GatewayReponses.Repositories;
 
 [assembly: InternalsVisibleTo("Web.Api.Core.UnitTests")]
 namespace Web.Api.Infrastructure.Repositories
@@ -21,16 +20,24 @@ namespace Web.Api.Infrastructure.Repositories
         public UserRepository(IConfiguration configuration)
         {
             _configuration = configuration;
-             _connectionString = _configuration.GetSection("ConnectionString").Value;
+            _connectionString = _configuration.GetSection("ConnectionString").Value;
         }
 
-        public async Task<LoginUserResponse> GetUser(string id)
+        public async Task<UserLoginRepoResponse> FindById(string id)
         {
+            try
+                {
+                    return new UserLoginRepoResponse(FindUserById(id), true);
+                }
+                catch (NpgsqlException e)
+                {
+                    // return the response
+                    return new UserLoginRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message)});
+                }
 
-                    return new LoginUserResponse(FindUserById(id), true);
         }
 
-        public async Task<CreateUserResponse> Create(User user)
+        public async Task<UserRegisterRepoResponse> Create(User user)
         {
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
@@ -46,12 +53,12 @@ namespace Web.Api.Infrastructure.Repositories
                     var success = Convert.ToBoolean(conn.Execute(add_query, user));
 
                     // return the response
-                    return new CreateUserResponse(FindUserById(user.Id), success);
+                    return new UserRegisterRepoResponse(FindUserById(user.Id), success);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new CreateUserResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                    return new UserRegisterRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message)});
                 }
             }
         }
@@ -59,17 +66,20 @@ namespace Web.Api.Infrastructure.Repositories
         private User FindUserById(string id)
         {
 
-            var select_query = $@"SELECT id AS {nameof(User.Id)}
+            var select_query = $@"SELECT id AS {nameof(User.Id)},
                                     surname AS {nameof(User.FirstName)},
+                                    name AS {nameof(User.LastName)},
                                     email AS {nameof(User.Email)},
                                     user_type_id AS {nameof(User.UserType)},
                                     phone AS {nameof(User.Phone)},
-                                    province AS {nameof(User.Province)},
+                                    postalcode AS {nameof(User.PostalCode)},
+                                    province AS {nameof(User.Province)}
                                   FROM public.users WHERE id=@id";
 
             using (var conn = new NpgsqlConnection(_connectionString))
             {
-                return conn.Query<User>(select_query, id).FirstOrDefault();
+                var query = conn.Query<User>(select_query, new { id } ).FirstOrDefault();
+                return query;
             }
         }
     }

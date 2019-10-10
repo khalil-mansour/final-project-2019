@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Web.Api.Core.Dto.UseCaseResponses;
+using Web.Api.Core.Interfaces;
 
-namespace Web.Api.Core.Domain.Entities
+namespace Web.Api.Core.Dto.UseCaseRequests
 {
-    public class User
+    public class UserRegisterRequest : IUseCaseRequest<UserRegisterRepoResponse>
     {
-        public string Id { get; }
+        public string Id { get; set; }
         public string FirstName { get; }
         public string LastName { get; }
         public string Email { get; }
@@ -15,7 +14,7 @@ namespace Web.Api.Core.Domain.Entities
         public string PostalCode{ get; }
         public string Province{ get; }
 
-        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, string province)
+        public UserRegisterRequest(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, string province)
         {
             Id = id;
             FirstName = firstName;

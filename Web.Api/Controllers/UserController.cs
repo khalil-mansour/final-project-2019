@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Npgsql;
-using Dapper;
 using Web.Api.Core.Interfaces.UseCases;
 using Web.Api.Presenters;
 using Web.Api.Core.Dto.UseCaseRequests;
@@ -16,34 +11,67 @@ namespace Web.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IRegisterUserUseCase _registerUserUseCase;
-        private readonly RegisterUserPresenter _registerUserPresenter;
+        private readonly IUserRegisterUseCase _userRegisterUseCase;
+        private readonly UserRegisterPresenter _userRegisterPresenter;
+        private readonly IUserLoginUseCase _userLoginUseCase;
+        private readonly UserLoginPresenter _userLoginPresenter;
 
-        public UserController(IRegisterUserUseCase registerUserUseCase, RegisterUserPresenter registerUserPresenter)
+
+        public UserController(
+            IUserRegisterUseCase userRegisterUseCase,
+            UserRegisterPresenter userRegisterPresenter,
+            IUserLoginUseCase userLoginUseCase, 
+            UserLoginPresenter userLoginPresenter)
         {
-            _registerUserUseCase = registerUserUseCase;
-            _registerUserPresenter = registerUserPresenter;            
+            _userRegisterUseCase = userRegisterUseCase;
+            _userRegisterPresenter = userRegisterPresenter;
+            _userLoginPresenter = userLoginPresenter;
+            _userLoginUseCase = userLoginUseCase;
+
         }
 
-        // GET api/user
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        { 
 
-            return new string[] { "value1", "value2" };
-        }
-
-        // POST api/user
-        //[Authorize]
+        /// <summary>
+        /// Creates the client.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "id": 14423,
+        ///        "firstname": "lala",
+        ///        "lastname": "vboub",
+        ///        "email": "dsadsa",
+        ///        "user_type_id": 1"id": 1,
+        ///     }
+        ///
+        /// </remarks>
+        /// <param></param>
+        /// <returns>A newly created user</returns>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>    
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Models.Request.RegisterUserRequest request)
+        public async Task<ActionResult> Register([FromBody] Models.Request.UserRegisterRequest request)
         {
             if (!ModelState.IsValid)
             { // re-render the view when validation failed.
                 return BadRequest(ModelState);
             }
-            await _registerUserUseCase.Handle(new RegisterUserRequest(request.Id, request.FirstName, request.LastName, request.Email, request.UserType, request?.Phone, request?.PostalCode, request?.Province), _registerUserPresenter);
-            return _registerUserPresenter.ContentResult;
+            await _userRegisterUseCase.Handle(new UserRegisterRequest(request.Id, request.FirstName, request.LastName, request.Email, request.UserType, request?.Phone, request?.PostalCode, request?.Province), _userRegisterPresenter);
+            return _userRegisterPresenter.ContentResult;
         }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] Models.Request.UserLoginRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await _userLoginUseCase.Handle(new UserLoginRequest(request.ID), _userLoginPresenter);
+            return _userLoginPresenter.ContentResult;
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 using Moq;
 using System.Threading.Tasks;
 using Web.Api.Core.Dto.UseCaseRequests;
+using Web.Api.Core.Dto.GatewayResponses.Repositories;
 using Web.Api.Core.Interfaces;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
 using Web.Api.Core.UseCases;
@@ -11,7 +12,7 @@ namespace Web.Api.Core.UnitTests
 {
     public class LoginUserUseCaseUnitTest
     {
-        private readonly int id = 123;
+        private readonly string id = "1234";
 
         [Fact]
         public async void Should_LoginUser_When_Submit()
@@ -21,21 +22,21 @@ namespace Web.Api.Core.UnitTests
             // userRepository symobolizes database
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository
-                .Setup(repo => repo.FindById(It.IsAny<int>()))
-                .Returns(Task.FromResult(new Dto.GatewayReponses.Repositories.LoginUserResponse(null, true)));
+                .Setup(repo => repo.FindById(It.IsAny<string>()))
+                .Returns(Task.FromResult(new UserLoginRepoResponse(null, true)));
 
             // the main use case
             var useCase = new LoginUserUseCase(mockUserRepository.Object);
 
             // link between layers
-            var mockOutputPort = new Mock<IOutputPort<Dto.UseCaseResponses.LoginUserResponse>>();
+            var mockOutputPort = new Mock<IOutputPort<Dto.UseCaseResponses.UserLoginResponse>>();
             mockOutputPort
                 .Setup(outputPort => outputPort
-                .Handle(It.IsAny<Dto.UseCaseResponses.LoginUserResponse>()));
+                .Handle(It.IsAny<Dto.UseCaseResponses.UserLoginResponse>()));
 
             // when
 
-            var response = await useCase.Handle(new LoginUserRequest(id), mockOutputPort.Object);
+            var response = await useCase.Handle(new UserLoginRequest(id), mockOutputPort.Object);
 
             // done
 

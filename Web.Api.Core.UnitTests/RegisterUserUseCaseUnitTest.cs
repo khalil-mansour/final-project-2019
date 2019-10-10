@@ -15,7 +15,7 @@ namespace Web.Api.Core.UnitTests
     public class RegisterUserUseCaseUnitTest
     {   
         // mocked data
-        private readonly int id = 1;
+        private readonly string id = "1w23e";
         private readonly string firstName = "boubou";
         private readonly string lastName = "Bouboubou";
         private readonly string email = "boubou@boubou.com";
@@ -34,20 +34,20 @@ namespace Web.Api.Core.UnitTests
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository
                 .Setup(repo => repo.Create(It.IsAny<User>()))
-                .Returns(Task.FromResult(new CreateUserResponse(null, true)));
+                .Returns(Task.FromResult(new Dto.GatewayResponses.Repositories.UserRegisterRepoResponse(null, true)));
 
             // the main use case
             var useCase = new RegisterUserUseCase(mockUserRepository.Object);
 
             // link between layers
-            var mockOutputPort = new Mock<IOutputPort<RegisterUserResponse>>();
+            var mockOutputPort = new Mock<IOutputPort<Dto.UseCaseResponses.UserRegisterRepoResponse>>();
             mockOutputPort
                 .Setup(outputPort => outputPort
-                .Handle(It.IsAny<RegisterUserResponse>()));
+                .Handle(It.IsAny<Dto.UseCaseResponses.UserRegisterRepoResponse>()));
 
             // when
 
-            var response = await useCase.Handle(new RegisterUserRequest(id, firstName, lastName, email, userType, phone, postalcode, province), mockOutputPort.Object);
+            var response = await useCase.Handle(new UserRegisterRequest(id, firstName, lastName, email, userType, phone, postalcode, province), mockOutputPort.Object);
                         
             // done
 
