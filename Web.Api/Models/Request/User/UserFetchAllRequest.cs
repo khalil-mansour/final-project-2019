@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace Web.Api.Models.Request
 {
-    public class FileFetchAllRequest
+    public class UserFetchAllRequest
     {
-        public string UserId { get; set; }
     }
 }

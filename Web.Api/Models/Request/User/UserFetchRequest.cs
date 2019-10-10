@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace Web.Api.Models.Request
 {
-    public class FileFetchRequest
+    public class UserFetchRequest
     {
-        public string StorageId { get; set; }
-
     }
 }
