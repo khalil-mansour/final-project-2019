@@ -31,13 +31,14 @@ namespace Web.Api
                     options.Authority = "https://securetoken.google.com/savvy-climber-252013";
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer =true,
+                        ValidateIssuer = true,
                         ValidIssuer = "https://securetoken.google.com/savvy-climber-252013",
                         ValidateAudience = true,
                         ValidAudience = "savvy-climber-252013",
                         ValidateLifetime = true
                     };
                 });
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             InfrastructureConfigureServices.MapInfrastructureServices(services);
             CoreConfigureServices.MapCoreServices(services);
@@ -58,10 +59,15 @@ namespace Web.Api
                 app.UseHsts();
             }
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
             //app.UseHttpsRedirection();
-            
+
             app.UseMvc();
-            
+
         }
     }
 }

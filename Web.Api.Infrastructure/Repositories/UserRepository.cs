@@ -17,28 +17,17 @@ namespace Web.Api.Infrastructure.Repositories
     internal sealed class UserRepository : IUserRepository
     {
         private IConfiguration _configuration;
+        private string _connectionString;
         public UserRepository(IConfiguration configuration)
         {
             _configuration = configuration;
+             _connectionString = _configuration.GetSection("ConnectionString").Value;
         }
 
-        public async Task<LoginUserResponse> FindById(int id)
+        public async Task<LoginUserResponse> GetUser(string id)
         {
-            var connectionString = _configuration.GetSection("ConnectionString").Value;
 
-            var select_query = $@"SELECT * FROM public.users WHERE id=@id";
-
-            using (var conn = new NpgsqlConnection(connectionString))
-            {
-                try
-                {
-                    return new LoginUserResponse(conn.Query<User>(select_query, id).FirstOrDefault(), true);
-                }
-                catch (NpgsqlException e)
-                {
-                    return new LoginUserResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
-                }
-            }
+                    return new LoginUserResponse(FindUserById(id), true);
         }
 
         public async Task<CreateUserResponse> Create(User user)
@@ -48,7 +37,6 @@ namespace Web.Api.Infrastructure.Repositories
             var add_query = $@"INSERT INTO public.users (id, name, surname, email, user_type_id, phone, postalcode, province)
                                VALUES (@id, @firstname, @lastname, @email, @usertype, @phone, @postalcode, @province);";
 
-            var select_query = $@"SELECT * FROM public.users WHERE id=@id";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
@@ -58,13 +46,30 @@ namespace Web.Api.Infrastructure.Repositories
                     var success = Convert.ToBoolean(conn.Execute(add_query, user));
 
                     // return the response
-                    return new CreateUserResponse(conn.Query<User>(select_query, new { user.Id }).FirstOrDefault(), success);
+                    return new CreateUserResponse(FindUserById(user.Id), success);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
                     return new CreateUserResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
                 }
+            }
+        }
+
+        private User FindUserById(string id)
+        {
+
+            var select_query = $@"SELECT id AS {nameof(User.Id)}
+                                    surname AS {nameof(User.FirstName)},
+                                    email AS {nameof(User.Email)},
+                                    user_type_id AS {nameof(User.UserType)},
+                                    phone AS {nameof(User.Phone)},
+                                    province AS {nameof(User.Province)},
+                                  FROM public.users WHERE id=@id";
+
+            using (var conn = new NpgsqlConnection(_connectionString))
+            {
+                return conn.Query<User>(select_query, id).FirstOrDefault();
             }
         }
     }
