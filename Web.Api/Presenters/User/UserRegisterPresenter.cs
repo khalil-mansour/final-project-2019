@@ -17,7 +17,7 @@ namespace Web.Api.Presenters
         public void Handle(UserRegisterRepoResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            ContentResult.Content = JsonConvert.SerializeObject(response);
+            ContentResult.Content = response.Success ? JsonConvert.SerializeObject(response.User, Formatting.Indented) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
     }
 }

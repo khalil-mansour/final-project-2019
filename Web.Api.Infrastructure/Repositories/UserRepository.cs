@@ -26,14 +26,20 @@ namespace Web.Api.Infrastructure.Repositories
         public async Task<UserLoginRepoResponse> FindById(string id)
         {
             try
+            {
+                var returnedUser = new UserLoginRepoResponse(FindUserById(id), true);
+                if (returnedUser.User == null)
                 {
-                    return new UserLoginRepoResponse(FindUserById(id), true);
+                    return new UserLoginRepoResponse(null, false, new[] { new Error("auth/user-not-found", "user not found") });
                 }
-                catch (NpgsqlException e)
-                {
-                    // return the response
-                    return new UserLoginRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message)});
-                }
+
+                return returnedUser;
+            }
+            catch (NpgsqlException e)
+            {
+                // return the response
+                return new UserLoginRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+            }
 
         }
 
@@ -58,7 +64,7 @@ namespace Web.Api.Infrastructure.Repositories
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new UserRegisterRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message)});
+                    return new UserRegisterRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }
@@ -78,7 +84,7 @@ namespace Web.Api.Infrastructure.Repositories
 
             using (var conn = new NpgsqlConnection(_connectionString))
             {
-                var query = conn.Query<User>(select_query, new { id } ).FirstOrDefault();
+                var query = conn.Query<User>(select_query, new { id }).FirstOrDefault();
                 return query;
             }
         }
