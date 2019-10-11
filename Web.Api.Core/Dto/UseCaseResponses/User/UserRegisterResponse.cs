@@ -7,11 +7,11 @@ namespace Web.Api.Core.Dto.UseCaseResponses
     public class UserRegisterResponse : UseCaseResponseMessage
     {
         public User User { get; }
-        public IEnumerable<Error> Errors { get; }
+        public Error Error { get; }
 
-        public UserRegisterResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
+        public UserRegisterResponse(Error error, bool success = false, string message = null) : base(success, message)
         {
-            Errors = errors;
+            Error = error;
         }
 
         public UserRegisterResponse(User user, bool success = false, string message = null) : base(success, message)

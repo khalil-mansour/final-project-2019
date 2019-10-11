@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
+using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
@@ -24,7 +25,17 @@ namespace Web.Api.Core.UseCases
 
         public async Task<bool> Handle(FileUploadRequest message, Interfaces.IOutputPort<FileUploadResponse> outputPort)
         {
-            var uploadedFileName = UploadFile(message);
+            string uploadedFileName;
+            try
+            {
+                uploadedFileName = UploadFile(message);
+            }
+            catch (Exception e)
+            {
+                outputPort.Handle(new FileUploadResponse(new Error(e.HResult.ToString(), "Failed to upload file to the Google Cloud service.")));
+                return false;
+            }
+
 
             var response = await _fileRepository.
                 Create(new File(
@@ -36,7 +47,7 @@ namespace Web.Api.Core.UseCases
                     message.Visible
                     ));
 
-            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(response.Errors));
+            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(response.Error));
             return response.Success;
         }
 

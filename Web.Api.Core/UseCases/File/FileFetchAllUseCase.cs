@@ -31,7 +31,7 @@ namespace Web.Api.Core.UseCases
             foreach (var res in response.Files)
                 res.Url = SignUrl(res.StorageId);
 
-            outputPort.Handle(response.Success ? new FileFetchAllResponse(response.Files, true) : new FileFetchAllResponse(response.Errors));
+            outputPort.Handle(response.Success ? new FileFetchAllResponse(response.Files, true) : new FileFetchAllResponse(response.Error));
             return response.Success;
         }
 

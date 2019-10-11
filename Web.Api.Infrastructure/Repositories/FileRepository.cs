@@ -8,6 +8,7 @@ using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.GatewayResponses.Repositories;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
 using System.Linq;
+using Google.Cloud.Storage.V1;
 
 namespace Web.Api.Infrastructure.Repositories
 {
@@ -38,19 +39,12 @@ namespace Web.Api.Infrastructure.Repositories
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
-                try
-                {
-                    // add user
-                    var success = Convert.ToBoolean(conn.Execute(add_query, file));
-
-                    // return the response
-                    return new FileUploadRepoResponse(conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault(), success);
-                }
-                catch (NpgsqlException e)
-                {
-                    // return the response
-                    return new FileUploadRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
-                }
+                // add user
+                var success = Convert.ToBoolean(conn.Execute(add_query, file));
+                // get added user
+                var response = conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault();
+                // return the response
+                return new FileUploadRepoResponse(response, success);
             }
         }
 
@@ -78,7 +72,7 @@ namespace Web.Api.Infrastructure.Repositories
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new FileFetchRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new FileFetchRepoResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
                 }
             }
         }
@@ -107,7 +101,7 @@ namespace Web.Api.Infrastructure.Repositories
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new FileFetchAllRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new FileFetchAllRepoResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
                 }
             }
         }
