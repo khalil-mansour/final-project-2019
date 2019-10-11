@@ -12,13 +12,13 @@ namespace Web.Api.Controllers
     public class LoginController : ControllerBase
     {
 
-        private readonly IUserLoginUseCase _loginUserUseCase;
+        private readonly IUserLoginUseCase _UserLoginUseCase;
         private readonly UserLoginPresenter _UserLoginPresenter;
 
-        public LoginController(IUserLoginUseCase loginUserUseCase, UserLoginPresenter UserLoginPresenter)
+        public LoginController(IUserLoginUseCase UserLoginUseCase, UserLoginPresenter UserLoginPresenter)
         {
             _UserLoginPresenter = UserLoginPresenter;
-            _loginUserUseCase = loginUserUseCase;
+            _UserLoginUseCase = UserLoginUseCase;
         }
 
         // POST: api/user/Login
@@ -30,7 +30,7 @@ namespace Web.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            await _loginUserUseCase.Handle(new UserLoginRequest(request.ID), _UserLoginPresenter);
+            await _UserLoginUseCase.Handle(new UserLoginRequest(request.ID), _UserLoginPresenter);
             return _UserLoginPresenter.ContentResult;
         }
     }
