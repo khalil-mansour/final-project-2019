@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Web.Api.Infrastructure\Web.Api.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Request\Quote\" />
+  </ItemGroup>
+
 </Project>

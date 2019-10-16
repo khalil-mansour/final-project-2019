@@ -153,7 +153,7 @@ CREATE TABLE house_location (
 	city_id integer NOT NULL,
 	province_id integer NOT NULL,
 	street varchar(100) NOT NULL,
-	appartement_units integer NOT NULL,
+	appartement_units integer,
 	
 	CONSTRAINT city_id_fkey FOREIGN KEY (city_id)
       REFERENCES city (id) MATCH SIMPLE,
@@ -167,9 +167,9 @@ CREATE TABLE quote_request_house (
 	id serial PRIMARY KEY,
 	house_type_id integer NOT NULL,
     house_location_id integer NOT NULL,
-	offer numeric NOT NULL,
 	listing integer NOT NULL,
-	down_payment numeric NOT NULL,
+	down_payment numeric,
+	offer numeric,
 	first_house boolean NOT NULL,
 	description varchar(1000),
 	municipal_evaluation varchar(100), -- Lien URL vers un document de l'évaluation municipale
