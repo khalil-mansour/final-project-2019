@@ -7,7 +7,7 @@ namespace Web.Api.Core.Domain.Entities
 {
     public class User
     {
-        [JsonProperty("id")]
+        [JsonProperty("uid")]
         public string Id { get; }
 
         [JsonProperty("firstname")]
