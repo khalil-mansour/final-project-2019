@@ -17,7 +17,7 @@ namespace Web.Api.Presenters
         public void Handle(UserLoginResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.Unauthorized);
-            ContentResult.Content = response.Success ? JsonConvert.SerializeObject(response.User, Formatting.Indented) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+            ContentResult.Content = response.Success ? JsonConvert.SerializeObject(response.User, Formatting.Indented) : JsonConvert.SerializeObject(response.Error, Formatting.Indented);
         }
     }
 }

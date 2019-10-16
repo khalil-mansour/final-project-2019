@@ -6,15 +6,15 @@ namespace Web.Api.Core.Dto.UseCaseResponses
 {
     public class UserLoginResponse : UseCaseResponseMessage
     {
-        public Domain.Entities.User User { get; }
-        public IEnumerable<Error> Errors { get; }
+        public User User { get; }
+        public Error Error { get; }
 
-        public UserLoginResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base (success, message)
+        public UserLoginResponse(Error error, bool success = false, string message = null) : base (success, message)
         {
-            Errors = errors;
+            Error = error;
         }
 
-        public UserLoginResponse(Domain.Entities.User user, bool success = false, string message = null) : base(success, message)
+        public UserLoginResponse(User user, bool success = false, string message = null) : base(success, message)
         {
             User = user;
         }

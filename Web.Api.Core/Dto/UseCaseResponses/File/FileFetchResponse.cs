@@ -6,11 +6,11 @@ namespace Web.Api.Core.Dto.UseCaseResponses
     public class FileFetchResponse : UseCaseResponseMessage
     {
         public Domain.Entities.File File { get; }
-        public IEnumerable<Error> Errors { get; }
+        public Error Error { get; }
 
-        public FileFetchResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
+        public FileFetchResponse(Error error, bool success = false, string message = null) : base(success, message)
         {
-            Errors = errors;
+            Error = error;
         }
 
         public FileFetchResponse(Domain.Entities.File file, bool success = false, string message = null) : base(success, message)

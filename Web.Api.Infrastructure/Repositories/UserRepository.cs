@@ -35,7 +35,7 @@ namespace Web.Api.Infrastructure.Repositories
                 }
                 catch (NpgsqlException e)
                 {
-                    return new UserLoginRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new UserLoginRepoResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace Web.Api.Infrastructure.Repositories
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new UserRegisterRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new UserRegisterRepoResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
                 }
             }
         }

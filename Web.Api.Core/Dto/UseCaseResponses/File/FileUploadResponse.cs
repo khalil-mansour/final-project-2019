@@ -5,12 +5,12 @@ namespace Web.Api.Core.Dto.UseCaseResponses
 {
    public class FileUploadResponse : UseCaseResponseMessage
     {
-        public IEnumerable<Error> Errors { get; }
+        public Error Error { get; }
         public string UploadedFileId { get;  }
 
-        public FileUploadResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base (success, message)
+        public FileUploadResponse(Error error, bool success = false, string message = null) : base (success, message)
         {
-            Errors = errors;
+            Error = error;
         }
 
         public FileUploadResponse(string name, bool success = false, string message = null) : base(success, message)

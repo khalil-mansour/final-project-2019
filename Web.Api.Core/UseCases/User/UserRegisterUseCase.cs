@@ -31,7 +31,7 @@ namespace Web.Api.Core.UseCases
                     message?.PostalCode,
                     message?.Province));
 
-            outputPort.Handle(response.Success ? new UserRegisterResponse(response.User, true) : new UserRegisterResponse(response.Errors));
+            outputPort.Handle(response.Success ? new UserRegisterResponse(response.User, true) : new UserRegisterResponse(response.Error));
             return response.Success;
         }
     }

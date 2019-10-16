@@ -5,12 +5,12 @@ namespace Web.Api.Core.Dto.GatewayResponses
     public abstract class BaseGatewayResponse
     {
         public bool Success { get; }
-        public IEnumerable<Error> Errors { get; }
+        public Error Error { get; }
 
-        protected BaseGatewayResponse(bool success = false, IEnumerable<Error> errors = null)
+        protected BaseGatewayResponse(bool success = false, Error error = null)
         {
             Success = success;
-            Errors = errors;
+            Error = error;
         }
     }
 }

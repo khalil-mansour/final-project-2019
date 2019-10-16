@@ -30,7 +30,7 @@ namespace Web.Api.Core.UseCases
             // set the signed url to file
             response.File.Url = SignUrl(message.StorageId);
 
-            outputPort.Handle(response.Success ? new FileFetchResponse(response.File, true) : new FileFetchResponse(response.Errors));
+            outputPort.Handle(response.Success ? new FileFetchResponse(response.File, true) : new FileFetchResponse(response.Error));
             return response.Success;
         }
 

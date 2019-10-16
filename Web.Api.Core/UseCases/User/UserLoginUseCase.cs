@@ -21,7 +21,7 @@ namespace Web.Api.Core.UseCases
             // confirm user exists with ID
             var response = await _userRepository.FindById(message.ID);
 
-            outputPort.Handle(response.Success ? new UserLoginResponse(response.User, false, null) : new UserLoginResponse(new[] { new Error("login_failure", "Invalid credentials.") }));
+            outputPort.Handle(response.Success ? new UserLoginResponse(response.User, false, null) : new UserLoginResponse(new Error("login_failure", "Invalid credentials.")));
             return response.Success;
 
         }

@@ -8,10 +8,10 @@ namespace Web.Api.Models.Request
 
         public IFormFile File { get; set; }
 
-        [JsonProperty("userid")]
+        [JsonProperty("user_id")]
         public string UserId { get; set; }
 
-        [JsonProperty("documenttypeid")]
+        [JsonProperty("document_type_id")]
         public int DocumentTypeId { get; set; }
 
         [JsonProperty("visible")]
