@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces;
@@ -14,6 +15,9 @@ namespace Web.Api.Core.UseCases
 {
     public sealed class FileFetchUseCase : IFileFetchUseCase
     {
+        // logger
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private readonly IFileRepository _fileRepository;
         private readonly IConfiguration _configuration;
 
@@ -26,11 +30,23 @@ namespace Web.Api.Core.UseCases
         public async Task<bool> Handle(FileFetchRequest message, IOutputPort<FileFetchResponse> outputPort)
         {
             var response = await _fileRepository.Fetch(message.StorageId);
-            
-            // set the signed url to file
-            response.File.Url = SignUrl(message.StorageId);
 
-            outputPort.Handle(response.Success ? new FileFetchResponse(response.File, true) : new FileFetchResponse(response.Error));
+            try
+            {
+                response.File.Url = SignUrl(message.StorageId);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Error signing the URL.");
+                outputPort.Handle(new FileFetchResponse(new Error(e.HResult.ToString(), "Failed to acquire signature for file.")));
+                return false;
+            }
+
+            outputPort.Handle(response.Success ? new FileFetchResponse(response.File, true) : new FileFetchResponse(new Error(response.Error.Code, "Error attempting to fetch a user.")));
+
+            if (!response.Success)
+                logger.Error(response.Error.Description);
+
             return response.Success;
         }
 

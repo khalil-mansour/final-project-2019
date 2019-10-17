@@ -13,6 +13,8 @@ namespace Web.Api.Core.UseCases
 {
     public sealed class FileUploadUseCase : IFileUploadUseCase
     {
+        // logger
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private readonly IFileRepository _fileRepository;
         private readonly IConfiguration _configuration;
@@ -32,10 +34,10 @@ namespace Web.Api.Core.UseCases
             }
             catch (Exception e)
             {
+                logger.Error(e, "Error uploading to GCLOUD.");
                 outputPort.Handle(new FileUploadResponse(new Error(e.HResult.ToString(), "Failed to upload file to the Google Cloud service.")));
                 return false;
             }
-
 
             var response = await _fileRepository.
                 Create(new File(
@@ -47,7 +49,11 @@ namespace Web.Api.Core.UseCases
                     message.Visible
                     ));
 
-            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(response.Error));
+            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(new Error(response.Error.Code, "Error attempting to upload file.")));
+
+            if (!response.Success)
+                logger.Error(response.Error.Description);
+
             return response.Success;
         }
 

@@ -32,19 +32,27 @@ namespace Web.Api.Infrastructure.Repositories
                                   document_type_id as { nameof(File.DocumentType) },
                                   user_file_name as { nameof(File.FileName) },
                                   storage_file_id as { nameof(File.StorageId) },
-                                  created_date as { nameof(File.CreatedDate) },
+                                  createdrterter_date as { nameof(File.CreatedDate) },
                                   visible as { nameof(File.Visible) }
                                   FROM public.document
                                   WHERE storage_file_id = @storageid";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
-                // add user
-                var success = Convert.ToBoolean(conn.Execute(add_query, file));
-                // get added user
-                var response = conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault();
-                // return the response
-                return new FileUploadRepoResponse(response, success);
+                try
+                {
+                    // add user
+                    var success = Convert.ToBoolean(conn.Execute(add_query, file));
+                    // get added user
+                    var response = conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault();
+                    // return the response
+                    return new FileUploadRepoResponse(response, success);
+                }
+                catch (Exception e)
+                {
+                    return new FileUploadRepoResponse(null, false, new Error(e.HResult.ToString(), e.Message));
+                }
+
             }
         }
 

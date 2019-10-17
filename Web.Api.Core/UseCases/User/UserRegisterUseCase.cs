@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
+using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces;
@@ -11,6 +12,9 @@ namespace Web.Api.Core.UseCases
 {
     public sealed class UserRegisterUseCase : IUserRegisterUseCase
     {
+        // logger
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private readonly IUserRepository _userRepository;
 
         public UserRegisterUseCase(IUserRepository userRepository)
@@ -31,7 +35,11 @@ namespace Web.Api.Core.UseCases
                     message?.PostalCode,
                     message?.Province));
 
-            outputPort.Handle(response.Success ? new UserRegisterResponse(response.User, true) : new UserRegisterResponse(response.Error));
+            outputPort.Handle(response.Success ? new UserRegisterResponse(response.User, true) : new UserRegisterResponse(new Error(response.Error.Code, "Error attempting to register a new User.")));
+
+            if (!response.Success)
+                logger.Error(response.Error.Description);
+
             return response.Success;
         }
     }

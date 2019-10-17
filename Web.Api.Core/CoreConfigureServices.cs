@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Web.Api.Core.Interfaces.UseCases;
-using Web.Api.Core.Interfaces.UseCases.User;
 using Web.Api.Core.UseCases;
-using Web.Api.Core.UseCases.User;
 
 namespace Web.Api.Core
 {
@@ -14,7 +12,6 @@ namespace Web.Api.Core
             //user
             services.AddTransient<IUserRegisterUseCase, UserRegisterUseCase>();
             services.AddTransient<IUserLoginUseCase, UserLoginUseCase>();
-            services.AddTransient<IUserFetchUseCase, UserFetchUseCase>();
 
             //file
             services.AddTransient<IFileUploadUseCase, FileUploadUseCase>();
