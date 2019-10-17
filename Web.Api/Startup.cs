@@ -12,7 +12,7 @@ using System.Reflection;
 using Web.Api.Core;
 using Web.Api.Infrastructure;
 using Web.Api.Presenters;
-
+using Web.Api.Presenters.QuoteRequest;
 
 namespace Web.Api
 {
@@ -53,6 +53,7 @@ namespace Web.Api
             services.AddSingleton<UserLoginPresenter>();
             services.AddSingleton<FileFetchAllPresenter>();
             services.AddSingleton<FileFetchPresenter>();
+            services.AddSingleton<HouseQuoteRequestPresenter>();
 
             services.AddSwaggerGen(c =>
             {

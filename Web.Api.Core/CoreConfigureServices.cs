@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Web.Api.Core.Interfaces.UseCases;
 using Web.Api.Core.UseCases;
+using Web.Api.Core.UseCases.QuoteRequest;
 
 namespace Web.Api.Core
 {
@@ -13,6 +14,7 @@ namespace Web.Api.Core
             services.AddTransient<IFileUploadUseCase, FileUploadUseCase>();
             services.AddTransient<IFileFetchUseCase, FileFetchUseCase>();
             services.AddTransient<IFileFetchAllUseCase, FileFetchAllUseCase>();
+            services.AddTransient<IHouseQuoteRequestCreateUseCase, HouseQuoteRequestUseCase>();
         }
     }
 }

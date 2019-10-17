@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Web.Api.Core.Dto.GatewayResponses.Repositories.QuoteRequest;
+using Web.Api.Core.Dto.UseCaseResponses.QuoteRequest;
+using Web.Api.Core.Interfaces;
+using Web.Api.Models.Response;
 
 namespace Web.Api.Presenters.QuoteRequest
 {
-    public class HouseQuoteRequestPresenter
+    public class HouseQuoteRequestPresenter : IOutputPort<HouseQuoteCreateResponse>
+
     {
         public JsonContentResult ContentResult { get; }
 
@@ -17,10 +17,11 @@ namespace Web.Api.Presenters.QuoteRequest
             ContentResult = new JsonContentResult();
         }
 
-        public void Handle(HouseQuoteRequesteCreateRepoResponse response)
+        public void Handle(HouseQuoteCreateResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            ContentResult.Content = response.Success ? JsonConvert.SerializeObject(response.HouseQuoteRequest, Formatting.Indented) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+            ContentResult.Content = response.Success ? HouseQuoteRequestResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
+
     }
 }

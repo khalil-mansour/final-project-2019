@@ -5,15 +5,15 @@ using Web.Api.Core.Domain.Entities;
 
 namespace Web.Api.Core.Dto.GatewayResponses.Repositories.QuoteRequest
 {
-    class HouseLocationRequestRepoResponse
+    public sealed class HouseLocationRequestRepoResponse : BaseGatewayResponse
     {
-    
+
         public HouseLocation HouseLocation { get; }
 
         public HouseLocationRequestRepoResponse(HouseLocation houseLocation = null, bool success = false, IEnumerable<Error> errors = null) : base(success, errors)
         {
-           HouseLocation = houseLocation;
+            HouseLocation = houseLocation;
         }
 
-}
+    }
 }
