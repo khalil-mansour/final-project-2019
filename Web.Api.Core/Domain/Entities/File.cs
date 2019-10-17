@@ -24,6 +24,9 @@ namespace Web.Api.Core.Domain.Entities
         [JsonProperty("user_file_name")]
         public string FileName { get; }
 
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
         internal File(string userId, int documentType, string fileName, string storageId, DateTime createdDate, bool visible)
         {
             UserId = userId;
