@@ -12,7 +12,7 @@ using Web.Api.Core.Dto.UseCaseRequests;
 
 namespace Web.Api.Core.UnitTests
 {   
-    public class RegisterUserUseCaseUnitTest
+    public class UserRegisterUseCaseUnitTest
     {   
         // mocked data
         private readonly string id = "1w23e";
@@ -37,7 +37,7 @@ namespace Web.Api.Core.UnitTests
                 .Returns(Task.FromResult(new UserRegisterRepoResponse(null, true)));
 
             // the main use case
-            var useCase = new RegisterUserUseCase(mockUserRepository.Object);
+            var useCase = new UserRegisterUseCase(mockUserRepository.Object);
 
             // link between layers
             var mockOutputPort = new Mock<IOutputPort<UserRegisterResponse>>();

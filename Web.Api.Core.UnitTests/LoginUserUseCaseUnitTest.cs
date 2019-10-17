@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Web.Api.Core.UnitTests
 {
-    public class LoginUserUseCaseUnitTest
+    public class UserLoginUseCaseUnitTest
     {
         private readonly string id = "1234";
 
@@ -26,7 +26,7 @@ namespace Web.Api.Core.UnitTests
                 .Returns(Task.FromResult(new UserLoginRepoResponse(null, true)));
 
             // the main use case
-            var useCase = new LoginUserUseCase(mockUserRepository.Object);
+            var useCase = new UserLoginUseCase(mockUserRepository.Object);
 
             // link between layers
             var mockOutputPort = new Mock<IOutputPort<Dto.UseCaseResponses.UserLoginResponse>>();
