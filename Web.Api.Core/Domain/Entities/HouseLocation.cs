@@ -37,5 +37,13 @@ namespace Web.Api.Core.Domain.Entities
             AppartementUnits = appartementUnits;
         }
 
+        public HouseLocation(string postalCode, int cityId, int provinceId, string street, int appartementUnits)
+        {
+            PostalCode = postalCode;
+            CityId = cityId;
+            ProvinceId = provinceId;
+            Street = street;
+            AppartementUnits = appartementUnits;
+        }
     }
 }

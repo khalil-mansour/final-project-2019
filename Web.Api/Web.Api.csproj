@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Request\Quote\**" />
+    <Content Remove="Models\Request\Quote\**" />
+    <EmbeddedResource Remove="Models\Request\Quote\**" />
+    <None Remove="Models\Request\Quote\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="2.2.1" />
     <PackageReference Include="Dapper" Version="2.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -22,10 +29,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Web.Api.Core\Web.Api.Core.csproj" />
     <ProjectReference Include="..\Web.Api.Infrastructure\Web.Api.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Request\Quote\" />
   </ItemGroup>
 
 </Project>

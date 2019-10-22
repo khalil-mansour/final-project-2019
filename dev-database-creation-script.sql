@@ -225,4 +225,5 @@ INSERT INTO document_type(type) VALUES ('required_doc2');
 INSERT INTO document_type(type) VALUES ('required_doc3');
 INSERT INTO document_type(type) VALUES ('required_doc4');
 INSERT INTO document_type(type) VALUES ('general');
-insert into users(type)  VALUES ('2w2w2e', 1, 'craackhead', 'jawnny', 'shermail', '8196445878', 'r3rw3w', 'qc')
+insert into users(type)  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le client', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc')
+insert into users(type)  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc')
