@@ -218,12 +218,12 @@ CREATE TABLE quote_request_document (
       REFERENCES document (id) MATCH SIMPLE
 );
 
-INSERT INTO user_type(type) VALUES ('broker');
 INSERT INTO user_type(type) VALUES ('client');
+INSERT INTO user_type(type) VALUES ('broker');
 INSERT INTO document_type(type) VALUES ('required_doc1');
 INSERT INTO document_type(type) VALUES ('required_doc2');
 INSERT INTO document_type(type) VALUES ('required_doc3');
 INSERT INTO document_type(type) VALUES ('required_doc4');
 INSERT INTO document_type(type) VALUES ('general');
-INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 1, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
-INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 2, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc');
+INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
+INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc');
