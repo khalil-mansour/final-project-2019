@@ -153,7 +153,7 @@ CREATE TABLE house_location (
 	city_id integer NOT NULL,
 	province_id integer NOT NULL,
 	street varchar(100) NOT NULL,
-	appartement_units integer NOT NULL,
+	appartement_units integer,
 	
 	CONSTRAINT city_id_fkey FOREIGN KEY (city_id)
       REFERENCES city (id) MATCH SIMPLE,
@@ -167,9 +167,9 @@ CREATE TABLE quote_request_house (
 	id serial PRIMARY KEY,
 	house_type_id integer NOT NULL,
     house_location_id integer NOT NULL,
-	offer numeric NOT NULL,
 	listing integer NOT NULL,
-	down_payment numeric NOT NULL,
+	down_payment numeric,
+	offer numeric,
 	first_house boolean NOT NULL,
 	description varchar(1000),
 	municipal_evaluation varchar(100), -- Lien URL vers un document de l'évaluation municipale
@@ -225,4 +225,5 @@ INSERT INTO document_type(type) VALUES ('required_doc2');
 INSERT INTO document_type(type) VALUES ('required_doc3');
 INSERT INTO document_type(type) VALUES ('required_doc4');
 INSERT INTO document_type(type) VALUES ('general');
-insert into users VALUES ('2w2w2e', 1, 'craackhead', 'jawnny', 'shermail', '8196445878', 'r3rw3w', 'qc')
+INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
+INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc');
