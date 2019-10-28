@@ -10,13 +10,16 @@ namespace Web.Api.Core.Domain.Entities
 
         public int MensualDebt { get; }
 
-        public float InterestRate { get;  }
+        public float InterestRate { get; }
 
         public int MunicipalTaxes { get; }
 
-        public int HeatingCost{ get; }
+        public int HeatingCost { get; }
 
-        public int CondoFee{ get; }
+        public int CondoFee { get; }
+
+        public static FinancialCapacity Default(string id)
+        { return new FinancialCapacity(id, 0, 0, 0, 4.4f, 0, 0, 0); }
 
         internal FinancialCapacity(string id,
          int annualIncome, 

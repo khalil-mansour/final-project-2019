@@ -20,10 +20,11 @@ namespace Web.Api.Core.UseCases
         {
             // confirm financialCapacity exists with ID
             var response = await _financialCapacityRepository.FindById(message.ID);
+            var defaultFinancialCapacity = Domain.Entities.FinancialCapacity.Default(message.ID);
 
             outputPort.Handle(response.Success ? 
                 new FinancialCapacityFindResponse(response.FinancialCapacity, true, null) : 
-                new FinancialCapacityFindResponse(new[] { new Error("find_financial_capacity_failure", "Unset financial capacity.") }));
+                new FinancialCapacityFindResponse(defaultFinancialCapacity, true, null));
             return response.Success;
 
         }
