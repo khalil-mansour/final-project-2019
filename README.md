@@ -78,7 +78,6 @@ In order to add environment variables, refer to the following steps:
     kubectl set image deployment/hello-web hello-web=gcr.io/${PROJECT_ID}/{$IMAGE}
     ```
 
-
 # Backend development guide
 
 In order to understand how the backend side of the project is configured to work, one must understand the principles of a layered architecture and the importance of isolating the different components of a solution.
@@ -87,11 +86,58 @@ This allows for easier testing, cleaner code and offers versatility in terms of 
 
 The purpose of this guide is to clear any misunderstandings and to use a preexisting use case as a template.
 
-**AddFileUseCase**
+**FileUploadUseCase**
 
 ## Core Layer (also known as Business Layer)
 
-The core layer is where the **Entities**, the **Data Transfer Objects (DTO)**, the **Use Cases** and the **Interfaces** to be implemented are located.
+The core layer is where the central business rules are located. It is mostly pure C#. Here is what lies within the core.
+
+### Entities
+
+Entities are the business objects that are to be manipulated by use cases. In our current example, the entity concerned is a File.
+
+### Data Transfer Objects (DTO)
+
+The DTOs are objects that carry data between processes. Their whole purpose is to aggregate data into one call that otherwise would have been transfered using several calls.
+DTOs are simple objects that should not contain any business logic but may contain serialization and deserialization mechanisms. This project contains 3 types of DTOs :
+
+- UseCaseRequests
+- UseCaseResponses
+- GatewayResponses (Responses from Infrastructure)
+
+### Use Cases 
+
+Use cases are where the all the logic resides in the Core. Typically, use cases handle a very specific chore and are autological/homological (ex. FileUploadUseCase.cs). This means that each use case is modular and serves only one purpose.
+The use cases need a reference to the interfaces that the Infrastructure layer will implement so the constructor must contain a repository interface (in our case: IFileRepository).
+Each use case implements an interface (ex. IFileUploadUseCase) which also implements the **Handle** method of the overarching use case request handler interface. More info on interfaces below. This **Handle** method
+is a task that returns a boolean and has two arguments : *message* & *outputPort*
+
+The message parameter is an Input Port whose sole responsibility is to carry the request model into the use case from the upper layer that triggers it (UI, controller etc.).
+
+The *outputPort* is an abstraction of the response and has its own **Handle** method. The purpose of this is to be able to get the response out to the caller in a suitable format based on if the use case results were as expected or not (response.Success ?) and to filter the reponse returned through a *Presenter* that will be implemented in the outer layer.
+This allows us to completely isolate UI/Framework dependencies from our use case. More details on the *Presenter* in Presentation Layer.
+
+Inside the **Handle** method, a *response* object is created by an asynchronous call to the interface's task (The task is implemented in the Infrastructure layer). In order to establish an agreed upon precedent, make sure to explicitly call this object ''response''.
+
+### Interfaces
+
+Since the code in this layer is mostly pure C#, interfaces represent the external dependencies and their implementations get injected into the use cases.
+
+Here is a list of the required interfaces and their purpose :
+
+- Repositories : Represent what the Infrastructure/Database layer has to implement (ex. IFileRepository -> Create, Fetch, Fetchall, etc.).
+- IUseCaseRequestHandler : Defines the shape of all of our use case classes.
+- UseCases : Simple interface that implements IUseCaseRequestHandler.
+- IUseCaseRequest : Outputs a UseCaseResponse and is implemented by the UseCaseRequest DTOs.
+- IOutputPort : Defines how the response is returned to caller and is implemented in the Presentation layer.
+
+The important thing to note about these interfaces is that they serve to inject implementations from outer layers into the core. When working on a specific use case, start by adding an interface for the use case to implement
+(ex. IFileUploadUseCase) and if it's a new entity, add it's interface to the repositories (ex. IFileRepository).
+
+### Dependencies (CoreConfigureServices)
+
+This static class contains a single method **MapCoreServices** that serves to inject the dependencies needed for your use case. This method gets called by the runtime to add services to the container.
+When creating a new use case, make sure to add it to the services with its specific interface.
 
 ## Presentation Layer
 

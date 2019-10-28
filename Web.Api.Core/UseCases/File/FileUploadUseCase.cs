@@ -51,6 +51,7 @@ namespace Web.Api.Core.UseCases
 
             outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(new Error(response.Error.Code, "Error attempting to upload file.")));
 
+            // logging
             if (!response.Success)
                 logger.Error(response.Error.Description);
 
