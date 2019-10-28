@@ -12,7 +12,6 @@ using System.Reflection;
 using Web.Api.Core;
 using Web.Api.Infrastructure;
 using Web.Api.Presenters;
-using Web.Api.Presenters.User;
 
 namespace Web.Api
 {
@@ -48,7 +47,6 @@ namespace Web.Api
             CoreConfigureServices.MapCoreServices(services);
 
             services.AddSingleton<UserRegisterPresenter>();
-            services.AddSingleton<UserFetchPresenter>();
             services.AddSingleton<FileUploadPresenter>();
             services.AddSingleton<FileFetchAllPresenter>();
             services.AddSingleton<FileFetchPresenter>();

@@ -39,12 +39,26 @@ namespace Web.Api.Infrastructure.Repositories
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
-                // add user
-                var success = Convert.ToBoolean(conn.Execute(add_query, file));
-                // get added user
-                var response = conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault();
-                // return the response
-                return new FileUploadRepoResponse(response, success);
+                try
+                {
+                    // add user
+                    var success = Convert.ToBoolean(conn.Execute(add_query, file));
+                    // get added user
+                    var response = conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault();
+
+                    // return the response
+                    return new FileUploadRepoResponse(response, success);
+                }
+                catch (NpgsqlException e)
+                {
+                    // log error
+                    // ...
+                    
+                    // return the response
+                    return new FileUploadRepoResponse(null, false, new Error(e.HResult.ToString(), e.Message));
+                }
+
+
             }
         }
 
