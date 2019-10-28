@@ -53,6 +53,8 @@ namespace Web.Api
             services.AddSingleton<UserLoginPresenter>();
             services.AddSingleton<FileFetchAllPresenter>();
             services.AddSingleton<FileFetchPresenter>();
+            services.AddSingleton<FinancialCapacityFindPresenter>();
+            services.AddSingleton<FinancialCapacityRegisterPresenter>();
 
             services.AddSwaggerGen(c =>
             {
