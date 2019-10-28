@@ -11,6 +11,7 @@ namespace Web.Api.Infrastructure
         {
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IFileRepository, FileRepository>();
+            services.AddTransient<IFinancialCapacityRepository, FinancialCapacityRepository>();
         }
     }
 }
