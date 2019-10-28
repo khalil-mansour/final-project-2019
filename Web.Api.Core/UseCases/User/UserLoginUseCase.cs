@@ -9,6 +9,9 @@ namespace Web.Api.Core.UseCases
 {
     public sealed class UserLoginUseCase : IUserLoginUseCase
     {
+        // logger
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private readonly IUserRepository _userRepository;
 
         public UserLoginUseCase(IUserRepository userRepository)
@@ -21,7 +24,11 @@ namespace Web.Api.Core.UseCases
             // confirm user exists with ID
             var response = await _userRepository.FindById(message.ID);
 
-            outputPort.Handle(response.Success ? new UserLoginResponse(response.User, false, null) : new UserLoginResponse(new Error("login_failure", "Invalid credentials.")));
+            outputPort.Handle(response.Success ? new UserLoginResponse(response.User, false, null) : new UserLoginResponse(new Error(response.Error.Code, "Invalid credentials.")));
+
+            if (!response.Success)
+                logger.Error(response.Error.Description);
+
             return response.Success;
 
         }

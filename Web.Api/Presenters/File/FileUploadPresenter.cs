@@ -14,7 +14,6 @@ namespace Web.Api.Presenters
             ContentResult = new JsonContentResult();
         }
 
-
         public void Handle(FileUploadResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);

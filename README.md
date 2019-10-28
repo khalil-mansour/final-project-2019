@@ -79,3 +79,20 @@ In order to add environment variables, refer to the following steps:
     ```
 
 
+# Backend development guide
+
+In order to understand how the backend side of the project is configured to work, one must understand the principles of a layered architecture and the importance of isolating the different components of a solution.
+An onion style architecture (also known as clean arch) is a way to setup your code with the purpose of isolating into layers (projects) different parts of your code and insuring that no dependencies from an outer layer are needed for them to work.
+This allows for easier testing, cleaner code and offers versatility in terms of change. However, this type of architecture can be initially confusing as it creates a lot of overhead even for basic use cases.
+
+The purpose of this guide is to clear any misunderstandings and to use a preexisting use case as a template.
+
+**AddFileUseCase**
+
+## Core Layer (also known as Business Layer)
+
+The core layer is where the **Entities**, the **Data Transfer Objects (DTO)**, the **Use Cases** and the **Interfaces** to be implemented are located.
+
+## Presentation Layer
+
+## Infrastructure Layer

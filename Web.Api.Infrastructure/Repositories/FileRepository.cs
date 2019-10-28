@@ -45,19 +45,13 @@ namespace Web.Api.Infrastructure.Repositories
                     var success = Convert.ToBoolean(conn.Execute(add_query, file));
                     // get added user
                     var response = conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault();
-
                     // return the response
                     return new FileUploadRepoResponse(response, success);
                 }
-                catch (NpgsqlException e)
+                catch (Exception e)
                 {
-                    // log error
-                    // ...
-                    
-                    // return the response
                     return new FileUploadRepoResponse(null, false, new Error(e.HResult.ToString(), e.Message));
                 }
-
 
             }
         }

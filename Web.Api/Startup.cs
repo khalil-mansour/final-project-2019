@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NLog;
 using System;
 using System.IO;
 using System.Reflection;
@@ -56,6 +57,22 @@ namespace Web.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hestia API", Version = "v1" });
             });
         }
+        public void LoggerConfig()
+        {
+            var config = new NLog.Config.LoggingConfiguration();
+
+            // target where to log to : File and Console
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "log_file.txt" };
+            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+
+            // mapping rules
+            config.AddRule(LogLevel.Info, LogLevel.Error, logconsole);
+            config.AddRule(LogLevel.Info, LogLevel.Error, logfile);
+
+            // apply config
+            NLog.LogManager.Configuration = config;
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -82,8 +99,10 @@ namespace Web.Api
 
             //app.UseHttpsRedirection();
 
-            app.UseMvc();
+            // call the logger setup
+            LoggerConfig();
 
+            app.UseMvc();
         }
     }
 }
