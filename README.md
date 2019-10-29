@@ -222,6 +222,7 @@ Let's see how this would work for our example use case : **FileUploadRequest** :
 5.	Create your model request *FileUploadRequest* and map each field to it's HttpRequest name.
 6.	Create your model response.
 7.	Create your presenter (*FilePresenter*). This class should implement *IOutputPort*, which has a *FileUploadResponse* as input. Implement its **Handle** method and return the appropriate response and status.
+8.	In Startup.cs, add as a singleton your presenter to the *ConfigureServices* method.
 
 ## Sources
 
