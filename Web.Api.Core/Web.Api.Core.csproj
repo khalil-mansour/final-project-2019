@@ -20,4 +20,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\FinancialCapacity\" />
+  </ItemGroup>
+
 </Project>

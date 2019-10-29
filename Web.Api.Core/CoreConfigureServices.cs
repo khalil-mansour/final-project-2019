@@ -13,6 +13,8 @@ namespace Web.Api.Core
             services.AddTransient<IFileUploadUseCase, FileUploadUseCase>();
             services.AddTransient<IFileFetchUseCase, FileFetchUseCase>();
             services.AddTransient<IFileFetchAllUseCase, FileFetchAllUseCase>();
+            services.AddTransient<IFinancialCapacityFindUseCase, FindFinancialCapacityUseCase>();
+            services.AddTransient<IFinancialCapacityRegisterUseCase, RegisterFinancialCapacityUseCase>();
         }
     }
 }
