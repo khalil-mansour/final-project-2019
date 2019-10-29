@@ -82,7 +82,8 @@ In order to add environment variables, refer to the following steps:
 
 In order to understand how the backend side of the project is configured to work, one must understand the principles of a layered architecture and the importance of isolating the different components of a solution.
 An onion style architecture (also known as clean arch) is a way to setup your code with the purpose of isolating into layers (projects) different parts of your code and insuring that no dependencies from an outer layer are needed for them to work.
-This allows for easier testing, cleaner code and offers versatility in terms of change. However, this type of architecture can be initially confusing as it creates a lot of overhead even for basic use cases.
+This allows for easier testing, cleaner code and offers versatility in terms of change. However, this type of architecture can be initially confusing as it creates a lot of overhead even for basic use cases. Just like an onion, it can make you cry
+but if you know how to cook it, it's really tasty.
 
 The purpose of this guide is to clear any misunderstandings and to use a preexisting use case as a template.
 
@@ -141,4 +142,33 @@ When creating a new use case, make sure to add it to the services with its speci
 
 ## Presentation Layer
 
+The presentation layer is the layer responsible for handling models, controllers, endpoints, web pages, devices, etc.
+It is in the outermost part of the ''onion'' and is responsible for formatting the response data from the use cases to a suitable format for the caller.
+
+### Controllers
+
+The controllers are the application's entrypoints. In the context of a REST Api, these classes all contain actions that receive requests and handle the particular use cases.
+Each action has a specific route and returns data through a presenter.
+
+In our case, The **FileController** handles all the use cases related to the *File* entity.
+
+### Models
+
+There are two types of models. Here is their purpose.
+
+- Request model : Data received from caller.
+- Response model : Data sent as response after use case completion.
+
+Models contain no logic but can have serialization/deserialization properties attributed to the fields.
+
+### Presenters
+
+The presenters contain .NET framewrok-specific references and types and therefore should not bleed into the use cases, as per the *dependency rule*.
+Presenters implement the use case's *outputPorts* with all of the work being handled by its **Handle** method (pun intended).
+In this approach, we use DIP to invert the control flow so rather than getting a return value with the response data from the use case we allow it to decide when and where it sends the data through the output port to the presenter.
+We could use a callback, but for our purposes, the presenter creates an http response message that is returned by our controller.
+From there, we're just building a regular MVC ContentResult and in this case, directly storing the serialized results from the use case and setting the appropriate HttpStatusCode based on the result of the use case.
+
+
 ## Infrastructure Layer
+
