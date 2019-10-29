@@ -170,5 +170,18 @@ We could use a callback, but for our purposes, the presenter creates an http res
 From there, we're just building a regular MVC ContentResult and in this case, directly storing the serialized results from the use case and setting the appropriate HttpStatusCode based on the result of the use case.
 
 
-## Infrastructure Layer
+## Infrastructure Layer (also known as Data Layer)
+
+### Repositories
+
+This layer contains the application's data access and persistence concerns and any frameworks, drivers or dependencies they require.
+In this layer, the repositories implement all the methods from their respective interfaces from the core layer and return a response depending on if the database queries were successful or not.
+
+In our specific use case, we would have a *FileRepository* that implements the *IFileRepository* interface from the core layer and it would contain the signed methods. The methods contain the queries (using Dapper) and the returned responses.
+
+### Dependencies (InfrastructureConfigureServices)
+
+This static class contains a single method **MapInfrastructureServices** that serves to inject the dependencies needed for your repositories. This method gets called by the runtime to add services to the container.
+When creating a new use case, make sure to add it to the services with its specific interface.
+
 
