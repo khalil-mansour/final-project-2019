@@ -53,19 +53,24 @@ In order to add environment variables, refer to the following steps:
 
     Make sure $VALUE is the same as the key you entered in the repo.
 
+### Adding the GCloud App Credentials
+
+In order to upload files to GCloud from your machine, you need to set the **GOOGLE_APPLICATION_CREDENTIALS** environment variable.
+You can find it on gitlab's [environment variables](https://depot.dinf.usherbrooke.ca/projets/a19/eq10/projet_assurance/projet_assurance_backend/-/settings/ci_cd).
+
 
 
 ## Deployment staging
 ##### Source : [Deploying a containerized web application](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app)
 
-1. In the gcloud console set-up the console so it is bind to your project
+1. In the gcloud console, set-up the console to bind it to your project
     ```bash
     gcloud config set project [PROJECT_ID]
     gcloud config set compute/zone [COMPUTE_ZONE] # <-- northamerica-northeast1-a
     gcloud container clusters get-credentials [CLUSTER_NAME]
     ```
 
-2. This step is only require if it's the first time deploying
+2. This step is only required if it's the first time deploying
     ```bash
     kubectl run hello-web --image=gcr.io/${PROJECT_ID}/${IMAGE} --port 8080
     kubectl get pods # <-- Check if your pod are up
@@ -184,4 +189,43 @@ In our specific use case, we would have a *FileRepository* that implements the *
 This static class contains a single method **MapInfrastructureServices** that serves to inject the dependencies needed for your repositories. This method gets called by the runtime to add services to the container.
 When creating a new use case, make sure to add it to the services with its specific interface.
 
+## OK bro, this is huge, where do I start ?
 
+When working with an onion style architecture, it is commonly recommended to take an inside out approach.
+This means starting with the innermost part of the application (Core) and, using a TDD approach, start coding the features you want to work on in your use case.
+It is an iterative process in which you will see a lot of red initially but through each iteration, your code will gradually become whole.
+
+Let's see how this would work for our example use case : **FileUploadRequest** :
+
+### Core Layer
+
+1.	If the File entity doesn't exist, create it along with all its fields and constructor (File.cs).
+2.	Create your use case interface and make it implement *IUseCaseRequestHandler*, which should take a *FileUploadRequest* as input and a *FileUploadResponse* as output. This interface must be public.
+3.	Create your repository interface that will be implemented in the infrastructure layer. In this interface, add the method signature needed for your use case. The method should return a _RepoResponse (non-existent as of yet). This interface must be public.
+4.	Create your use case as a public sealed class and make it inherit its interface (step 2). At bare minimum, the use case should have a constructor with a reference to the file repo interface and the **Handle** method with all the use case's logic. Logging should be done here also.
+5.	Next is your DTOs. Start by adding your repository response as a public sealed class (ex. FileUploadRepoResponse) in *GatewayResponses*. This should inherit the *BaseGatewayResponse* class.
+6.	Create your use case request object. This class should inherit *IUseCaseRequest* (which takes the related use case response as output). Add your fields with their serialization properties and the constructor.
+7.	Create your use case response object. This class should inherit *UseCaseResponseMessage*. It should contain two response signatures : one for errors and one for a good response.
+8.	Once this is done, add your use case and it's interface to your services in *CoreConfigureServices.cs*.
+
+### Infrastructure Layer
+
+1.	If your repository is non-existent, add it (FileRepository). This class must inherit it's corresponding interface from the core. This class must be internal and sealed.
+2.	Implement your use case's method by adding the connection string, the query and finally the repo response.
+
+### Presentation Layer
+
+1.	If non-existant, create your controller (FileController).
+2.	The controller's constructor should have the presenter and the use case interface (*IFileUploadUseCase* & *FileUploadPresenter*).
+3.	Create your endpoint action for that specific use case (ex. CreateFile).
+4.	Add the route and the action type (GET, POST, PUT, etc.).
+5.	Create your model request *FileUploadRequest* and map each field to it's HttpRequest name.
+6.	Create your model response.
+7.	Create your presenter (*FilePresenter*). This class should implement *IOutputPort*, which has a *FileUploadResponse* as input. Implement its **Handle** method and return the appropriate response and status.
+
+## Sources
+
+https://fullstackmark.com/post/18/building-aspnet-core-web-apis-with-clean-architecture
+https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+https://www.codeguru.com/csharp/csharp/cs_misc/designtechniques/understanding-onion-architecture.html
+https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/
