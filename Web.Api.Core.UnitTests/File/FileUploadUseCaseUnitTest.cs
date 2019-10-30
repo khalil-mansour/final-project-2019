@@ -11,6 +11,9 @@ using Web.Api.Core.Interfaces;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
+using System.IO;
+using System.Text;
 
 namespace Web.Api.Core.UnitTests
 {
@@ -27,12 +30,30 @@ namespace Web.Api.Core.UnitTests
         {
             // given
 
+            // in memory mocked file (FormFile is a garbage object and terrible to test)
+            IFormFile mockFile = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt")
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = "text/plain"
+            };
+
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockConfigSection = new Mock<IConfigurationSection>();
+
+            mockConfigSection
+                .Setup(v => v.Value)
+                .Returns("app_document_bucket");
+
+            mockConfiguration
+                .Setup(k => k.GetSection("BucketName"))
+                .Returns(mockConfigSection.Object);
+
             var mockFileRepository = new Mock<IFileRepository>();
             mockFileRepository
-                .Setup(repo => repo.Create(It.IsAny<File>()))
-                .Returns(Task.FromResult(new FileUploadRepoResponse(It.IsAny<File>(), true)));
+                .Setup(repo => repo.Create(It.IsAny<Domain.Entities.File>()))
+                .Returns(Task.FromResult(new FileUploadRepoResponse(It.IsAny<Domain.Entities.File>(), true)));
 
-            var useCase = new FileUploadUseCase(It.IsAny<IConfiguration>(), mockFileRepository.Object);
+            var useCase = new FileUploadUseCase(mockConfiguration.Object, mockFileRepository.Object);
 
             var mockOutputPort = new Mock<IOutputPort<FileUploadResponse>>();
             mockOutputPort
@@ -41,8 +62,8 @@ namespace Web.Api.Core.UnitTests
 
             // when
 
-            var response =await useCase.Handle(
-                new FileUploadRequest(It.IsAny<IFormFile>(), userId, docType, visible), mockOutputPort.Object);
+            var response = await useCase.Handle(
+                new FileUploadRequest(mockFile, userId, docType, visible), mockOutputPort.Object);
 
             // done
 

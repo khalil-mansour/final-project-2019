@@ -23,12 +23,23 @@ namespace Web.Api.Core.UnitTests
         {
             // given
 
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockConfigSection = new Mock<IConfigurationSection>();
+
+            mockConfigSection
+                .Setup(v => v.Value)
+                .Returns("app_document_bucket");
+
+            mockConfiguration
+                .Setup(k => k.GetSection("BucketName"))
+                .Returns(mockConfigSection.Object);
+
             var mockFileRepository = new Mock<IFileRepository>();
             mockFileRepository
                 .Setup(repo => repo.Fetch(It.IsAny<string>()))
                 .Returns(Task.FromResult(new FileFetchRepoResponse(It.IsAny<File>(), true)));
 
-            var useCase = new FileFetchUseCase(It.IsAny<IConfiguration>(), mockFileRepository.Object);
+            var useCase = new FileFetchUseCase(mockConfiguration.Object, mockFileRepository.Object);
 
             var mockOutputPort = new Mock<IOutputPort<FileFetchResponse>>();
             mockOutputPort
