@@ -8,7 +8,7 @@ namespace Web.Api.Models.Response
     public class HouseLocationResponse
     {
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("postal_code")]
         public string PostalCode { get; set; }

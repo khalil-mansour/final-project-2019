@@ -53,7 +53,6 @@ CREATE TABLE profession_profile (
 	business_email varchar(100) NOT NULL,
 	description varchar(500)
 );
-
 CREATE TABLE user_profession (
 	id serial PRIMARY KEY,
 	user_id varchar(200) NOT NULL,
@@ -165,11 +164,13 @@ CREATE TABLE house_location (
 
 CREATE TABLE quote_request_house (
 	id serial PRIMARY KEY,
+	user_id string NOT NULL,
 	house_type_id integer NOT NULL,
-    house_location_id integer NOT NULL,
+    	house_location_id integer NOT NULL,
 	listing integer NOT NULL,
-	down_payment numeric,
-	offer numeric,
+	created_date timestamp NOT NULL,
+	down_payment integer,
+	offer integer,
 	first_house boolean NOT NULL,
 	description varchar(1000),
 	municipal_evaluation varchar(100), -- Lien URL vers un document de l'évaluation municipale
@@ -225,5 +226,9 @@ INSERT INTO document_type(type) VALUES ('required_doc2');
 INSERT INTO document_type(type) VALUES ('required_doc3');
 INSERT INTO document_type(type) VALUES ('required_doc4');
 INSERT INTO document_type(type) VALUES ('general');
-INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le client', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc')
+INSERT INTO city(name) VALUES ('Quebec');
+INSERT INTO house_type(property_type) VALUES ('Condo');
+INSERT INTO house_type(property_type) VALUES ('maison bi générationnelle');
+INSERT INTO province(name) VALUES ('Adirondacks');
+INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le client', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
 INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc')

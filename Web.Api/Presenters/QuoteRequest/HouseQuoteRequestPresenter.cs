@@ -7,7 +7,7 @@ using Web.Api.Models.Response;
 
 namespace Web.Api.Presenters.QuoteRequest
 {
-    public class HouseQuoteRequestPresenter : IOutputPort<HouseQuoteCreateResponse>
+    public class HouseQuoteRequestPresenter : IOutputPort<HouseQuoteCreateResponse>, IOutputPort<HouseQuoteGetAllRequestResponse>
 
     {
         public JsonContentResult ContentResult { get; }
@@ -23,5 +23,10 @@ namespace Web.Api.Presenters.QuoteRequest
             ContentResult.Content = response.Success ? HouseQuoteRequestResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
 
+        public void Handle(HouseQuoteGetAllRequestResponse response)
+        {
+            ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+            ContentResult.Content = response.Success ? HouseQuoteRequestResponse.ToJson(response.HouseQuoteRequests) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+        }
     }
 }

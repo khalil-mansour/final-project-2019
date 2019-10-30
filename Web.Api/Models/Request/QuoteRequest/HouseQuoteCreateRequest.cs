@@ -10,6 +10,9 @@ namespace Web.Api.Models.Request
     public class HouseQuoteCreateRequest
     {
 
+        [JsonProperty("uid")]
+        public string UserId { get; set; }
+
         [JsonProperty("house_type_id")]
         public int HouseType { get; set; }
 

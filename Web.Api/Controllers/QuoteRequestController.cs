@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Web.Api.Models.Request;
 using Web.Api.Core.Dto.UseCaseRequests.QuoteRequest;
 using Web.Api.Core.Interfaces.UseCases;
+using Web.Api.Core.Interfaces.UseCases.QuoteRequest;
 using Web.Api.Presenters.QuoteRequest;
 
 namespace Web.Api.Controllers
@@ -12,12 +12,14 @@ namespace Web.Api.Controllers
     public class QuoteRequestController : ControllerBase
     {
         private readonly IHouseQuoteRequestCreateUseCase _houseQuoteRequestCreateUseCase;
+        private readonly IHouseQuoteRequestGetQuotesRequestUseCase _houseQuoteRequestGetQuotesRequestUseCase;
         private readonly HouseQuoteRequestPresenter _houseQuoteRequestPresenter;
 
-        public QuoteRequestController(IHouseQuoteRequestCreateUseCase houseQuoteRequestCreateUseCase, HouseQuoteRequestPresenter houseQuoteRequestPresenter) {
+        public QuoteRequestController(IHouseQuoteRequestCreateUseCase houseQuoteRequestCreateUseCase, IHouseQuoteRequestGetQuotesRequestUseCase houseQuoteRequestGetQuotesRequestUseCase, HouseQuoteRequestPresenter houseQuoteRequestPresenter) {
             _houseQuoteRequestCreateUseCase = houseQuoteRequestCreateUseCase;
+            _houseQuoteRequestGetQuotesRequestUseCase = houseQuoteRequestGetQuotesRequestUseCase;
             _houseQuoteRequestPresenter = houseQuoteRequestPresenter;
-        }   
+        }
 
 
         [HttpPost]
@@ -28,7 +30,31 @@ namespace Web.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _houseQuoteRequestCreateUseCase.Handle(new Core.Dto.UseCaseRequests.QuoteRequest.HouseQuoteCreateRequest(request.HouseType, new HouseLocationRequest( request.Location.PostalCode, request.Location.CityId, request.Location.ProvinceId, request.Location.Street, request.Location.AppartementUnits), request.ListingPrice, request.DownPayment, request.Offer, request.FirstHouse, request.Description, request.MunicipalEvaluationUrl), _houseQuoteRequestPresenter);
+            await _houseQuoteRequestCreateUseCase.Handle(
+                new HouseQuoteCreateRequest(request.UserId,request.HouseType,
+                new HouseLocationRequest(request.Location.PostalCode
+                ,request.Location.CityId, request.Location.ProvinceId,
+                request.Location.Street, request.Location.AppartementUnits),
+                request.ListingPrice,
+                request.DownPayment,
+                request.Offer,
+                request.FirstHouse,
+                request.Description,
+                request.MunicipalEvaluationUrl),
+                _houseQuoteRequestPresenter);
+
+            return _houseQuoteRequestPresenter.ContentResult;
+        }
+
+        [HttpGet("{uid}")]
+        public async Task<ActionResult> GetQuoteRequest([FromRoute]  Models.Request.HouseQuoteRequestFetchAllRequest request)
+        {
+            if (!ModelState.IsValid)
+            { // re-render the view when validation failed.
+                return BadRequest(ModelState);
+            }
+
+            await _houseQuoteRequestGetQuotesRequestUseCase.Handle(new HouseQuoteRequestGetAllRequest(request.UserId), _houseQuoteRequestPresenter);
             return _houseQuoteRequestPresenter.ContentResult;
         }
 

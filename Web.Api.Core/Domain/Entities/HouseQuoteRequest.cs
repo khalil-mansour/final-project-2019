@@ -10,11 +10,17 @@ namespace Web.Api.Core.Domain.Entities
 
         public int Id { get; }
 
-        public int HouseType { get; }
+        public int UserId { get; }
 
-        public HouseLocation HouseLocation {get;}
+        public int HouseType { get; }
+        
+        public int HouseLocationId { get; }
+
+        public HouseLocation HouseLocation { get; set; }
 
         public long ListingPrice { get;  }
+
+        public DateTime CreatedDate { get; }
 
         public long DownPayment { get; }
 
@@ -39,11 +45,26 @@ namespace Web.Api.Core.Domain.Entities
             MunicipalEvaluationUrl = municipalEvaluation;
         }
 
-        public HouseQuoteRequest(int houseType, HouseLocation houseLocation, long listingPrice, long downPayment, long offer, bool firstHouse, string description, string municipalEvaluationUrl)
+        public HouseQuoteRequest(int houseType, HouseLocation houseLocation, long listingPrice, DateTime createdDate, long downPayment, long offer, bool firstHouse, string description, string municipalEvaluationUrl)
         {
             HouseType = houseType;
             HouseLocation = houseLocation;
             ListingPrice = listingPrice;
+            CreatedDate = createdDate;
+            DownPayment = downPayment;
+            Offer = offer;
+            FirstHouse = firstHouse;
+            Description = description;
+            MunicipalEvaluationUrl = municipalEvaluationUrl;
+        }
+
+        public HouseQuoteRequest(int id, int houseType, int houseLocationId, DateTime createdDate, int listingPrice, int downPayment, int offer, bool firstHouse, string description, string municipalEvaluationUrl)
+        {
+            Id = id;
+            HouseType = houseType;
+            HouseLocationId = houseLocationId;
+            ListingPrice = listingPrice;
+            CreatedDate = createdDate;
             DownPayment = downPayment;
             Offer = offer;
             FirstHouse = firstHouse;

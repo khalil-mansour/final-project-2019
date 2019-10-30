@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Web.Api.Core.Domain.Entities;
-using Web.Api.Core.Dto.UseCaseRequests.QuoteRequest;
 using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseResponses.QuoteRequest
