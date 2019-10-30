@@ -1,7 +1,6 @@
 ﻿using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Web.Api.Core.Dto;
