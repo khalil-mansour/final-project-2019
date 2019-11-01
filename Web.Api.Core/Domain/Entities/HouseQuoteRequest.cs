@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Web.Api.Core.Domain.Entities
 {
@@ -10,7 +7,7 @@ namespace Web.Api.Core.Domain.Entities
 
         public int Id { get; }
 
-        public int UserId { get; }
+        public string UserId { get; }
 
         public int HouseType { get; }
         
@@ -45,8 +42,9 @@ namespace Web.Api.Core.Domain.Entities
             MunicipalEvaluationUrl = municipalEvaluation;
         }
 
-        public HouseQuoteRequest(int houseType, HouseLocation houseLocation, long listingPrice, DateTime createdDate, long downPayment, long offer, bool firstHouse, string description, string municipalEvaluationUrl)
+        public HouseQuoteRequest(string userId, int houseType, HouseLocation houseLocation, long listingPrice, DateTime createdDate, long downPayment, long offer, bool firstHouse, string description, string municipalEvaluationUrl)
         {
+            UserId = userId;
             HouseType = houseType;
             HouseLocation = houseLocation;
             ListingPrice = listingPrice;
@@ -58,9 +56,10 @@ namespace Web.Api.Core.Domain.Entities
             MunicipalEvaluationUrl = municipalEvaluationUrl;
         }
 
-        public HouseQuoteRequest(int id, int houseType, int houseLocationId, DateTime createdDate, int listingPrice, int downPayment, int offer, bool firstHouse, string description, string municipalEvaluationUrl)
+        public HouseQuoteRequest(int id, string userid, int houseType, int houseLocationId, DateTime createdDate, int listingPrice, int downPayment, int offer, bool firstHouse, string description, string municipalEvaluationUrl)
         {
             Id = id;
+            UserId = userid;
             HouseType = houseType;
             HouseLocationId = houseLocationId;
             ListingPrice = listingPrice;

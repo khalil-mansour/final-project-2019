@@ -20,7 +20,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
         public async Task<bool> Handle(HouseQuoteCreateRequest message, IOutputPort<HouseQuoteCreateResponse> outputPort)
         {
             var response = await _quoteRequestRepository.Create(
-                new HouseQuoteRequest(message.HouseType,
+                new HouseQuoteRequest(message.UserId, message.HouseType,
                 new HouseLocation(message.HouseLocationRequest.PostalCode,
                 message.HouseLocationRequest.CityId, 
                 message.HouseLocationRequest.ProvinceId,

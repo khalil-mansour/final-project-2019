@@ -46,7 +46,7 @@ namespace Web.Api.Controllers
             return _houseQuoteRequestPresenter.ContentResult;
         }
 
-        [HttpGet("{uid}")]
+        [HttpGet("fetchAll/{uid}")]
         public async Task<ActionResult> GetQuoteRequest([FromRoute]  Models.Request.HouseQuoteRequestFetchAllRequest request)
         {
             if (!ModelState.IsValid)

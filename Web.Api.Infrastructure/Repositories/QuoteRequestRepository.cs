@@ -31,12 +31,14 @@ namespace Web.Api.Infrastructure.Repositories
                                RETURNING id;";
 
             var addHouseQuoteRequest = $@"INSERT INTO public.quote_request_house (user_id, house_type_id, house_location_id, listing, created_date, down_payment, offer, first_house, description, municipal_evaluation)
-                               VALUES (@UserId, @HouseType, @HouseLocationId, @ListingPrice, @CreationDate, @DownPayment, @Offer, @FirstHouse, @Description, @MunicipalEvaluationUrl)
+                               VALUES (@UserId, @HouseType, @HouseLocationId, @ListingPrice, @CreatedDate, @DownPayment, @Offer, @FirstHouse, @Description, @MunicipalEvaluationUrl)
                                RETURNING id;";
 
 
             using (var conn = new NpgsqlConnection(_connectionString))
             {
+                conn.Open();
+                var transaction = conn.BeginTransaction();
                 try
                 {
                     var houseLocationId = conn.Query<int>(addHouseLocationQuery, houseQuoteRequest.HouseLocation).Single();
@@ -55,10 +57,13 @@ namespace Web.Api.Infrastructure.Repositories
                             houseQuoteRequest.MunicipalEvaluationUrl
                         }).Single();
 
+                    transaction.Commit();
+
                     return new HouseQuoteRequestCreateRepoResponse(FindQuoteRequestById(quoteRequestId), true);
                 }
                 catch (NpgsqlException e)
                 {
+                    transaction.Rollback();
                     // return the response
                     return new HouseQuoteRequestCreateRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
@@ -68,10 +73,11 @@ namespace Web.Api.Infrastructure.Repositories
         {
 
             var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
+                                    user_id AS {nameof(HouseQuoteRequest.UserId)},
                                     house_type_id AS {nameof(HouseQuoteRequest.HouseType)},
                                     house_location_id AS {nameof(HouseQuoteRequest.HouseLocationId)},
-                                    listing AS {nameof(HouseQuoteRequest.ListingPrice)},
                                     created_date AS {nameof(HouseQuoteRequest.CreatedDate)}, 
+                                    listing AS {nameof(HouseQuoteRequest.ListingPrice)},
                                     down_payment AS {nameof(HouseQuoteRequest.DownPayment)},
                                     offer AS {nameof(HouseQuoteRequest.Offer)},
                                     first_house AS {nameof(HouseQuoteRequest.FirstHouse)},
@@ -99,8 +105,10 @@ namespace Web.Api.Infrastructure.Repositories
         private HouseQuoteRequest FindQuoteRequestById(int quoteRequestId)
         {
             var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
+                                    user_id AS {nameof(HouseQuoteRequest.UserId)},
                                     house_type_id AS {nameof(HouseQuoteRequest.HouseType)},
                                     house_location_id AS {nameof(HouseQuoteRequest.HouseLocationId)},
+                                    created_date AS {nameof(HouseQuoteRequest.CreatedDate)}, 
                                     listing AS {nameof(HouseQuoteRequest.ListingPrice)},
                                     down_payment AS {nameof(HouseQuoteRequest.DownPayment)},
                                     offer AS {nameof(HouseQuoteRequest.Offer)},
