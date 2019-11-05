@@ -13,14 +13,14 @@ namespace Web.Api.Models.Response
         [JsonProperty("postal_code")]
         public string PostalCode { get; set; }
 
-        [JsonProperty("city_id")]
-        public int CityId { get; set; }
+        [JsonProperty("city")]
+        public int City { get; set; }
 
         [JsonProperty("province")]
-        public int ProvinceId { get; set; }
+        public int Province { get; set; }
 
-        [JsonProperty("street")]
-        public string Street { get; set; }
+        [JsonProperty("address")]
+        public string address { get; set; }
 
         [JsonProperty("appartement_units")]
         public int AppartementUnits { get; set; }
@@ -36,9 +36,9 @@ namespace Web.Api.Models.Response
             {
                 Id = houseLocation.Id,
                 PostalCode = houseLocation.PostalCode,
-                CityId = houseLocation.CityId,
-                ProvinceId = houseLocation.ProvinceId,
-                Street = houseLocation.Street,
+                City = houseLocation.City,
+                Province = houseLocation.Province,
+                address = houseLocation.address,
                 AppartementUnits = houseLocation.AppartementUnits
             };
         }

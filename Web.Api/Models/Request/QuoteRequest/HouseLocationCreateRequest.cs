@@ -12,14 +12,14 @@ namespace Web.Api.Models.Request
         [JsonProperty("postal_code")]
         public string PostalCode { get; set; }
 
-        [JsonProperty("city_id")]
-        public int CityId  {get; set;}
+        [JsonProperty("city")]
+        public string City  {get; set;}
 
         [JsonProperty("province")]
-        public int ProvinceId { get; set; }
+        public string Province { get; set; }
 
-        [JsonProperty("street")]
-        public string Street { get; set; }
+        [JsonProperty("address")]
+        public string Address { get; set; }
 
         [JsonProperty("appartement_units")]
         public int AppartementUnits { get; set; }
