@@ -14,27 +14,27 @@ namespace Web.Api.Core.Domain.Entities
 
         public string City { get; }
 
-        public string Province { get; }
+        public string ProvinceId { get; }
 
         public string Address { get; }
 
         public int AppartementUnits { get; }
 
-        public HouseLocation(int id, string postalCode, string city, string province, string address, int appartementUnits)
+        public HouseLocation(int id, string postalCode, string city, string provinceId, string address, int appartementUnits)
         {
             Id = id;
             PostalCode = postalCode;
             City = city;
-            Province = province;
+            ProvinceId = provinceId;
             Address = address;
             AppartementUnits = appartementUnits;
         }
 
-        public HouseLocation(string postalCode, string city, string province, string address, int appartementUnits)
+        public HouseLocation(string postalCode, string city, string provinceId, string address, int appartementUnits)
         {
             PostalCode = postalCode;
             City = city;
-            Province = province;
+            ProvinceId = provinceId;
             Address = address;
             AppartementUnits = appartementUnits;
         }
