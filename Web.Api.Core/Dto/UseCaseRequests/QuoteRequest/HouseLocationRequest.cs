@@ -8,20 +8,20 @@ namespace Web.Api.Core.Dto.UseCaseRequests.QuoteRequest
     {
         public string PostalCode { get; }
 
-        public string City { get; }
+        public int CityId { get; }
 
-        public string Province { get; }
+        public int ProvinceId { get; }
 
-        public string Address { get; }
+        public string Street { get; }
 
         public int AppartementUnits { get; }
 
-        public HouseLocationRequest(string postalCode, string city, string province, string address, int appartementUnits)
+        public HouseLocationRequest(string postalCode, int cityId, int provinceId, string street, int appartementUnits)
         {
             PostalCode = postalCode;
-            City = city;
-            Province = province;
-            Address = address;
+            CityId = cityId;
+            ProvinceId = provinceId;
+            Street = street;
             AppartementUnits = appartementUnits;
         }
     }

@@ -12,30 +12,30 @@ namespace Web.Api.Core.Domain.Entities
 
         public string PostalCode { get; }
 
-        public string City { get; }
+        public int CityId { get; }
 
-        public string Province { get; }
+        public int ProvinceId { get; }
 
-        public string Address { get; }
+        public string Street { get; }
 
         public int AppartementUnits { get; }
 
-        public HouseLocation(int id, string postalCode, string city, string province, string address, int appartementUnits)
+        public HouseLocation(int id, string postalCode, int cityId, int provinceId, string street, int appartementUnits)
         {
             Id = id;
             PostalCode = postalCode;
-            City = city;
-            Province = province;
-            Address = address;
+            CityId = cityId;
+            ProvinceId = provinceId;
+            Street = street;
             AppartementUnits = appartementUnits;
         }
 
-        public HouseLocation(string postalCode, string city, string province, string address, int appartementUnits)
+        public HouseLocation(string postalCode, int cityId, int provinceId, string street, int appartementUnits)
         {
             PostalCode = postalCode;
-            City = city;
-            Province = province;
-            Address = address;
+            CityId = cityId;
+            ProvinceId = provinceId;
+            Street = street;
             AppartementUnits = appartementUnits;
         }
     }

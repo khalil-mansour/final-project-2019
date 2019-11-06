@@ -137,8 +137,8 @@ CREATE TABLE city (
 );
 
 CREATE TABLE province (
-	id varchar(2) PRIMARY KEY,
-	description varchar(200)
+	id serial PRIMARY KEY,
+	name varchar(200)
 );
 
 CREATE TABLE house_type (
@@ -149,11 +149,16 @@ CREATE TABLE house_type (
 CREATE TABLE house_location (
 	id serial PRIMARY KEY,
 	postalcode varchar(100) NOT NULL,
-	city varchar(100)  NOT NULL,
-	province varchar(100)  NOT NULL,
-	address varchar(100) NOT NULL,
+	city_id integer NOT NULL,
+	province_id integer NOT NULL,
+	street varchar(100) NOT NULL,
 	appartement_units integer,
 	
+	CONSTRAINT city_id_fkey FOREIGN KEY (city_id)
+      REFERENCES city (id) MATCH SIMPLE,
+
+	CONSTRAINT province_id_fkey FOREIGN KEY (province_id)
+      REFERENCES province (id) MATCH SIMPLE
 );
 
 
@@ -221,19 +226,9 @@ INSERT INTO document_type(type) VALUES ('required_doc2');
 INSERT INTO document_type(type) VALUES ('required_doc3');
 INSERT INTO document_type(type) VALUES ('required_doc4');
 INSERT INTO document_type(type) VALUES ('general');
+INSERT INTO city(name) VALUES ('Quebec');
 INSERT INTO house_type(property_type) VALUES ('Condo');
 INSERT INTO house_type(property_type) VALUES ('maison bi générationnelle');
-INSERT INTO province(id, description) VALUES ('AB', "");
-INSERT INTO province(id, description) VALUES ('BC', "");
-INSERT INTO province(id, description) VALUES ('MB', "");
-INSERT INTO province(id, description) VALUES ('NB', "");
-INSERT INTO province(id, description) VALUES ('NL', "");
-INSERT INTO province(id, description) VALUES ('NT', "");
-INSERT INTO province(id, description) VALUES ('NS', "");
-INSERT INTO province(id, description) VALUES ('NU', "");
-INSERT INTO province(id, description) VALUES ('ON', "");
-INSERT INTO province(id, description) VALUES ('PE', "");
-INSERT INTO province(id, description) VALUES ('SK', "");
-INSERT INTO province(id, description) VALUES ('YT', "");
+INSERT INTO province(name) VALUES ('Adirondacks');
 INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
 INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc')
