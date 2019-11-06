@@ -22,8 +22,6 @@ def post_json(path, datastore):
 	with open(path, "w") as f:
 		json.dump(datastore, f, indent=4)
 
-def set_env(parser):
-	os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.expandvars(parser['env']['GOOGLE_APPLICATION_CREDENTIALS'])
 
 def main():
 	parser = configparser.ConfigParser()
@@ -34,8 +32,6 @@ def main():
 	data = get_json(path)
 	# map the values
 	map_values(data, parser)
-	# set env
-	set_env(parser)
 	# update the file
 	post_json(path, data)
 
