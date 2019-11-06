@@ -1,5 +1,4 @@
-﻿DROP TABLE IF EXISTS city CASCADE;
-DROP TABLE IF EXISTS province CASCADE;
+﻿DROP TABLE IF EXISTS province CASCADE;
 DROP TABLE IF EXISTS house_location CASCADE;
 DROP TABLE IF EXISTS quote_request_house CASCADE;
 DROP TABLE IF EXISTS quote_request_type_table CASCADE;
@@ -131,11 +130,6 @@ CREATE TABLE quote_request_type_table (
 );
 
 
-CREATE TABLE city (
-	id serial PRIMARY KEY,
-	name varchar(200)
-);
-
 CREATE TABLE province (
 	id serial PRIMARY KEY,
 	name varchar(200)
@@ -149,13 +143,11 @@ CREATE TABLE house_type (
 CREATE TABLE house_location (
 	id serial PRIMARY KEY,
 	postalcode varchar(100) NOT NULL,
-	city_id integer NOT NULL,
+	city varchar(200) NOT NULL,
 	province_id integer NOT NULL,
-	street varchar(100) NOT NULL,
+	address varchar(100) NOT NULL,
 	appartement_units integer,
 	
-	CONSTRAINT city_id_fkey FOREIGN KEY (city_id)
-      REFERENCES city (id) MATCH SIMPLE,
 
 	CONSTRAINT province_id_fkey FOREIGN KEY (province_id)
       REFERENCES province (id) MATCH SIMPLE
@@ -226,9 +218,21 @@ INSERT INTO document_type(type) VALUES ('required_doc2');
 INSERT INTO document_type(type) VALUES ('required_doc3');
 INSERT INTO document_type(type) VALUES ('required_doc4');
 INSERT INTO document_type(type) VALUES ('general');
-INSERT INTO city(name) VALUES ('Quebec');
 INSERT INTO house_type(property_type) VALUES ('Condo');
 INSERT INTO house_type(property_type) VALUES ('maison bi générationnelle');
-INSERT INTO province(name) VALUES ('Adirondacks');
+INSERT INTO province(id, name) VALUES (1, 'AB');
+INSERT INTO province(id, name) VALUES (2, 'BC');
+INSERT INTO province(id, name) VALUES (3, 'MB');
+INSERT INTO province(id, name) VALUES (4, 'NB');
+INSERT INTO province(id, name) VALUES (5, 'NL');
+INSERT INTO province(id, name) VALUES (6, 'NT');
+INSERT INTO province(id, name) VALUES (7, 'NS');
+INSERT INTO province(id, name) VALUES (8, 'NU');
+INSERT INTO province(id, name) VALUES (9, 'ON');
+INSERT INTO province(id, name) VALUES (10,'PE');
+INSERT INTO province(id, name) VALUES (11,'SK');
+INSERT INTO province(id, name) VALUES (12,'YT');
+
+
 INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
 INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc')

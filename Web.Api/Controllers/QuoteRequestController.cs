@@ -33,8 +33,8 @@ namespace Web.Api.Controllers
             await _houseQuoteRequestCreateUseCase.Handle(
                 new HouseQuoteCreateRequest(request.UserId,request.HouseType,
                 new HouseLocationRequest(request.Location.PostalCode
-                ,request.Location.CityId, request.Location.ProvinceId,
-                request.Location.Street, request.Location.AppartementUnits),
+                ,request.Location.City, request.Location.ProvinceId,
+                request.Location.Address, request.Location.AppartementUnits),
                 request.ListingPrice,
                 request.DownPayment,
                 request.Offer,
@@ -46,7 +46,7 @@ namespace Web.Api.Controllers
             return _houseQuoteRequestPresenter.ContentResult;
         }
 
-        [HttpGet("fetchAll/{uid}")]
+        [HttpGet("fetchAll/{UserId}")]
         public async Task<ActionResult> GetQuoteRequest([FromRoute]  Models.Request.HouseQuoteRequestFetchAllRequest request)
         {
             if (!ModelState.IsValid)

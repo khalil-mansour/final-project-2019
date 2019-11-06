@@ -22,9 +22,9 @@ namespace Web.Api.Core.UseCases.QuoteRequest
             var response = await _quoteRequestRepository.Create(
                 new HouseQuoteRequest(message.UserId, message.HouseType,
                 new HouseLocation(message.HouseLocationRequest.PostalCode,
-                message.HouseLocationRequest.CityId, 
+                message.HouseLocationRequest.City, 
                 message.HouseLocationRequest.ProvinceId,
-                message.HouseLocationRequest.Street,
+                message.HouseLocationRequest.Address,
                 message.HouseLocationRequest.AppartementUnits),
                 message.ListingPrice, 
                 DateTime.Now,

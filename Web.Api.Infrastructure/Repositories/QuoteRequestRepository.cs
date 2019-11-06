@@ -26,8 +26,8 @@ namespace Web.Api.Infrastructure.Repositories
         public async Task<HouseQuoteRequestCreateRepoResponse> Create(HouseQuoteRequest houseQuoteRequest)
         {
 
-            var addHouseLocationQuery = $@"INSERT INTO public.house_location (postalcode, city_id, province_id, street, appartement_units)
-                               VALUES (@PostalCode, @CityId, @ProvinceId, @Street, @AppartementUnits)
+            var addHouseLocationQuery = $@"INSERT INTO public.house_location (postalcode, city, province_id, address, appartement_units)
+                               VALUES (@PostalCode, @City, @ProvinceId, @Address, @AppartementUnits)
                                RETURNING id;";
 
             var addHouseQuoteRequest = $@"INSERT INTO public.quote_request_house (user_id, house_type_id, house_location_id, listing, created_date, down_payment, offer, first_house, description, municipal_evaluation)
@@ -130,9 +130,9 @@ namespace Web.Api.Infrastructure.Repositories
         {
             var select_query = $@"SELECT id AS {nameof(HouseLocation.Id)},
                                     postalcode AS {nameof(HouseLocation.PostalCode)},
-                                    city_id AS {nameof(HouseLocation.CityId)},
+                                    city AS {nameof(HouseLocation.City)},
                                     province_id AS {nameof(HouseLocation.ProvinceId)},
-                                    street AS {nameof(HouseLocation.Street)},
+                                    address AS {nameof(HouseLocation.Address)},
                                     appartement_units AS {nameof(HouseLocation.AppartementUnits)}
                                   FROM public.house_location WHERE id=@houseLocationId";
 
