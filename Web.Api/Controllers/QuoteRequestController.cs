@@ -34,7 +34,7 @@ namespace Web.Api.Controllers
                 new HouseQuoteCreateRequest(request.UserId,request.HouseType,
                 new HouseLocationRequest(request.Location.PostalCode
                 ,request.Location.City, request.Location.ProvinceId,
-                request.Location.Address, request.Location.AppartementUnits),
+                request.Location.Address, request.Location.ApartmentUnit),
                 request.ListingPrice,
                 request.DownPayment,
                 request.Offer,

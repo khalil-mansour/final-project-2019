@@ -14,15 +14,15 @@ namespace Web.Api.Core.Dto.UseCaseRequests.QuoteRequest
 
         public string Address { get; }
 
-        public int AppartementUnits { get; }
+        public string ApartmentUnit { get; }
 
-        public HouseLocationRequest(string postalCode, string city, int provinceId, string address, int appartementUnits)
+        public HouseLocationRequest(string postalCode, string city, int provinceId, string address, string apartmentUnit)
         {
             PostalCode = postalCode;
             City = city;
             ProvinceId = provinceId;
             Address = address;
-            AppartementUnits = appartementUnits;
+            ApartmentUnit = apartmentUnit;
         }
     }
 }

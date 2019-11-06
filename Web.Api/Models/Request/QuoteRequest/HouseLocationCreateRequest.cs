@@ -21,7 +21,7 @@ namespace Web.Api.Models.Request
         [JsonProperty("address")]
         public string Address { get; set; }
 
-        [JsonProperty("appartement_units")]
-        public int AppartementUnits { get; set; }
+        [JsonProperty("apartment_unit")]
+        public string ApartmentUnit { get; set; }
     }
 }

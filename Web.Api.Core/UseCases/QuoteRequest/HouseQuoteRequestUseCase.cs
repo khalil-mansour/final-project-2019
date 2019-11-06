@@ -25,7 +25,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
                 message.HouseLocationRequest.City, 
                 message.HouseLocationRequest.ProvinceId,
                 message.HouseLocationRequest.Address,
-                message.HouseLocationRequest.AppartementUnits),
+                message.HouseLocationRequest.ApartmentUnit),
                 message.ListingPrice, 
                 DateTime.Now,
                 message.DownPayment,

@@ -146,7 +146,7 @@ CREATE TABLE house_location (
 	city varchar(200) NOT NULL,
 	province_id integer NOT NULL,
 	address varchar(100) NOT NULL,
-	appartement_units integer,
+	apartment_unit varchar(5),
 	
 
 	CONSTRAINT province_id_fkey FOREIGN KEY (province_id)

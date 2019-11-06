@@ -18,25 +18,25 @@ namespace Web.Api.Core.Domain.Entities
 
         public string Address { get; }
 
-        public int AppartementUnits { get; }
+        public string ApartmentUnit { get; }
 
-        public HouseLocation(int id, string postalCode, string city, int provinceId, string address, int appartementUnits)
+        public HouseLocation(int id, string postalCode, string city, int provinceId, string address, string apartmentUnit)
         {
             Id = id;
             PostalCode = postalCode;
             City = city;
             ProvinceId = provinceId;
             Address = address;
-            AppartementUnits = appartementUnits;
+            ApartmentUnit = apartmentUnit;
         }
 
-        public HouseLocation(string postalCode, string city, int provinceId, string address, int appartementUnits)
+        public HouseLocation(string postalCode, string city, int provinceId, string address, string apartmentUnit)
         {
             PostalCode = postalCode;
             City = city;
             ProvinceId = provinceId;
             Address = address;
-            AppartementUnits = appartementUnits;
+            ApartmentUnit = apartmentUnit;
         }
     }
 }

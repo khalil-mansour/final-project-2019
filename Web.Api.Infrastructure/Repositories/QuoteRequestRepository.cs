@@ -26,8 +26,8 @@ namespace Web.Api.Infrastructure.Repositories
         public async Task<HouseQuoteRequestCreateRepoResponse> Create(HouseQuoteRequest houseQuoteRequest)
         {
 
-            var addHouseLocationQuery = $@"INSERT INTO public.house_location (postalcode, city, province_id, address, appartement_units)
-                               VALUES (@PostalCode, @City, @ProvinceId, @Address, @AppartementUnits)
+            var addHouseLocationQuery = $@"INSERT INTO public.house_location (postalcode, city, province_id, address, apartment_unit)
+                               VALUES (@PostalCode, @City, @ProvinceId, @Address, @ApartmentUnit)
                                RETURNING id;";
 
             var addHouseQuoteRequest = $@"INSERT INTO public.quote_request_house (user_id, house_type_id, house_location_id, listing, created_date, down_payment, offer, first_house, description, municipal_evaluation)
@@ -133,7 +133,7 @@ namespace Web.Api.Infrastructure.Repositories
                                     city AS {nameof(HouseLocation.City)},
                                     province_id AS {nameof(HouseLocation.ProvinceId)},
                                     address AS {nameof(HouseLocation.Address)},
-                                    appartement_units AS {nameof(HouseLocation.AppartementUnits)}
+                                    apartment_unit AS {nameof(HouseLocation.ApartmentUnit)}
                                   FROM public.house_location WHERE id=@houseLocationId";
 
             using (var conn = new NpgsqlConnection(_connectionString))

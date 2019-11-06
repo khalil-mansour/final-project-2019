@@ -22,8 +22,8 @@ namespace Web.Api.Models.Response
         [JsonProperty("address")]
         public string Address { get; set; }
 
-        [JsonProperty("appartement_units")]
-        public int AppartementUnits { get; set; }
+        [JsonProperty("apartment_unit")]
+        public string ApartmentUnit { get; set; }
 
         public HouseLocationResponse()
         {
@@ -39,7 +39,7 @@ namespace Web.Api.Models.Response
                 City = houseLocation.City,
                 ProvinceId = houseLocation.ProvinceId,
                 Address = houseLocation.Address,
-                AppartementUnits = houseLocation.AppartementUnits
+                ApartmentUnit = houseLocation.ApartmentUnit
             };
         }
     }
