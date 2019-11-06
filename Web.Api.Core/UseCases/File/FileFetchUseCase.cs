@@ -51,7 +51,8 @@ namespace Web.Api.Core.UseCases
 
         private string SignUrl(string storageId)
         {
-            UrlSigner urlSigner = UrlSigner.FromServiceAccountPath(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS"));
+            string key_path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\google_key.json"));
+            UrlSigner urlSigner = UrlSigner.FromServiceAccountPath(key_path);
             return urlSigner.Sign(_configuration.GetSection("BucketName").Value, storageId, TimeSpan.FromHours(1), HttpMethod.Get);
         }
     }
