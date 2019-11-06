@@ -11,6 +11,7 @@ using Web.Api.Core.Interfaces;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System;
 
 namespace Web.Api.Core.UnitTests
 {
@@ -18,6 +19,7 @@ namespace Web.Api.Core.UnitTests
     {
         // mocked data
         private readonly string userID = "5t5t";
+        private readonly string storageID = "0010-08-2019";
 
 
         [Fact]
@@ -26,15 +28,21 @@ namespace Web.Api.Core.UnitTests
             // given
 
             var mockConfiguration = new Mock<IConfiguration>();
-            mockConfiguration
-                .SetupGet(m => m[It.Is<string>(s => s == "BucketName")])
+            var mockConfigSection = new Mock<IConfigurationSection>();
+
+            mockConfigSection
+                .Setup(v => v.Value)
                 .Returns("app_document_bucket");
+
+            mockConfiguration
+                .Setup(k => k.GetSection("BucketName"))
+                .Returns(mockConfigSection.Object);
 
             var mockFileRepository = new Mock<IFileRepository>();
             mockFileRepository
                 .Setup(repo => repo.FetchAll(It.IsAny<string>()))
                 .Returns(Task.FromResult(
-                    new FileFetchAllRepoResponse(It.IsAny<IEnumerable<File>>(), true)));
+                    new FileFetchAllRepoResponse(new List<File> { new File(userID, 1, "mockFileName", storageID, DateTime.Now, true) }, true)));
 
             var useCase = new FileFetchAllUseCase(mockConfiguration.Object, mockFileRepository.Object);
 

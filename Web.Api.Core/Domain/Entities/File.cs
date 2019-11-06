@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Web.Api.Core.UnitTests")]
 namespace Web.Api.Core.Domain.Entities
 {
     public class File

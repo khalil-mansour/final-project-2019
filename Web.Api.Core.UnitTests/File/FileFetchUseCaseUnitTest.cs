@@ -10,14 +10,15 @@ using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Web.Api.Core.UnitTests
 {
     public class FileFetchUseCaseUnitTest
     {
         // mocked data
-        private readonly string storageID = "f4f4f";
-
+        private readonly string storageID = "f4f4f";       
+        
         [Fact]
         public async void Should_FetchFile_When_GET()
         {
@@ -37,7 +38,8 @@ namespace Web.Api.Core.UnitTests
             var mockFileRepository = new Mock<IFileRepository>();
             mockFileRepository
                 .Setup(repo => repo.Fetch(It.IsAny<string>()))
-                .Returns(Task.FromResult(new FileFetchRepoResponse(It.IsAny<File>(), true)));
+                // returns specific file
+                .Returns(Task.FromResult(new FileFetchRepoResponse(new File("mockId", 1, "mockFileName", storageID, DateTime.Now, true), true)));
 
             var useCase = new FileFetchUseCase(mockConfiguration.Object, mockFileRepository.Object);
 
