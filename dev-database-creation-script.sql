@@ -230,8 +230,9 @@ INSERT INTO province(id, name) VALUES (7, 'NS');
 INSERT INTO province(id, name) VALUES (8, 'NU');
 INSERT INTO province(id, name) VALUES (9, 'ON');
 INSERT INTO province(id, name) VALUES (10,'PE');
-INSERT INTO province(id, name) VALUES (11,'SK');
-INSERT INTO province(id, name) VALUES (12,'YT');
+INSERT INTO province(id, name) VALUES (11,'QC');
+INSERT INTO province(id, name) VALUES (12,'SK');
+INSERT INTO province(id, name) VALUES (13,'YT');
 
 
 INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
