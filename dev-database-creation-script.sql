@@ -211,8 +211,8 @@ CREATE TABLE quote_request_document (
       REFERENCES document (id) MATCH SIMPLE
 );
 
-INSERT INTO user_type(type) VALUES ('broker');
 INSERT INTO user_type(type) VALUES ('client');
+INSERT INTO user_type(type) VALUES ('broker');
 INSERT INTO document_type(type) VALUES ('required_doc1');
 INSERT INTO document_type(type) VALUES ('required_doc2');
 INSERT INTO document_type(type) VALUES ('required_doc3');
