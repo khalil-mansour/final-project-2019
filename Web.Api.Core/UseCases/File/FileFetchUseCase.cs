@@ -38,7 +38,7 @@ namespace Web.Api.Core.UseCases
             {
                 logger.Error(e, "Error signing the URL.");
                 outputPort.Handle(new FileFetchResponse(new Error(e.HResult.ToString(), "Failed to acquire signature for file.")));
-                return false;
+                return true;
             }
 
             outputPort.Handle(response.Success ? new FileFetchResponse(response.File, true) : new FileFetchResponse(new Error(response.Error.Code, "Error attempting to fetch a user.")));

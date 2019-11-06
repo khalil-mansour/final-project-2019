@@ -39,7 +39,7 @@ namespace Web.Api.Core.UseCases
             {
                 logger.Error(e, "Error signing the URLs.");
                 outputPort.Handle(new FileFetchAllResponse(new Error(e.HResult.ToString(), "Error signing the URLs.")));
-                return false;
+                return true;
             }
 
             outputPort.Handle(response.Success ? new FileFetchAllResponse(response.Files, true) : new FileFetchAllResponse(new Error(response.Error.Code, "Error attempting to fetch all user files.")));

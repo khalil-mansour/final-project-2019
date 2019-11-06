@@ -36,7 +36,7 @@ namespace Web.Api.Core.UseCases
             {
                 logger.Error(e, "Error uploading to GCLOUD.");
                 outputPort.Handle(new FileUploadResponse(new Error(e.HResult.ToString(), "Failed to upload file to the Google Cloud service.")));
-                return false;
+                return true;
             }
 
             var response = await _fileRepository.
