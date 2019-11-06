@@ -1,10 +1,7 @@
 ﻿using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.UseCaseRequests;
@@ -55,7 +52,7 @@ namespace Web.Api.Core.UseCases
 
         private string SignUrl(string storageId)
         {
-            string key_path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\google_key.json"));
+            string key_path = System.IO.Path.GetFullPath(System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\google_key.json"));
             UrlSigner urlSigner = UrlSigner.FromServiceAccountPath(key_path);
             return urlSigner.Sign(_configuration.GetSection("BucketName").Value, storageId, TimeSpan.FromHours(1), HttpMethod.Get);
         }
