@@ -131,6 +131,11 @@ CREATE TABLE quote_request_type_table (
 );
 
 
+CREATE TABLE city (
+	id serial PRIMARY KEY,
+	name varchar(200)
+);
+
 CREATE TABLE province (
 	id varchar(2) PRIMARY KEY,
 	description varchar(200)
@@ -145,13 +150,9 @@ CREATE TABLE house_location (
 	id serial PRIMARY KEY,
 	postalcode varchar(100) NOT NULL,
 	city varchar(100)  NOT NULL,
-	province_id varchar(2)  NOT NULL,
+	province varchar(100)  NOT NULL,
 	address varchar(100) NOT NULL,
 	appartement_units integer,
-
-	CONSTRAINT province_id_fkey FOREIGN KEY (province_id)
-      REFERENCES province (id) MATCH SIMPLE
-
 	
 );
 
@@ -222,17 +223,17 @@ INSERT INTO document_type(type) VALUES ('required_doc4');
 INSERT INTO document_type(type) VALUES ('general');
 INSERT INTO house_type(property_type) VALUES ('Condo');
 INSERT INTO house_type(property_type) VALUES ('maison bi générationnelle');
-INSERT INTO province(id, description) VALUES ('AB', 'alberta');
-INSERT INTO province(id, description) VALUES ('BC', 'colombie-britanique');
-INSERT INTO province(id, description) VALUES ('MB', 'Manitoba');
-INSERT INTO province(id, description) VALUES ('NB', 'Nou');
-INSERT INTO province(id, description) VALUES ('NL', 'okaya');
-INSERT INTO province(id, description) VALUES ('NT', 'yess');
-INSERT INTO province(id, description) VALUES ('NS', 'non svp');
-INSERT INTO province(id, description) VALUES ('NU', 'nullable');
-INSERT INTO province(id, description) VALUES ('ON', 'light on');
-INSERT INTO province(id, description) VALUES ('PE', 'pe que oui pe que non');
-INSERT INTO province(id, description) VALUES ('SK', 'birds fly in the sky');
-INSERT INTO province(id, description) VALUES ('YT', 'yeeett');
+INSERT INTO province(id, description) VALUES ('AB', "");
+INSERT INTO province(id, description) VALUES ('BC', "");
+INSERT INTO province(id, description) VALUES ('MB', "");
+INSERT INTO province(id, description) VALUES ('NB', "");
+INSERT INTO province(id, description) VALUES ('NL', "");
+INSERT INTO province(id, description) VALUES ('NT', "");
+INSERT INTO province(id, description) VALUES ('NS', "");
+INSERT INTO province(id, description) VALUES ('NU', "");
+INSERT INTO province(id, description) VALUES ('ON', "");
+INSERT INTO province(id, description) VALUES ('PE', "");
+INSERT INTO province(id, description) VALUES ('SK', "");
+INSERT INTO province(id, description) VALUES ('YT', "");
 INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
 INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc')

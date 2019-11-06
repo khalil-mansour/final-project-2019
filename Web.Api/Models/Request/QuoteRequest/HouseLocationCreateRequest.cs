@@ -15,8 +15,8 @@ namespace Web.Api.Models.Request
         [JsonProperty("city")]
         public string City  {get; set;}
 
-        [JsonProperty("province_id")]
-        public string ProvinceId { get; set; }
+        [JsonProperty("province")]
+        public string Province { get; set; }
 
         [JsonProperty("address")]
         public string Address { get; set; }
