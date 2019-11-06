@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Web.Api.Core.Interfaces;
+﻿using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseResponses
 {

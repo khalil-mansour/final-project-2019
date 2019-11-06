@@ -3,7 +3,6 @@ using System.Net;
 using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces;
 using Web.Api.Models.Response;
-using System.Linq;
 
 namespace Web.Api.Presenters
 {

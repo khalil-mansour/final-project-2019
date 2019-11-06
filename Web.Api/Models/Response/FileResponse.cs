@@ -21,7 +21,7 @@ namespace Web.Api.Models.Response
         [JsonProperty("created_date")]
         public DateTime CreatedDate { get; set; }
 
-        [JsonProperty("visiable")]
+        [JsonProperty("visible")]
         public bool Visible { get; set; }
 
         [JsonProperty("user_file_name")]
