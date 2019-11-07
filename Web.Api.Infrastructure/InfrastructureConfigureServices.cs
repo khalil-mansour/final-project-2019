@@ -12,6 +12,7 @@ namespace Web.Api.Infrastructure
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IFileRepository, FileRepository>();
             services.AddTransient<IQuoteRequestRepository, QuoteRequestRepository>();
+            services.AddTransient<IFinancialCapacityRepository, FinancialCapacityRepository>();
         }
     }
 }
