@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Web.Api.Models.Request;
 
 namespace Web.Api.Models.Request
 {
@@ -33,6 +29,9 @@ namespace Web.Api.Models.Request
 
         [JsonProperty("description")]
         public string Description { get; set; }
+
+        [JsonProperty("documents_id")]
+        public List<int> DocumentsId { get; set; }
 
         [JsonProperty("municipal_evaluation")]
         public string MunicipalEvaluationUrl { get; set; }

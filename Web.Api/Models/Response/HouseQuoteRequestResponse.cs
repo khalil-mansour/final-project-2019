@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
 
 namespace Web.Api.Models.Response
@@ -36,6 +35,9 @@ namespace Web.Api.Models.Response
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("documents_id")]
+        public List<int> DocumentsId { get; set; }
+
         [JsonProperty("municipal_evaluation")]
         public string MunicipalEvaluationUrl { get; set; }
 
@@ -56,6 +58,7 @@ namespace Web.Api.Models.Response
                 Offer = houseQuoteRequest.Offer,
                 FirstHouse = houseQuoteRequest.FirstHouse,
                 Description = houseQuoteRequest.Description,
+                DocumentsId = houseQuoteRequest.DocumentsId,
                 MunicipalEvaluationUrl = houseQuoteRequest.MunicipalEvaluationUrl
             };
             return JsonConvert.SerializeObject(response, Formatting.Indented);

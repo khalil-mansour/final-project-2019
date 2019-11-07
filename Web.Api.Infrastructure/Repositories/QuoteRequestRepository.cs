@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
@@ -34,6 +35,11 @@ namespace Web.Api.Infrastructure.Repositories
                                VALUES (@UserId, @HouseType, @HouseLocationId, @ListingPrice, @CreatedDate, @DownPayment, @Offer, @FirstHouse, @Description, @MunicipalEvaluationUrl)
                                RETURNING id;";
 
+            var addDocumentQuoteRequest = $@"INSERT INTO public.quote_request_document (quote_request_id, document_id)
+                                           VALUES (@QuoteId, @DocumentId);";
+                                                
+                                
+
 
             using (var conn = new NpgsqlConnection(_connectionString))
             {
@@ -56,6 +62,9 @@ namespace Web.Api.Infrastructure.Repositories
                             houseQuoteRequest.Description,
                             houseQuoteRequest.MunicipalEvaluationUrl
                         }).Single();
+
+
+                    houseQuoteRequest.DocumentsId.ForEach(x => conn.Execute(addDocumentQuoteRequest, new { QuoteID = quoteRequestId, DocumentId = x }));
 
                     transaction.Commit();
 
@@ -99,7 +108,6 @@ namespace Web.Api.Infrastructure.Repositories
                     return new HouseQuoteRequestGetAllRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
-        
         }
 
         private HouseQuoteRequest FindQuoteRequestById(int quoteRequestId)
@@ -120,8 +128,23 @@ namespace Web.Api.Infrastructure.Repositories
             using (var conn = new NpgsqlConnection(_connectionString))
             {
                 var houseQuoteRequest = conn.Query<HouseQuoteRequest>(select_query, new { quoteRequestId }).FirstOrDefault();
+                var quoteRequestDocuments = FindDocumentsIdFor(houseQuoteRequest.Id);
+                houseQuoteRequest.DocumentsId = quoteRequestDocuments.ToList();
                 houseQuoteRequest.HouseLocation = FindHouseLocationById(houseQuoteRequest.HouseLocationId);
                 return houseQuoteRequest;
+            }
+
+        }
+
+        private IEnumerable<int> FindDocumentsIdFor(int quoteRequestId )
+        {
+
+            var select_query = $@"SELECT document_id FROM public.quote_request_document WHERE quote_request_id = @quoteRequestId";
+
+            using (var conn = new NpgsqlConnection(_connectionString))
+            {
+                var documentsId = conn.Query<int>(select_query, new { quoteRequestId });
+                return documentsId;
             }
 
         }

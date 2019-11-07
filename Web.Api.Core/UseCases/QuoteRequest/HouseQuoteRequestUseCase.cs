@@ -32,6 +32,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
                 message.Offer,
                 message.FirstHouse, 
                 message.Description, 
+                message.DocumentsId,
                 message.MunicipalEvaluationUrl));
 
             outputPort.Handle(response.Success ? new HouseQuoteCreateResponse(response.HouseQuoteRequest, true, null) : new HouseQuoteCreateResponse(new[] { new Error("Action Failed", "Enable to create house quote request") }));

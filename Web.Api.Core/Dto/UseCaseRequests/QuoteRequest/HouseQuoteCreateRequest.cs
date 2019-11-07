@@ -25,9 +25,11 @@ namespace Web.Api.Core.Dto.UseCaseRequests.QuoteRequest
         public bool FirstHouse { get; }
         public string Description { get; }
 
+        public List<int> DocumentsId { get; }
+
         public string MunicipalEvaluationUrl { get; }
 
-        public HouseQuoteCreateRequest(string userId, int houseType, HouseLocationRequest houseLocationRequest, long listingPrice, long downPayment, long offer, bool firstHouse, string description, string municipalEvaluationUrl)
+        public HouseQuoteCreateRequest(string userId, int houseType, HouseLocationRequest houseLocationRequest, long listingPrice, long downPayment, long offer, bool firstHouse, string description, List<int> documentsId, string municipalEvaluationUrl)
         {
             UserId = userId;
             HouseType = houseType;
@@ -37,6 +39,7 @@ namespace Web.Api.Core.Dto.UseCaseRequests.QuoteRequest
             Offer = offer;
             FirstHouse = firstHouse;
             Description = description;
+            DocumentsId = documentsId;
             MunicipalEvaluationUrl = municipalEvaluationUrl;
         }
 

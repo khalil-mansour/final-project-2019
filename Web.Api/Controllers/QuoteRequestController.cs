@@ -40,6 +40,7 @@ namespace Web.Api.Controllers
                 request.Offer,
                 request.FirstHouse,
                 request.Description,
+                request.DocumentsId,
                 request.MunicipalEvaluationUrl),
                 _houseQuoteRequestPresenter);
 
