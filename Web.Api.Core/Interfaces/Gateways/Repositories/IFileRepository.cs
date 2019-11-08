@@ -9,5 +9,6 @@ namespace Web.Api.Core.Interfaces.Gateways.Repositories
         Task<FileUploadRepoResponse> Create(File file);
         Task<FileFetchRepoResponse> Fetch(string storageId);
         Task<FileFetchAllRepoResponse> FetchAll(string userId);
+        File GetFile(int fileId);
     }
 }

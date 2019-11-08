@@ -7,7 +7,7 @@ using Web.Api.Models.Response;
 
 namespace Web.Api.Presenters.QuoteRequest
 {
-    public class HouseQuoteRequestPresenter : IOutputPort<HouseQuoteCreateResponse>, IOutputPort<HouseQuoteGetAllRequestResponse>
+    public class HouseQuoteRequestPresenter : IOutputPort<HouseQuoteRequestGetDeailtResponse>, IOutputPort<HouseQuoteGetAllRequestResponse>, IOutputPort<HouseQuoteRequestGetDetailResponse>
 
     {
         public JsonContentResult ContentResult { get; }
@@ -17,7 +17,7 @@ namespace Web.Api.Presenters.QuoteRequest
             ContentResult = new JsonContentResult();
         }
 
-        public void Handle(HouseQuoteCreateResponse response)
+        public void Handle(HouseQuoteRequestGetDeailtResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
             ContentResult.Content = response.Success ? HouseQuoteRequestResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
@@ -27,6 +27,12 @@ namespace Web.Api.Presenters.QuoteRequest
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
             ContentResult.Content = response.Success ? HouseQuoteRequestResponse.ToJson(response.HouseQuoteRequests) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+        }
+
+        public void Handle(HouseQuoteRequestGetDetailResponse response)
+        {
+            ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+            ContentResult.Content = response.Success ? HouseQuoteRequestResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
     }
 }

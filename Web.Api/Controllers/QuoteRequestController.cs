@@ -13,11 +13,14 @@ namespace Web.Api.Controllers
     {
         private readonly IHouseQuoteRequestCreateUseCase _houseQuoteRequestCreateUseCase;
         private readonly IHouseQuoteRequestGetQuotesRequestUseCase _houseQuoteRequestGetQuotesRequestUseCase;
+        private readonly IHouseQuoteRequestGetDetailRequestUseCase _houseQuoteRequestGetDetailRequestUseCase;
         private readonly HouseQuoteRequestPresenter _houseQuoteRequestPresenter;
 
-        public QuoteRequestController(IHouseQuoteRequestCreateUseCase houseQuoteRequestCreateUseCase, IHouseQuoteRequestGetQuotesRequestUseCase houseQuoteRequestGetQuotesRequestUseCase, HouseQuoteRequestPresenter houseQuoteRequestPresenter) {
+        public QuoteRequestController(IHouseQuoteRequestCreateUseCase houseQuoteRequestCreateUseCase, IHouseQuoteRequestGetQuotesRequestUseCase houseQuoteRequestGetQuotesRequestUseCase, IHouseQuoteRequestGetDetailRequestUseCase houseQuoteRequestGetDetailRequestUseCase, HouseQuoteRequestPresenter houseQuoteRequestPresenter)
+        {
             _houseQuoteRequestCreateUseCase = houseQuoteRequestCreateUseCase;
             _houseQuoteRequestGetQuotesRequestUseCase = houseQuoteRequestGetQuotesRequestUseCase;
+            _houseQuoteRequestGetDetailRequestUseCase = houseQuoteRequestGetDetailRequestUseCase;
             _houseQuoteRequestPresenter = houseQuoteRequestPresenter;
         }
 
@@ -31,9 +34,9 @@ namespace Web.Api.Controllers
             }
 
             await _houseQuoteRequestCreateUseCase.Handle(
-                new HouseQuoteCreateRequest(request.UserId,request.HouseType,
+                new HouseQuoteCreateRequest(request.UserId, request.HouseType,
                 new HouseLocationRequest(request.Location.PostalCode
-                ,request.Location.City, request.Location.ProvinceId,
+                , request.Location.City, request.Location.ProvinceId,
                 request.Location.Address, request.Location.ApartmentUnit),
                 request.ListingPrice,
                 request.DownPayment,
@@ -44,6 +47,13 @@ namespace Web.Api.Controllers
                 request.MunicipalEvaluationUrl),
                 _houseQuoteRequestPresenter);
 
+            return _houseQuoteRequestPresenter.ContentResult;
+        }
+
+        [HttpGet("{QuoteId}")]
+        public async Task<ActionResult> GetQuoteRequestDetails(int quoteId) {
+
+            await _houseQuoteRequestGetDetailRequestUseCase.Handle(new HouseQuoteRequestGetDetailRequest(quoteId), _houseQuoteRequestPresenter);
             return _houseQuoteRequestPresenter.ContentResult;
         }
 

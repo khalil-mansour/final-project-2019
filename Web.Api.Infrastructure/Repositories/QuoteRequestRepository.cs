@@ -110,7 +110,13 @@ namespace Web.Api.Infrastructure.Repositories
             }
         }
 
-        private HouseQuoteRequest FindQuoteRequestById(int quoteRequestId)
+
+       public async Task<HouseQuoteRequestGetDetailResponse> GetDetailFor(int quoteRequestId)
+        {
+            return new HouseQuoteRequestGetDetailResponse(FindQuoteRequestById(quoteRequestId), true);
+        }
+
+        private HouseQuoteRequest  FindQuoteRequestById(int quoteRequestId)
         {
             var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
                                     user_id AS {nameof(HouseQuoteRequest.UserId)},
@@ -128,6 +134,7 @@ namespace Web.Api.Infrastructure.Repositories
             using (var conn = new NpgsqlConnection(_connectionString))
             {
                 var houseQuoteRequest = conn.Query<HouseQuoteRequest>(select_query, new { quoteRequestId }).FirstOrDefault();
+
                 var quoteRequestDocuments = FindDocumentsIdFor(houseQuoteRequest.Id);
                 houseQuoteRequest.DocumentsId = quoteRequestDocuments.ToList();
                 houseQuoteRequest.HouseLocation = FindHouseLocationById(houseQuoteRequest.HouseLocationId);
@@ -166,6 +173,5 @@ namespace Web.Api.Infrastructure.Repositories
             }
 
         }
-
     }
 }

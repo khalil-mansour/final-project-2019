@@ -30,6 +30,8 @@ namespace Web.Api.Core.Domain.Entities
 
         public List<int> DocumentsId { get; set; }
 
+        public List<File> Documents { get; set; }
+
         public string MunicipalEvaluationUrl { get; }
 
         public HouseQuoteRequest(string userId, int houseType, HouseLocation houseLocation, long listingPrice, DateTime createdDate, long downPayment, long offer, bool firstHouse, string description, List<int> documentsId, string municipalEvaluationUrl)

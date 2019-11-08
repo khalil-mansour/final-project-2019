@@ -11,6 +11,9 @@ namespace Web.Api.Models.Response
         [JsonProperty("id")]
         public int Id { get; set; }
 
+        [JsonProperty("user_id")]
+        public string UserId { get; set; }
+
         [JsonProperty("house_type_id")]
         public int HouseType { get; set; }
 
@@ -38,6 +41,9 @@ namespace Web.Api.Models.Response
         [JsonProperty("documents_id")]
         public List<int> DocumentsId { get; set; }
 
+        [JsonProperty("documents")]
+        public List<File> Documents { get; set; }
+
         [JsonProperty("municipal_evaluation")]
         public string MunicipalEvaluationUrl { get; set; }
 
@@ -50,12 +56,14 @@ namespace Web.Api.Models.Response
             var response = new HouseQuoteRequestResponse()
             {
                 Id = houseQuoteRequest.Id,
+                UserId = houseQuoteRequest.UserId,
                 HouseType = houseQuoteRequest.HouseType,
                 HouseLocation = HouseLocationResponse.MapProperty(houseQuoteRequest.HouseLocation),
                 ListingPrice = houseQuoteRequest.ListingPrice,
                 CreatedDate = houseQuoteRequest.CreatedDate,
                 DownPayment = houseQuoteRequest.DownPayment,
                 Offer = houseQuoteRequest.Offer,
+                Documents = houseQuoteRequest.Documents,
                 FirstHouse = houseQuoteRequest.FirstHouse,
                 Description = houseQuoteRequest.Description,
                 DocumentsId = houseQuoteRequest.DocumentsId,
@@ -70,12 +78,14 @@ namespace Web.Api.Models.Response
                 new HouseQuoteRequestResponse
                 {
                     Id = x.Id,
+                    UserId = x.UserId,
                     HouseType = x.HouseType,
                     HouseLocation = HouseLocationResponse.MapProperty(x.HouseLocation),
                     ListingPrice = x.ListingPrice,
                     DownPayment = x.DownPayment,
                     Offer = x.Offer,
                     FirstHouse = x.FirstHouse,
+                    Documents = x.Documents,
                     Description = x.Description,
                     MunicipalEvaluationUrl = x.MunicipalEvaluationUrl
 

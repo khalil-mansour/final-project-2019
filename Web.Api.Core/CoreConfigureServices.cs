@@ -17,6 +17,7 @@ namespace Web.Api.Core
             services.AddTransient<IFileFetchAllUseCase, FileFetchAllUseCase>();
             services.AddTransient<IHouseQuoteRequestCreateUseCase, HouseQuoteRequestUseCase>();
             services.AddTransient<IHouseQuoteRequestGetQuotesRequestUseCase, HouseQuoteGetAllRequestUseCase>();
+            services.AddTransient<IHouseQuoteRequestGetDetailRequestUseCase, HouseQuoteRequestGetDetailUseCase>();
             services.AddTransient<IFinancialCapacityFindUseCase, FindFinancialCapacityUseCase>();
             services.AddTransient<IFinancialCapacityRegisterUseCase, RegisterFinancialCapacityUseCase>();
         }

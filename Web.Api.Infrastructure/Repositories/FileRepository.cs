@@ -111,5 +111,32 @@ namespace Web.Api.Infrastructure.Repositories
                 }
             }
         }
+
+        public File GetFile(int id)
+        {
+            var connectionString = _configuration.GetSection("ConnectionString").Value;
+
+            var select_query = $@"SELECT 
+                                  user_id as { nameof(File.UserId) },
+                                  document_type_id as { nameof(File.DocumentType) },
+                                  user_file_name as { nameof(File.FileName) },
+                                  storage_file_id as { nameof(File.StorageId) },
+                                  created_date as { nameof(File.CreatedDate) },
+                                  visible as { nameof(File.Visible) }
+                                  FROM public.document
+                                  WHERE id = @id";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                try
+                {
+                    return conn.Query<File>(select_query, new { id }).FirstOrDefault();
+                }
+                catch (NpgsqlException e)
+                {
+                    throw (e);
+                }
+            }
+        }
     }
 }
