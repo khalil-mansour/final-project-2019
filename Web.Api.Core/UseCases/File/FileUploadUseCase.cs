@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
 using Web.Api.Core.Dto;
@@ -49,11 +50,11 @@ namespace Web.Api.Core.UseCases
                     message.Visible
                     ));
 
-            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(new Error(response.Error.Code, "Error attempting to upload file.")));
+            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(new Error("Action Failed", "Error attempting to upload file.")));
 
             // logging
             if (!response.Success)
-                logger.Error(response.Error.Description);
+                logger.Error(response.Errors.First()?.Description);
 
             return response.Success;
         }

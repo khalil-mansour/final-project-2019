@@ -5,6 +5,8 @@ using Web.Api.Core.Dto.UseCaseRequests;
 using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces;
 using Web.Api.Core.Dto;
+using System.Linq;
+
 namespace Web.Api.Core.UseCases
 {
     public sealed class UserLoginUseCase : IUserLoginUseCase
@@ -24,10 +26,10 @@ namespace Web.Api.Core.UseCases
             // confirm user exists with ID
             var response = await _userRepository.FindById(message.ID);
 
-            outputPort.Handle(response.Success ? new UserLoginResponse(response.User, false, null) : new UserLoginResponse(new Error(response.Error.Code, "Invalid credentials.")));
+            outputPort.Handle(response.Success ? new UserLoginResponse(response.User, true, null) : new UserLoginResponse(new[] { new Error("login_failure", "Invalid credentials.") }));
 
             if (!response.Success)
-                logger.Error(response.Error.Description);
+                logger.Error(response.Errors.First()?.Description);
 
             return response.Success;
 

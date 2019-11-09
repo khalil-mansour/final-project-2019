@@ -22,7 +22,7 @@ namespace Web.Api.Core.UseCases
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(UserRegisterRequest message, IOutputPort<UserRegisterResponse> outputPort)
+        public async Task<bool> Handle(UserRegisterRequest message, IOutputPort<UserRegisterRepoResponse> outputPort)
         {
             var response = await _userRepository.
                 Create(new User(
@@ -35,10 +35,10 @@ namespace Web.Api.Core.UseCases
                     message?.PostalCode,
                     message?.Province));
 
-            outputPort.Handle(response.Success ? new UserRegisterResponse(response.User, true) : new UserRegisterResponse(new Error(response.Error.Code, "Error attempting to register a new User.")));
+            outputPort.Handle(response.Success ? new UserRegisterRepoResponse(response.User, true) : new UserRegisterRepoResponse(response.Errors));
 
             if (!response.Success)
-                logger.Error(response.Error.Description);
+                logger.Error(response.Errors.First()?.Description);
 
             return response.Success;
         }

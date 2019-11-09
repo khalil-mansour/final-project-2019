@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Web.Api.Core.Dto;
@@ -37,14 +38,14 @@ namespace Web.Api.Core.UseCases
             catch (Exception e)
             {
                 logger.Error(e, "Error signing the URL.");
-                outputPort.Handle(new FileFetchResponse(new Error(e.HResult.ToString(), "Failed to acquire signature for file.")));
+                outputPort.Handle(new FileFetchResponse(new[] { new Error(e.HResult.ToString(), "Failed to acquire signature for file.") }));
                 return true;
             }
 
-            outputPort.Handle(response.Success ? new FileFetchResponse(response.File, true) : new FileFetchResponse(new Error(response.Error.Code, "Error attempting to fetch a user.")));
+            outputPort.Handle(response.Success ? new FileFetchResponse(response.File, true) : new FileFetchResponse(new[] { new Error("Ation Failed", "Error attempting to fetch a user.") }));
 
             if (!response.Success)
-                logger.Error(response.Error.Description);
+                logger.Error(response.Errors.First()?.Description);
 
             return response.Success;
         }

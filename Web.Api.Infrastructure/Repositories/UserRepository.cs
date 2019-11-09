@@ -1,14 +1,14 @@
-﻿using Npgsql;
+﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Web.Api.Core.Domain.Entities;
+using Web.Api.Core.Interfaces.Gateways.Repositories;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 using Dapper;
 using System.Linq;
 using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Web.Api.Core.Domain.Entities;
-using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.GatewayResponses.Repositories;
-using Web.Api.Core.Interfaces.Gateways.Repositories;
+using Web.Api.Core.Dto;
 
 [assembly: InternalsVisibleTo("Web.Api.Core.UnitTests")]
 namespace Web.Api.Infrastructure.Repositories
@@ -16,28 +16,31 @@ namespace Web.Api.Infrastructure.Repositories
     internal sealed class UserRepository : IUserRepository
     {
         private IConfiguration _configuration;
+        private string _connectionString;
         public UserRepository(IConfiguration configuration)
         {
             _configuration = configuration;
+            _connectionString = _configuration.GetSection("ConnectionString").Value;
         }
 
         public async Task<UserLoginRepoResponse> FindById(string id)
         {
-            var connectionString = _configuration.GetSection("ConnectionString").Value;
-
-            var select_query = $@"SELECT * FROM public.users WHERE id=@id";
-
-            using (var conn = new NpgsqlConnection(connectionString))
+            try
             {
-                try
+                var returnedUser = new UserLoginRepoResponse(FindUserById(id), true);
+                if (returnedUser.User == null)
                 {
-                    return new UserLoginRepoResponse(conn.Query<User>(select_query, id).FirstOrDefault(), true);
+                    return new UserLoginRepoResponse(null, false, new[] { new Error("auth/user-not-found", "user not found") });
                 }
-                catch (NpgsqlException e)
-                {
-                    return new UserLoginRepoResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
-                }
+
+                return returnedUser;
             }
+            catch (NpgsqlException e)
+            {
+                // return the response
+                return new UserLoginRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+            }
+
         }
 
         public async Task<UserRegisterRepoResponse> Create(User user)
@@ -47,7 +50,6 @@ namespace Web.Api.Infrastructure.Repositories
             var add_query = $@"INSERT INTO public.users (id, name, surname, email, user_type_id, phone, postalcode, province)
                                VALUES (@id, @firstname, @lastname, @email, @usertype, @phone, @postalcode, @province);";
 
-            var select_query = $@"SELECT * FROM public.users WHERE id=@id";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
@@ -57,13 +59,33 @@ namespace Web.Api.Infrastructure.Repositories
                     var success = Convert.ToBoolean(conn.Execute(add_query, user));
 
                     // return the response
-                    return new UserRegisterRepoResponse(conn.Query<User>(select_query, new { user.Id }).FirstOrDefault(), success);
+                    return new UserRegisterRepoResponse(FindUserById(user.Id), success);
                 }
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new UserRegisterRepoResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                    return new UserRegisterRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
+            }
+        }
+
+        private User FindUserById(string id)
+        {
+
+            var select_query = $@"SELECT id AS {nameof(User.Id)},
+                                    surname AS {nameof(User.FirstName)},
+                                    name AS {nameof(User.LastName)},
+                                    email AS {nameof(User.Email)},
+                                    user_type_id AS {nameof(User.UserType)},
+                                    phone AS {nameof(User.Phone)},
+                                    postalcode AS {nameof(User.PostalCode)},
+                                    province AS {nameof(User.Province)}
+                                  FROM public.users WHERE id=@id";
+
+            using (var conn = new NpgsqlConnection(_connectionString))
+            {
+                var query = conn.Query<User>(select_query, new { id }).FirstOrDefault();
+                return query;
             }
         }
     }

@@ -43,14 +43,18 @@ namespace Web.Api
                         ValidateLifetime = true
                     };
                 });
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             InfrastructureConfigureServices.MapInfrastructureServices(services);
             CoreConfigureServices.MapCoreServices(services);
 
             services.AddSingleton<UserRegisterPresenter>();
             services.AddSingleton<FileUploadPresenter>();
+            services.AddSingleton<UserLoginPresenter>();
             services.AddSingleton<FileFetchAllPresenter>();
             services.AddSingleton<FileFetchPresenter>();
+            services.AddSingleton<FinancialCapacityFindPresenter>();
+            services.AddSingleton<FinancialCapacityRegisterPresenter>();
 
             services.AddSwaggerGen(c =>
             {
@@ -97,6 +101,11 @@ namespace Web.Api
                 app.UseHsts();
             }
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
             //app.UseHttpsRedirection();
 
             // call the logger setup

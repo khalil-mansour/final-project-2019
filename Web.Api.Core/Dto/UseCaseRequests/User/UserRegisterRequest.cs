@@ -3,7 +3,7 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseRequests
 {
-    public class UserRegisterRequest : IUseCaseRequest<UserRegisterResponse>
+    public class UserRegisterRequest : IUseCaseRequest<UserRegisterRepoResponse>
     {
         public string Id { get; set; }
         public string FirstName { get; }

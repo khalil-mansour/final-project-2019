@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Web.Api.Core.Dto;
@@ -42,10 +43,10 @@ namespace Web.Api.Core.UseCases
                 return true;
             }
 
-            outputPort.Handle(response.Success ? new FileFetchAllResponse(response.Files, true) : new FileFetchAllResponse(new Error(response.Error.Code, "Error attempting to fetch all user files.")));
+            outputPort.Handle(response.Success ? new FileFetchAllResponse(response.Files, true) : new FileFetchAllResponse(new Error(response.Errors.First()?.Code, "Error attempting to fetch all user files.")));
 
             if (!response.Success)
-                logger.Error(response.Error.Description);
+                logger.Error(response.Errors.First().Description);
 
             return response.Success;
         }

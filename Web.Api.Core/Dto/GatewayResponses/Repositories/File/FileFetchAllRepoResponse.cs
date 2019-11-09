@@ -9,7 +9,7 @@ namespace Web.Api.Core.Dto.GatewayResponses.Repositories
     {
         public IEnumerable<File> Files { get; }
 
-        public FileFetchAllRepoResponse(IEnumerable<File> files = null, bool success = false, Error error = null) : base(success, error)
+        public FileFetchAllRepoResponse(IEnumerable<File> files = null, bool success = false, IEnumerable<Error> errors = null) : base(success, errors)
         {
             Files = files;
         }

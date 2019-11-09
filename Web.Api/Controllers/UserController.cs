@@ -13,12 +13,21 @@ namespace Web.Api.Controllers
     {
         private readonly IUserRegisterUseCase _userRegisterUseCase;
         private readonly UserRegisterPresenter _userRegisterPresenter;
+        private readonly IUserLoginUseCase _userLoginUseCase;
+        private readonly UserLoginPresenter _userLoginPresenter;
 
 
-        public UserController(IUserRegisterUseCase userRegisterUseCase, UserRegisterPresenter userRegisterPresenter)
+        public UserController(
+            IUserRegisterUseCase userRegisterUseCase,
+            UserRegisterPresenter userRegisterPresenter,
+            IUserLoginUseCase userLoginUseCase, 
+            UserLoginPresenter userLoginPresenter)
         {
             _userRegisterUseCase = userRegisterUseCase;
             _userRegisterPresenter = userRegisterPresenter;
+            _userLoginPresenter = userLoginPresenter;
+            _userLoginUseCase = userLoginUseCase;
+
         }
 
         [HttpPost]
@@ -31,28 +40,16 @@ namespace Web.Api.Controllers
             await _userRegisterUseCase.Handle(new UserRegisterRequest(request.Id, request.FirstName, request.LastName, request.Email, request.UserType, request?.Phone, request?.PostalCode, request?.Province), _userRegisterPresenter);
             return _userRegisterPresenter.ContentResult;
         }
-        /*
-        // GET : api/user/fetchall/
-        [HttpGet("fetchall")]
-        public async Task<ActionResult> GetAllUsers([FromRoute] Models.Request.UserFetchAllRequest)
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] Models.Request.UserLoginRequest request)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
-
-            await _userFetchAllUseCase.Handle(new UserFetchAllRequest(request), _userFetchAllPresenter);
-            return _fileFetchAllPresenter.ContentResult;
+            }
+            await _userLoginUseCase.Handle(new UserLoginRequest(request.Id), _userLoginPresenter);
+            return _userLoginPresenter.ContentResult;
         }
-
-        // GET : api/user/fetch/
-        [HttpGet("fetch/{userId}")]
-        public async Task<ActionResult> GetUser([FromRoute] Models.Request.UserFetchRequest request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            await _userFetchUseCase.Handle(new UserFetchRequest(request), _userFetchPresenter);
-            return _fileFetchPresenter.ContentResult;
-        }
-        */
     }
 }

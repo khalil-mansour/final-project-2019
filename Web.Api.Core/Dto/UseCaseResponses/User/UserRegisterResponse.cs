@@ -4,17 +4,17 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseResponses
 {
-    public class UserRegisterResponse : UseCaseResponseMessage
+    public class UserRegisterRepoResponse : UseCaseResponseMessage
     {
         public User User { get; }
-        public Error Error { get; }
+        public IEnumerable<Error> Errors { get; }
 
-        public UserRegisterResponse(Error error, bool success = false, string message = null) : base(success, message)
+        public UserRegisterRepoResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
         {
-            Error = error;
+            Errors = errors;
         }
 
-        public UserRegisterResponse(User user, bool success = false, string message = null) : base(success, message)
+        public UserRegisterRepoResponse(User user, bool success = false, string message = null) : base(success, message)
         {
             User = user;
         }

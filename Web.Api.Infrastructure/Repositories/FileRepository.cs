@@ -50,7 +50,7 @@ namespace Web.Api.Infrastructure.Repositories
                 }
                 catch (Exception e)
                 {
-                    return new FileUploadRepoResponse(null, false, new Error(e.HResult.ToString(), e.Message));
+                    return new FileUploadRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
 
             }
@@ -80,7 +80,7 @@ namespace Web.Api.Infrastructure.Repositories
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new FileFetchRepoResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                    return new FileFetchRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace Web.Api.Infrastructure.Repositories
                 catch (NpgsqlException e)
                 {
                     // return the response
-                    return new FileFetchAllRepoResponse(null, false, new Error(e.ErrorCode.ToString(), e.Message));
+                    return new FileFetchAllRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
                 }
             }
         }
