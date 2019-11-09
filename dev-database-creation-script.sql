@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS document CASCADE;
 DROP TABLE IF EXISTS document_type CASCADE;
 DROP TABLE IF EXISTS house_type CASCADE;
 DROP TABLE IF EXISTS quote_request_document CASCADE;
+DROP TABLE IF EXISTS financial_capacity CASCADE;
 
 CREATE TABLE user_type (
 	id serial PRIMARY KEY,
@@ -209,6 +210,20 @@ CREATE TABLE quote_request_document (
 	
 	CONSTRAINT document_id_fkey FOREIGN KEY (document_id)
       REFERENCES document (id) MATCH SIMPLE
+);
+
+CREATE TABLE financial_capacity
+(
+    uid character varying(200) NOT NULL PRIMARY KEY,
+    annualincome integer NOT NULL,
+    downpayment integer NOT NULL,
+    mensualdebt integer NOT NULL,
+    interestrate real NOT NULL,
+    municipaltaxes integer NOT NULL,
+    heatingcost integer NOT NULL,
+    condofee integer NOT NULL,
+    CONSTRAINT uid_fkey FOREIGN KEY (uid)
+      REFERENCES users (id) MATCH SIMPLE
 );
 
 INSERT INTO user_type(type) VALUES ('client');
