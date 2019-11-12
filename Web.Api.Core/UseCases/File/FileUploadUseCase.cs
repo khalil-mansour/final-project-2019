@@ -1,8 +1,10 @@
 ﻿using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
+using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
@@ -12,6 +14,8 @@ namespace Web.Api.Core.UseCases
 {
     public sealed class FileUploadUseCase : IFileUploadUseCase
     {
+        // logger
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private readonly IFileRepository _fileRepository;
         private readonly IConfiguration _configuration;
@@ -24,7 +28,17 @@ namespace Web.Api.Core.UseCases
 
         public async Task<bool> Handle(FileUploadRequest message, Interfaces.IOutputPort<FileUploadResponse> outputPort)
         {
-            var uploadedFileName = UploadFile(message);
+            string uploadedFileName;
+            try
+            {
+                uploadedFileName = UploadFile(message);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Error uploading to GCLOUD.");
+                outputPort.Handle(new FileUploadResponse(new Error(e.HResult.ToString(), "Failed to upload file to the Google Cloud service.")));
+                return true;
+            }
 
             var response = await _fileRepository.
                 Create(new File(
@@ -36,7 +50,12 @@ namespace Web.Api.Core.UseCases
                     message.Visible
                     ));
 
-            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(response.Errors));
+            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(new Error("Action Failed", "Error attempting to upload file.")));
+
+            // logging
+            if (!response.Success)
+                logger.Error(response.Errors.First()?.Description);
+
             return response.Success;
         }
 

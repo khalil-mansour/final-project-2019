@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "savvy-climber-252013",
+  "private_key_id": "41c2a7d29d9d83a6dd2bffd4b0d6066af0230747",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC5DEEmZ1dUdQ9o\nIfSrAH2YfE/JBM1a1TQrqOQ5SrHIs86mWEeufmlwvKEOGgT/LuVSBKAccVQOR3T2\nlbuxzBStwDuVpBUzbfqHFuqd4BIMtp84fetcjKYpJKbNJn7n7EPCEpkt9+icF0lK\nNs/kmCmYDceNcfmJ41012J/x5AoPbKGLdQGlarFGyAA+jrr7iimxaM7ZB5Ubb4JD\nTjSdpwBk4rhPQ8O/5LFxzSoL1XDAs4tkateTAM86hp+4L8yVbCe3yj+paeNRwQL+\nleJQ/EvKPfEOblGJdPQtaaQBc9EIAFhMBBO+fZKyouCgu+9nm6ff2ta1QrcE4y7j\nc3Zx7TuXAgMBAAECggEAEBqsatKwi3WajyXxXJZw173t1aE42/BVF32dywygl0Zq\ntBhXuKxgscKAw7DpAWpL48zqQD9uoMWAPNuAF7Oakxp5NQcwHycxl+MbLP0spPWZ\nurleq9HDvi3l5FG21qk9plym/xSlpjvykWZexlalvAlq9fjWzjS+zmpZVRxS8c+N\nBiYpyu4jig4+QeNziJr5KUriUAEYPQVB+9wALIYNrbG+RbRYl6TKW3lginbWswr6\nyl0lg9t08Jadhb0jqrxgXztOnzMErK8om9qzITeZT0J6dN5IrTFqMVrp6kSXZVGe\nFfVS/tgF6WdPaTqW35inhsz7kwp2+3FdkOswq17kBQKBgQDdB80nHbW4ScRpTdkM\nQyBOUZJ8h7bXLJMKeipKTcKaNkiob1NJ1xiV1nm6wwHRL6fDQQ5T+KQIs906B7Fy\nwAanE/Esm7YqxehYCpcMtVIzJewvvlaeeC2/i17SgfPIgSA0Xwlwen0dH3ejK5C7\nRdM/TEVuaepeN4gZdAsxSWMh/QKBgQDWUxT+UkwUEUoLaQOJ3hJMHOO8xEqxrKJM\nEA8QmP/KzW4N1bkHvtuX0DZICjfGthzeLv1GLZXmgR2wRZ2jyWkLJkChSvxfWetq\nnDtidcV/RvI7Ec3iccD15PuoWmFTJtgWerTjk/DOM/scCg0mEyBxwed8FmEe7W7J\nqDKKB/7OIwKBgEj3YVdvbGUJHSjyRRvSMSEJtsUbfFWuZmBIEhvzbbHBB91q2uD+\nfCRC6G6qH7hx9fz0RgmchHJHBlo43fCWydtwLubeBJY8PUaLQHA2j4tJEp50RF4O\nKHQaS1RNCDCByCLh2Njj5tetYq5gHGhmVaWIxUb8+hzeUjSs5WEA7BP1AoGAX40W\n1POX23KB0mh1HWgWPDy9A5F3w5K1oLegH8Q2dhH0ONLJ9TwP5rT7Hk7/4uWaJSxJ\n2pnENMnnlIjU6QqIfGIHemFV9qS+If+ZMiJTdJUKtW8QnR4d6wK1d68jqNCukgcO\n0k9IkoX2M9//ULRCSLUsINRRZFpyhBEqxwMdhIUCgYEAptmEY2oeXG4NInDVeqB5\nplRPpiKOaWUEXqI2xAJCHNENoJ2jfX7A1+69Mv8J3D5t3WINHr4wxknpRCezDBY/\nWvDil1HXO/e1h29lEsSFrCruLIzvsh+D0WMpntI6PElZGzjpJSqNUrJ+UW4sEXIa\n8F1kFQmtVwMkAr7E5VWvHUE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "gcloud-storage-admin@savvy-climber-252013.iam.gserviceaccount.com",
+  "client_id": "114710607880396738077",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gcloud-storage-admin%40savvy-climber-252013.iam.gserviceaccount.com"
+}

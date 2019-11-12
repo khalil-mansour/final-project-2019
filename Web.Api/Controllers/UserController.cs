@@ -30,27 +30,6 @@ namespace Web.Api.Controllers
 
         }
 
-
-        /// <summary>
-        /// Creates the client.
-        /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     POST
-        ///     {
-        ///        "id": 14423,
-        ///        "firstname": "lala",
-        ///        "lastname": "vboub",
-        ///        "email": "dsadsa",
-        ///        "user_type_id": 1"id": 1,
-        ///     }
-        ///
-        /// </remarks>
-        /// <param></param>
-        /// <returns>A newly created user</returns>
-        /// <response code="201">Returns the newly created item</response>
-        /// <response code="400">If the item is null</response>    
         [HttpPost]
         public async Task<ActionResult> Register([FromBody] Models.Request.UserRegisterRequest request)
         {
@@ -72,6 +51,5 @@ namespace Web.Api.Controllers
             await _userLoginUseCase.Handle(new UserLoginRequest(request.Id), _userLoginPresenter);
             return _userLoginPresenter.ContentResult;
         }
-
     }
 }

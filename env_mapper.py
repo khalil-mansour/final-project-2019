@@ -22,6 +22,7 @@ def post_json(path, datastore):
 	with open(path, "w") as f:
 		json.dump(datastore, f, indent=4)
 
+
 def main():
 	parser = configparser.ConfigParser()
 	parser.read('config.ini')

@@ -9,11 +9,11 @@ namespace Web.Api.Core.Dto.UseCaseResponses
     public class FileFetchAllResponse : UseCaseResponseMessage
     {
         public IEnumerable<File> Files { get; }
-        public IEnumerable<Error> Errors { get; }
+        public Error Error { get; }
 
-        public FileFetchAllResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
+        public FileFetchAllResponse(Error error, bool success = false, string message = null) : base(success, message)
         {
-            Errors = errors;
+            Error = error;
         }
 
         public FileFetchAllResponse(IEnumerable<File> files, bool success = false, string message = null) : base(success, message)

@@ -8,6 +8,7 @@ using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.GatewayResponses.Repositories;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
 using System.Linq;
+using Google.Cloud.Storage.V1;
 
 namespace Web.Api.Infrastructure.Repositories
 {
@@ -42,15 +43,16 @@ namespace Web.Api.Infrastructure.Repositories
                 {
                     // add user
                     var success = Convert.ToBoolean(conn.Execute(add_query, file));
-
+                    // get added user
+                    var response = conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault();
                     // return the response
-                    return new FileUploadRepoResponse(conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault(), success);
+                    return new FileUploadRepoResponse(response, success);
                 }
-                catch (NpgsqlException e)
+                catch (Exception e)
                 {
-                    // return the response
-                    return new FileUploadRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new FileUploadRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
+
             }
         }
 
