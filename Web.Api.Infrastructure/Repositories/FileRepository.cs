@@ -61,6 +61,7 @@ namespace Web.Api.Infrastructure.Repositories
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
             var select_query = $@"SELECT 
+                                  id as { nameof(File.Id) },
                                   user_id as { nameof(File.UserId) },
                                   document_type_id as { nameof(File.DocumentType) },
                                   user_file_name as { nameof(File.FileName) },
@@ -90,6 +91,7 @@ namespace Web.Api.Infrastructure.Repositories
             var connectionString = _configuration.GetSection("ConnectionString").Value;
 
             var select_all_query = $@"SELECT 
+                                  id as { nameof(File.Id) },
                                   user_id as { nameof(File.UserId) },
                                   document_type_id as { nameof(File.DocumentType) },
                                   user_file_name as { nameof(File.FileName) },

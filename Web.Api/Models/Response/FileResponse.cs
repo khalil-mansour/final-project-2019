@@ -9,6 +9,9 @@ namespace Web.Api.Models.Response
 {
     public class FileResponse
     {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
         [JsonProperty("uid")]
         public string UserId { get; set; }
 
@@ -31,13 +34,16 @@ namespace Web.Api.Models.Response
 
         public static string ToJson(File file)
         {
-            var response = new FileResponse();
-            response.UserId = file.UserId;
-            response.FileName = file.FileName;
-            response.StorageId = file.StorageId;
-            response.Visible = file.Visible;
-            response.CreatedDate = file.CreatedDate;
-            response.DocumentType = file.DocumentType;
+            var response = new FileResponse
+            {
+                Id = file.Id,
+                UserId = file.UserId,
+                FileName = file.FileName,
+                StorageId = file.StorageId,
+                Visible = file.Visible,
+                CreatedDate = file.CreatedDate,
+                DocumentType = file.DocumentType
+            };
 
             return JsonConvert.SerializeObject(response);
         }
@@ -48,13 +54,16 @@ namespace Web.Api.Models.Response
 
             foreach (File file in files)
             {
-                var response = new FileResponse();
-                response.UserId = file.UserId;
-                response.FileName = file.FileName;
-                response.StorageId = file.StorageId;
-                response.Visible = file.Visible;
-                response.CreatedDate = file.CreatedDate;
-                response.DocumentType = file.DocumentType;
+                var response = new FileResponse
+                {
+                    Id = file.Id,
+                    UserId = file.UserId,
+                    FileName = file.FileName,
+                    StorageId = file.StorageId,
+                    Visible = file.Visible,
+                    CreatedDate = file.CreatedDate,
+                    DocumentType = file.DocumentType
+                };
 
                 responses.Add(response);
             }
