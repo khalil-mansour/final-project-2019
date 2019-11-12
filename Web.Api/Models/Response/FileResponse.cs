@@ -77,6 +77,7 @@ namespace Web.Api.Models.Response
             {
                 files.ForEach(x => response.Add(new FileResponse()
                 {
+                    Id = x.Id,
                     UserId = x.UserId,
                     FileName = x.FileName,
                     StorageId = x.StorageId,

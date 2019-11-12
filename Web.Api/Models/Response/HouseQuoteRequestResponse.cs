@@ -38,9 +38,6 @@ namespace Web.Api.Models.Response
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("documents_id")]
-        public List<int> DocumentsId { get; set; }
-
         [JsonProperty("documents")]
         public List<FileResponse> Documents { get; set; }
 
@@ -67,7 +64,6 @@ namespace Web.Api.Models.Response
                 Documents = FileResponse.MapFilesToFileResponse(houseQuoteRequest.Documents),
                 FirstHouse = houseQuoteRequest.FirstHouse,
                 Description = houseQuoteRequest.Description,
-                DocumentsId = houseQuoteRequest.DocumentsId,
                 MunicipalEvaluationUrl = houseQuoteRequest.MunicipalEvaluationUrl
             };
             return JsonConvert.SerializeObject(response, Formatting.Indented);
@@ -85,7 +81,6 @@ namespace Web.Api.Models.Response
                     ListingPrice = x.ListingPrice,
                     DownPayment = x.DownPayment,
                     Offer = x.Offer,
-                    DocumentsId = x.DocumentsId,
                     FirstHouse = x.FirstHouse,
                     Description = x.Description,
                     MunicipalEvaluationUrl = x.MunicipalEvaluationUrl
