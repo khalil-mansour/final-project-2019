@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
 
 namespace Web.Api.Models.Response
@@ -61,6 +60,28 @@ namespace Web.Api.Models.Response
 
             return JsonConvert.SerializeObject(responses);
         }
+
+        public static List<FileResponse> MapFilesToFileResponse(List<File> files)
+        {   
+            var response = new List<FileResponse>();
+            if (files != null)
+            {
+                files.ForEach(x => response.Add(new FileResponse()
+                {
+                    UserId = x.UserId,
+                    FileName = x.FileName,
+                    StorageId = x.StorageId,
+                    Visible = x.Visible,
+                    CreatedDate = x.CreatedDate,
+                    DocumentType = x.DocumentType
+
+                }));
+            }
+
+            return response;
+
+        }
+
 
     }
 }
