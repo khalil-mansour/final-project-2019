@@ -30,6 +30,10 @@ namespace Web.Api.Models.Response
         [JsonProperty("user_file_name")]
         public string FileName { get; set; }
 
+        [JsonProperty("signed_url")]
+        public string SignedUrl { get; set; }
+
+
         public FileResponse() { }
 
         public static string ToJson(File file)
@@ -42,7 +46,8 @@ namespace Web.Api.Models.Response
                 StorageId = file.StorageId,
                 Visible = file.Visible,
                 CreatedDate = file.CreatedDate,
-                DocumentType = file.DocumentType
+                DocumentType = file.DocumentType,
+                SignedUrl = file.Url
             };
 
             return JsonConvert.SerializeObject(response);
@@ -62,7 +67,8 @@ namespace Web.Api.Models.Response
                     StorageId = file.StorageId,
                     Visible = file.Visible,
                     CreatedDate = file.CreatedDate,
-                    DocumentType = file.DocumentType
+                    DocumentType = file.DocumentType,
+                    SignedUrl = file.Url
                 };
 
                 responses.Add(response);

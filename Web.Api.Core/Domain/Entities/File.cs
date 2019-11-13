@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Web.Api.Core.UnitTests")]

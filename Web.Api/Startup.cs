@@ -13,6 +13,7 @@ using System.Reflection;
 using Web.Api.Core;
 using Web.Api.Infrastructure;
 using Web.Api.Presenters;
+using Web.Api.Presenters.File;
 
 namespace Web.Api
 {
@@ -53,6 +54,7 @@ namespace Web.Api
             services.AddSingleton<UserLoginPresenter>();
             services.AddSingleton<FileFetchAllPresenter>();
             services.AddSingleton<FileFetchPresenter>();
+            services.AddSingleton<FileDeletePresenter>();
             services.AddSingleton<FinancialCapacityFindPresenter>();
             services.AddSingleton<FinancialCapacityRegisterPresenter>();
 
