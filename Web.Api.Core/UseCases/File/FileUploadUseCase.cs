@@ -50,7 +50,7 @@ namespace Web.Api.Core.UseCases
                     message.Visible
                     ));
 
-            outputPort.Handle(response.Success ? new FileUploadResponse(uploadedFileName, true) : new FileUploadResponse(new Error("Action Failed", "Error attempting to upload file.")));
+            outputPort.Handle(response.Success ? new FileUploadResponse(response.File, true) : new FileUploadResponse(new Error("Action Failed", "Error attempting to upload file.")));
 
             // logging
             if (!response.Success)
