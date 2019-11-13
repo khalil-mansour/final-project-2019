@@ -50,7 +50,7 @@ namespace Web.Api.Controllers
             return _houseQuoteRequestPresenter.ContentResult;
         }
 
-        [HttpGet("{QuoteId}")]
+        [HttpGet("{quoteId}")]
         public async Task<ActionResult> GetQuoteRequestDetails(int quoteId) {
 
             await _houseQuoteRequestGetDetailRequestUseCase.Handle(new HouseQuoteRequestGetDetailRequest(quoteId), _houseQuoteRequestPresenter);

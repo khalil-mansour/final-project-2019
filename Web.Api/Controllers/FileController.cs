@@ -36,7 +36,7 @@ namespace Web.Api.Controllers
         }
 
         // GET: api/file/fetchall/userId
-        [HttpGet("fetchall/{userId}")]
+        [HttpGet("fetchall/{UserId}")]
         // Authorize
         public async Task<ActionResult> GetAllUserFiles([FromRoute] Models.Request.FileFetchAllRequest request)
         {
@@ -48,7 +48,7 @@ namespace Web.Api.Controllers
         }
 
         // GET: api/file/fetch/storageId
-        [HttpGet("fetch/{storageId}")]
+        [HttpGet("fetch/{StorageId}")]
         // Authorize
         public async Task<ActionResult> GetSingleFile([FromRoute] Models.Request.FileFetchRequest request)
         {
