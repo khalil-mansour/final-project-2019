@@ -27,7 +27,8 @@ namespace Web.Api.Infrastructure.Repositories
             var add_query = $@"INSERT INTO public.document (user_id, document_type_id, user_file_name, storage_file_id, created_date, visible)
                                VALUES (@userid, @documenttype, @filename, @storageid, @createddate, @visible);";
 
-            var select_query = $@"SELECT 
+            var select_query = $@"SELECT
+                                  id as { nameof(File.Id) },
                                   user_id as { nameof(File.UserId) },
                                   document_type_id as { nameof(File.DocumentType) },
                                   user_file_name as { nameof(File.FileName) },
