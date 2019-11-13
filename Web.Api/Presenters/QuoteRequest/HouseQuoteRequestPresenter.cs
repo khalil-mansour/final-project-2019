@@ -7,7 +7,7 @@ using Web.Api.Models.Response;
 
 namespace Web.Api.Presenters.QuoteRequest
 {
-    public class HouseQuoteRequestPresenter : IOutputPort<HouseQuoteRequestGetDeailtResponse>, IOutputPort<HouseQuoteGetAllRequestResponse>, IOutputPort<HouseQuoteRequestGetDetailResponse>
+    public class HouseQuoteRequestPresenter : IOutputPort<HouseQuoteCreateResponse>, IOutputPort<HouseQuoteGetAllRequestResponse>, IOutputPort<HouseQuoteRequestGetDetailResponse>
 
     {
         public JsonContentResult ContentResult { get; }
@@ -17,22 +17,22 @@ namespace Web.Api.Presenters.QuoteRequest
             ContentResult = new JsonContentResult();
         }
 
-        public void Handle(HouseQuoteRequestGetDeailtResponse response)
+        public void Handle(HouseQuoteCreateResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            ContentResult.Content = response.Success ? HouseQuoteRequestResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+            ContentResult.Content = response.Success ? HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
 
         public void Handle(HouseQuoteGetAllRequestResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            ContentResult.Content = response.Success ? HouseQuoteRequestResponse.ToJson(response.HouseQuoteRequests) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+            ContentResult.Content = response.Success ? HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequests) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
 
         public void Handle(HouseQuoteRequestGetDetailResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            ContentResult.Content = response.Success ? HouseQuoteRequestResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+            ContentResult.Content = response.Success ? HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
     }
 }

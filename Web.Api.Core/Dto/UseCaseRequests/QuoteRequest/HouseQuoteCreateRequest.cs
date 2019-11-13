@@ -6,7 +6,7 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseRequests.QuoteRequest
 {
-    public class HouseQuoteCreateRequest : IUseCaseRequest<HouseQuoteRequestGetDeailtResponse>
+    public class HouseQuoteCreateRequest : IUseCaseRequest<HouseQuoteCreateResponse>
 
     {
 

@@ -10,14 +10,14 @@ using Web.Api.Core.Interfaces.UseCases;
 
 namespace Web.Api.Core.UseCases.QuoteRequest
 {
-    public sealed class HouseQuoteRequestUseCase : IHouseQuoteRequestCreateUseCase
+    public sealed class HouseQuoteRequestCreateUseCase : IHouseQuoteRequestCreateUseCase
     {
         private readonly IQuoteRequestRepository _quoteRequestRepository;
-        public HouseQuoteRequestUseCase(IQuoteRequestRepository quoteRequestReposiroty) {
+        public HouseQuoteRequestCreateUseCase(IQuoteRequestRepository quoteRequestReposiroty) {
             _quoteRequestRepository = quoteRequestReposiroty;
         }
 
-        public async Task<bool> Handle(HouseQuoteCreateRequest message, IOutputPort<HouseQuoteRequestGetDeailtResponse> outputPort)
+        public async Task<bool> Handle(HouseQuoteCreateRequest message, IOutputPort<HouseQuoteCreateResponse> outputPort)
         {
             var response = await _quoteRequestRepository.Create(
                 new HouseQuoteRequest(message.UserId, message.HouseType,
@@ -35,7 +35,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
                 message.DocumentsId,
                 message.MunicipalEvaluationUrl));
 
-            outputPort.Handle(response.Success ? new HouseQuoteRequestGetDeailtResponse(response.HouseQuoteRequest, true, null) : new HouseQuoteRequestGetDeailtResponse(new[] { new Error("Action Failed", "Enable to create house quote request") }));
+            outputPort.Handle(response.Success ? new HouseQuoteCreateResponse(response.HouseQuoteRequest, true, null) : new HouseQuoteCreateResponse(new[] { new Error("Action Failed", "Enable to create house quote request") }));
             return response.Success;
         }
     }

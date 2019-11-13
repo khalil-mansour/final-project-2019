@@ -6,7 +6,7 @@ using Web.Api.Core.Domain.Entities;
 
 namespace Web.Api.Models.Response
 {
-    public class HouseQuoteRequestResponse
+    public class HouseQuoteRequestCreateResponse
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -44,14 +44,14 @@ namespace Web.Api.Models.Response
         [JsonProperty("municipal_evaluation")]
         public string MunicipalEvaluationUrl { get; set; }
 
-        public HouseQuoteRequestResponse()
+        public HouseQuoteRequestCreateResponse()
         {
         }
 
 
         public static string ToJson(HouseQuoteRequest houseQuoteRequest)
         {
-            var response = new HouseQuoteRequestResponse()
+            var response = new HouseQuoteRequestCreateResponse()
             {
                 Id = houseQuoteRequest.Id,
                 UserId = houseQuoteRequest.UserId,
@@ -70,9 +70,9 @@ namespace Web.Api.Models.Response
         }
         public static string ToJson(IEnumerable<HouseQuoteRequest> houseQuoteRequests)
         {
-            List<HouseQuoteRequestResponse> responses = new List<HouseQuoteRequestResponse>();
+            List<HouseQuoteRequestCreateResponse> responses = new List<HouseQuoteRequestCreateResponse>();
             houseQuoteRequests.ToList().ForEach(x => responses.Add(
-                new HouseQuoteRequestResponse
+                new HouseQuoteRequestCreateResponse
                 {
                     Id = x.Id,
                     UserId = x.UserId,

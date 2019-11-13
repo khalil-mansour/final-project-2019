@@ -19,7 +19,7 @@ namespace Web.Api.Core
             services.AddTransient<IFileUploadUseCase, FileUploadUseCase>();
             services.AddTransient<IFileFetchUseCase, FileFetchUseCase>();
             services.AddTransient<IFileFetchAllUseCase, FileFetchAllUseCase>();
-            services.AddTransient<IHouseQuoteRequestCreateUseCase, HouseQuoteRequestUseCase>();
+            services.AddTransient<IHouseQuoteRequestCreateUseCase, HouseQuoteRequestCreateUseCase>();
             services.AddTransient<IHouseQuoteRequestGetQuotesRequestUseCase, HouseQuoteGetAllRequestUseCase>();
             services.AddTransient<IHouseQuoteRequestGetDetailRequestUseCase, HouseQuoteRequestGetDetailUseCase>();
             services.AddTransient<IFinancialCapacityFindUseCase, FindFinancialCapacityUseCase>();
