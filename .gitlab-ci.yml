@@ -32,7 +32,6 @@ test:
   stage: test
   image: microsoft/dotnet:latest
   script: 
-    - "cd $test"
     - "dotnet test"
 
 deploy-image:

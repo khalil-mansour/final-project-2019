@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Api.Infrastructure", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Api.Core", "Web.Api.Core\Web.Api.Core.csproj", "{E94F89FF-84DC-46DE-A22A-21F188C11495}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3ECBE6DF-237C-44D4-83E7-E0A2A42A1064}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Api.Core.UnitTests", "Web.Api.Core.UnitTests\Web.Api.Core.UnitTests.csproj", "{E721D6BE-F880-4014-84F2-E302A9A74023}"
 EndProject
 Global
@@ -74,9 +72,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{E721D6BE-F880-4014-84F2-E302A9A74023} = {3ECBE6DF-237C-44D4-83E7-E0A2A42A1064}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D901EC39-2F8C-44AF-ACE7-E7752496D5C9}
