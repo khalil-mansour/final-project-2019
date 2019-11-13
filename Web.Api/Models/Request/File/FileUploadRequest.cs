@@ -5,13 +5,13 @@ namespace Web.Api.Models.Request
 {
     public class FileUploadRequest
     {
-
+        [JsonProperty("file")]
         public IFormFile File { get; set; }
 
-        [JsonProperty("user_id")]
+        [JsonProperty("userid")]
         public string UserId { get; set; }
 
-        [JsonProperty("document_type_id")]
+        [JsonProperty("documenttypeid")]
         public int DocumentTypeId { get; set; }
 
         [JsonProperty("visible")]
