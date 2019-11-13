@@ -10,10 +10,13 @@ COPY InsuranceBrokerApp.sln ./
 COPY Web.Api.Core/*.csproj ./Web.Api.Core/
 COPY Web.Api.Infrastructure/*.csproj ./Web.Api.Infrastructure/
 COPY Web.Api/*.csproj ./Web.Api/
+COPY Web.Api.Core.UnitTests/*.csproj ./Web.Api.Core.UnitTests
 
 
 RUN dotnet restore
 COPY . .
+
+WORKDIR /src/Web.Api.Core.UnitTests
 
 WORKDIR /src/Web.Api.Core
 RUN dotnet build -c Release -o /app
