@@ -10,7 +10,7 @@ COPY InsuranceBrokerApp.sln ./
 COPY Web.Api.Core/*.csproj ./Web.Api.Core/
 COPY Web.Api.Infrastructure/*.csproj ./Web.Api.Infrastructure/
 COPY Web.Api/*.csproj ./Web.Api/
-COPY Web.Api.Core.UnitTests/*.csproj ./Web.Api.Core.UnitTests
+COPY Web.Api.Core.UnitTests/*.csproj ./Web.Api.Core.UnitTests/
 
 
 RUN dotnet restore
