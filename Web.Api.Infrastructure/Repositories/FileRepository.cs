@@ -78,12 +78,12 @@ namespace Web.Api.Infrastructure.Repositories
                 try
                 {
                     // return the response
-                    return new FileFetchRepoResponse(conn.Query<File>(select_query, new { id }).FirstOrDefault(), true);
+                    return new FileFetchRepoResponse(conn.Query<File>(select_query, new { id }).Single(), true);
                 }
-                catch (NpgsqlException e)
+                catch (Exception e)
                 {
                     // return the response
-                    return new FileFetchRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new FileFetchRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
             }
         }
@@ -111,7 +111,7 @@ namespace Web.Api.Infrastructure.Repositories
                 try
                 {
                     // fetch document
-                    var response = conn.Query<File>(select_document_query, new { id }).FirstOrDefault();
+                    var response = conn.Query<File>(select_document_query, new { id }).Single();
                     // delete document
                     var success = Convert.ToBoolean(conn.Execute(delete_document_query, new { id }));
                     // delete quote_request_document
@@ -123,11 +123,11 @@ namespace Web.Api.Infrastructure.Repositories
                     // return the response
                     return new FileDeleteRepoResponse(response, success);
                 }
-                catch (NpgsqlException e)
+                catch (Exception e)
                 {
                     transaction.Rollback();
                     // return the response
-                    return new FileDeleteRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new FileDeleteRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
             }
         }
@@ -153,10 +153,10 @@ namespace Web.Api.Infrastructure.Repositories
                     // return the response
                     return new FileFetchAllRepoResponse(conn.Query<File>(select_all_query, new { userId }).ToList(), true);
                 }
-                catch (NpgsqlException e)
+                catch (Exception e)
                 {
                     // return the response
-                    return new FileFetchAllRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new FileFetchAllRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
             }
         }
@@ -182,7 +182,7 @@ namespace Web.Api.Infrastructure.Repositories
                 {
                     return conn.Query<File>(select_query, new { id }).FirstOrDefault();
                 }
-                catch (NpgsqlException e)
+                catch (Exception e)
                 {
                     throw (e);
                 }
