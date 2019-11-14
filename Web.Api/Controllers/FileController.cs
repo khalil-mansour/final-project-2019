@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Web.Api.Presenters;
 using Web.Api.Core.Dto.UseCaseRequests;
 using Web.Api.Core.Interfaces.UseCases;
+using Web.Api.Core.Interfaces.UseCases.File;
+using Web.Api.Presenters.File;
+using Web.Api.Core.Dto.UseCaseRequests.File;
 
 namespace Web.Api.Controllers
 {
@@ -13,30 +16,36 @@ namespace Web.Api.Controllers
         private readonly IFileUploadUseCase _fileUploadUseCase;
         private readonly IFileFetchUseCase _fileFetchUseCase;
         private readonly IFileFetchAllUseCase _fileFetchAllUseCase;
+        private readonly IFileDeleteUseCase _fileDeleteUseCase;
 
         private readonly FileUploadPresenter _fileUploadPresenter;
         private readonly FileFetchPresenter _fileFetchPresenter;
         private readonly FileFetchAllPresenter _fileFetchAllPresenter;
+        private readonly FileDeletePresenter _fileDeletePresenter;
 
 
         public FileController(
             IFileUploadUseCase fileUploadUseCase,
             IFileFetchUseCase fileFetchUseCase,
             IFileFetchAllUseCase fileFetchAllUseCase,
+            IFileDeleteUseCase fileDeleteUseCase,
             FileUploadPresenter fileUploadPresenter,
             FileFetchPresenter fileFetchPresenter,
-            FileFetchAllPresenter fileFetchAllPresenter)
+            FileFetchAllPresenter fileFetchAllPresenter,
+            FileDeletePresenter fileDeletePresenter)
         {
             _fileUploadUseCase = fileUploadUseCase;
             _fileFetchAllUseCase = fileFetchAllUseCase;
             _fileFetchUseCase = fileFetchUseCase;
+            _fileDeleteUseCase = fileDeleteUseCase;
+            _fileDeletePresenter = fileDeletePresenter;
             _fileUploadPresenter = fileUploadPresenter;
             _fileFetchAllPresenter = fileFetchAllPresenter;
             _fileFetchPresenter = fileFetchPresenter;
         }
 
         // GET: api/file/fetchall/userId
-        [HttpGet("fetchall/{UserId}")]
+        [HttpGet("fetchall/{userId}")]
         // Authorize
         public async Task<ActionResult> GetAllUserFiles([FromRoute] Models.Request.FileFetchAllRequest request)
         {
@@ -47,15 +56,15 @@ namespace Web.Api.Controllers
             return _fileFetchAllPresenter.ContentResult;
         }
 
-        // GET: api/file/fetch/storageId
-        [HttpGet("fetch/{StorageId}")]
+        // GET: api/file/fetch/{id}
+        [HttpGet("fetch/{id}")]
         // Authorize
         public async Task<ActionResult> GetSingleFile([FromRoute] Models.Request.FileFetchRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _fileFetchUseCase.Handle(new FileFetchRequest(request.StorageId), _fileFetchPresenter);
+            await _fileFetchUseCase.Handle(new FileFetchRequest(request.Id), _fileFetchPresenter);
             return _fileFetchPresenter.ContentResult;
         }
 
@@ -75,6 +84,18 @@ namespace Web.Api.Controllers
                     request.Visible
                     ), _fileUploadPresenter);
             return _fileUploadPresenter.ContentResult;
+        }
+
+        // DELETE: api/file/remove/{id}
+        [HttpDelete("remove/{id}")]
+        public async Task<ActionResult> DeleteFile([FromRoute] Models.Request.File.FileDeleteRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _fileDeleteUseCase.Handle(
+                new FileDeleteRequest(request.Id), _fileDeletePresenter);
+            return _fileDeletePresenter.ContentResult;
         }
     }
 }

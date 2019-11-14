@@ -4,7 +4,7 @@ using Web.Api.Core.UseCases;
 using Web.Api.Core.Interfaces.Gateways.Repositories;
 using Moq;
 using Web.Api.Core.Domain.Entities;
-using Web.Api.Core.Dto.GatewayResponses.Repositories;
+using Web.Api.Core.Dto.GatewayResponses.Repositories.File;
 using System.Threading.Tasks;
 using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces;
@@ -42,7 +42,7 @@ namespace Web.Api.Core.UnitTests
             mockFileRepository
                 .Setup(repo => repo.FetchAll(It.IsAny<string>()))
                 .Returns(Task.FromResult(
-                    new FileFetchAllRepoResponse(new List<File> { new File(userID, 1, "mockFileName", storageID, DateTime.Now, true) }, true)));
+                    new FileFetchAllRepoResponse(new List<Domain.Entities.File> { new Domain.Entities.File(userID, 1, "mockFileName", storageID, DateTime.Now, true) }, true)));
 
             var useCase = new FileFetchAllUseCase(mockConfiguration.Object, mockFileRepository.Object);
 
