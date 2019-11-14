@@ -40,7 +40,7 @@ namespace Web.Api.Core.UseCases.File
                 catch (Exception e)
                 {
                     logger.Error(e, "Error trying to remove document from GCloud.");
-                    outputPort.Handle(new FileDeleteResponse(new[] { new Error(e.HResult.ToString(), "Error trying to remove document from GCloud.") }));
+                    outputPort.Handle(new FileDeleteResponse(new[] { new Error(e.HResult.ToString(), "Document deleted from database, but error trying to remove document from GCloud.") }));
                     return true;
                 }
             }
