@@ -21,7 +21,7 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
             // given
             HouseQuoteRequestGetDetailRequest houseQuoteRequestDetail = new Fixture().Create<HouseQuoteRequestGetDetailRequest>();
             HouseQuoteRequest houseQuoteRequest = new Fixture().Create<HouseQuoteRequest>();
-            File file = new Fixture().Create<File>();
+            Domain.Entities.File file = new Fixture().Create<Domain.Entities.File>();
 
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             var mockFileRepository = new Mock<IFileRepository>();

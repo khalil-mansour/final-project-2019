@@ -16,7 +16,7 @@ namespace Web.Api.Infrastructure.Repositories
     internal sealed class QuoteRequestRepository : IQuoteRequestRepository
     {
         private IConfiguration _configuration;
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public QuoteRequestRepository(IConfiguration configuration)
         {
