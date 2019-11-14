@@ -14,7 +14,7 @@ namespace Web.Api.Infrastructure.Repositories
     internal sealed class FileRepository : IFileRepository
     {
         private IConfiguration _configuration;
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public FileRepository(IConfiguration configuration)
         {
@@ -25,7 +25,8 @@ namespace Web.Api.Infrastructure.Repositories
         public async Task<FileUploadRepoResponse> Create(File file)
         {
             var add_query = $@"INSERT INTO public.document (user_id, document_type_id, user_file_name, storage_file_id, created_date, visible)
-                               VALUES (@userid, @documenttype, @filename, @storageid, @createddate, @visible);";
+                               VALUES (@userid, @documenttype, @filename, @storageid, @createddate, @visible)
+                               RETURNING id;";
 
             var select_query = $@"SELECT
                                   id as { nameof(File.Id) },
@@ -36,7 +37,7 @@ namespace Web.Api.Infrastructure.Repositories
                                   created_date as { nameof(File.CreatedDate) },
                                   visible as { nameof(File.Visible) }
                                   FROM public.document
-                                  WHERE storage_file_id = @storageid";
+                                  WHERE id = @id";
 
             using (var conn = new NpgsqlConnection(_connectionString))
             {
@@ -44,11 +45,11 @@ namespace Web.Api.Infrastructure.Repositories
                 try
                 {
                     // add user
-                    var success = Convert.ToBoolean(conn.Execute(add_query, file));
+                    var fileID = conn.Query<int>(add_query, file).Single();
                     // get added user
-                    var response = conn.Query<File>(select_query, new { file.StorageId }).FirstOrDefault();
+                    var response = conn.Query<File>(select_query, new { id = fileID }).FirstOrDefault();
                     // return the response
-                    return new FileUploadRepoResponse(response, success);
+                    return new FileUploadRepoResponse(response, true);
                 }
                 catch (Exception e)
                 {
@@ -58,7 +59,7 @@ namespace Web.Api.Infrastructure.Repositories
             }
         }
 
-        public async Task<FileFetchRepoResponse> FetchByDocId(int docID)
+        public async Task<FileFetchRepoResponse> Fetch(int id)
         {
             var select_query = $@"SELECT 
                                   id as { nameof(File.Id) },
@@ -77,36 +78,7 @@ namespace Web.Api.Infrastructure.Repositories
                 try
                 {
                     // return the response
-                    return new FileFetchRepoResponse(conn.Query<File>(select_query, new { docID }).FirstOrDefault(), true);
-                }
-                catch (NpgsqlException e)
-                {
-                    // return the response
-                    return new FileFetchRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
-                }
-            }
-        }
-
-        public async Task<FileFetchRepoResponse> Fetch(string storageId)
-        {
-            var select_query = $@"SELECT 
-                                  id as { nameof(File.Id) },
-                                  user_id as { nameof(File.UserId) },
-                                  document_type_id as { nameof(File.DocumentType) },
-                                  user_file_name as { nameof(File.FileName) },
-                                  storage_file_id as { nameof(File.StorageId) },
-                                  created_date as { nameof(File.CreatedDate) },
-                                  visible as { nameof(File.Visible) }
-                                  FROM public.document
-                                  WHERE storage_file_id = @storageid";
-
-            using (var conn = new NpgsqlConnection(_connectionString))
-            {
-                conn.Open();
-                try
-                {
-                    // return the response
-                    return new FileFetchRepoResponse(conn.Query<File>(select_query, new { storageId }).FirstOrDefault(), true);
+                    return new FileFetchRepoResponse(conn.Query<File>(select_query, new { id }).FirstOrDefault(), true);
                 }
                 catch (NpgsqlException e)
                 {

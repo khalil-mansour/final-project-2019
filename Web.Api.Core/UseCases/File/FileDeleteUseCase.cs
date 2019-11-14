@@ -31,15 +31,18 @@ namespace Web.Api.Core.UseCases.File
         {
             var response = await _fileRepository.Delete(message.DocumentId);
 
-            try
+            if (response.Success)
             {
-                RemoveFromGCloud(response.File.StorageId);
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "Error trying to remove document from GCloud.");
-                outputPort.Handle(new FileDeleteResponse(new[] { new Error(e.HResult.ToString(), "Error trying to remove document from GCloud.") }));
-                return true;
+                try
+                {
+                    RemoveFromGCloud(response.File.StorageId);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "Error trying to remove document from GCloud.");
+                    outputPort.Handle(new FileDeleteResponse(new[] { new Error(e.HResult.ToString(), "Error trying to remove document from GCloud.") }));
+                    return true;
+                }
             }
 
             outputPort.Handle(response.Success ? new FileDeleteResponse(response.File, true) : new FileDeleteResponse(new[] { new Error("Action failed", "Error attempting to delete document from database.") }));

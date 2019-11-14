@@ -28,8 +28,9 @@ namespace Web.Api.Core.UseCases
 
         public async Task<bool> Handle(FileUploadRequest message, Interfaces.IOutputPort<FileUploadResponse> outputPort)
         {
-            string uploadedFileName;
-            string signedUrl;
+            string uploadedFileName, signedUrl;
+
+            // TODO : Better error handling !
             try
             {
                 uploadedFileName = UploadFile(message);
@@ -38,7 +39,7 @@ namespace Web.Api.Core.UseCases
             catch (Exception e)
             {
                 logger.Error(e, "Error uploading to GCLOUD.");
-                outputPort.Handle(new FileUploadResponse(new Error(e.HResult.ToString(), "Failed to upload file to the Google Cloud service.")));
+                outputPort.Handle(new FileUploadResponse(new Error("Action Failed", "Failed to upload file to the Google Cloud service.")));
                 return true;
             }
 
@@ -70,7 +71,8 @@ namespace Web.Api.Core.UseCases
             using (var f = message.File.OpenReadStream())
             {
                 var bucket = _configuration.GetSection("BucketName").Value;
-                string objectName = $"{message.UserId}{message.DocTypeId}{DateTime.Now.ToString("MM/dd/yyyy/ HH:mm:ss")}";
+                // randomly generated ID
+                string objectName = $"{Guid.NewGuid()}";
                 var response = storage.UploadObject(bucket, objectName, message.File.ContentType, f);
                 return response.Name;
             }

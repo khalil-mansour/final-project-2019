@@ -56,15 +56,15 @@ namespace Web.Api.Controllers
             return _fileFetchAllPresenter.ContentResult;
         }
 
-        // GET: api/file/fetch/{storageId}
-        [HttpGet("fetch/{storageId}")]
+        // GET: api/file/fetch/{id}
+        [HttpGet("fetch/{id}")]
         // Authorize
         public async Task<ActionResult> GetSingleFile([FromRoute] Models.Request.FileFetchRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _fileFetchUseCase.Handle(new FileFetchRequest(request.StorageId), _fileFetchPresenter);
+            await _fileFetchUseCase.Handle(new FileFetchRequest(request.Id), _fileFetchPresenter);
             return _fileFetchPresenter.ContentResult;
         }
 
@@ -86,15 +86,15 @@ namespace Web.Api.Controllers
             return _fileUploadPresenter.ContentResult;
         }
 
-        // DELETE: api/file/remove/{documentId}
-        [HttpDelete("remove/{documentId}")]
+        // DELETE: api/file/remove/{id}
+        [HttpDelete("remove/{id}")]
         public async Task<ActionResult> DeleteFile([FromRoute] Models.Request.File.FileDeleteRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             await _fileDeleteUseCase.Handle(
-                new FileDeleteRequest(request.DocumentId), _fileDeletePresenter);
+                new FileDeleteRequest(request.Id), _fileDeletePresenter);
             return _fileDeletePresenter.ContentResult;
         }
     }

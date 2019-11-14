@@ -17,7 +17,7 @@ namespace Web.Api.Core.UnitTests
     public class FileFetchUseCaseUnitTest
     {
         // mocked data
-        private readonly string storageID = "f4f4f";       
+        private readonly int ID = 9;       
         
         [Fact]
         public async void Should_FetchFile_When_GET()
@@ -37,9 +37,9 @@ namespace Web.Api.Core.UnitTests
 
             var mockFileRepository = new Mock<IFileRepository>();
             mockFileRepository
-                .Setup(repo => repo.Fetch(It.IsAny<string>()))
+                .Setup(repo => repo.Fetch(It.IsAny<int>()))
                 // returns specific file
-                .Returns(Task.FromResult(new FileFetchRepoResponse(new Domain.Entities.File("mockId", 1, "mockFileName", storageID, DateTime.Now, true), true)));
+                .Returns(Task.FromResult(new FileFetchRepoResponse(new Domain.Entities.File("mockId", 1, "mockFileName", "storageID", DateTime.Now, true), true)));
 
             var useCase = new FileFetchUseCase(mockConfiguration.Object, mockFileRepository.Object);
 
@@ -51,7 +51,7 @@ namespace Web.Api.Core.UnitTests
             // when
 
             var response = await useCase.Handle(
-                new FileFetchRequest(storageID), mockOutputPort.Object);
+                new FileFetchRequest(ID), mockOutputPort.Object);
 
             // done
 
