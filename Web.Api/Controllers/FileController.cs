@@ -64,8 +64,9 @@ namespace Web.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _fileFetchUseCase.Handle(new FileFetchRequest(request.Id), _fileFetchPresenter);
-            return _fileFetchPresenter.ContentResult;
+            FileFetchPresenter presenter = new FileFetchPresenter();
+            await _fileFetchUseCase.Handle(new FileFetchRequest(request.Id), presenter);
+            return presenter.ContentResult;
         }
 
         // POST: api/file/upload
@@ -75,15 +76,16 @@ namespace Web.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            
+
+            FileUploadPresenter presenter = new FileUploadPresenter();
             await _fileUploadUseCase.Handle(
                 new FileUploadRequest(
                     request.File,
                     request.UserId,
                     request.DocumentTypeId,
                     request.Visible
-                    ), _fileUploadPresenter);
-            return _fileUploadPresenter.ContentResult;
+                    ), presenter);
+            return presenter.ContentResult;
         }
 
         // DELETE: api/file/remove/{id}
@@ -93,9 +95,10 @@ namespace Web.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            FileDeletePresenter presenter = new FileDeletePresenter();
             await _fileDeleteUseCase.Handle(
-                new FileDeleteRequest(request.Id), _fileDeletePresenter);
-            return _fileDeletePresenter.ContentResult;
+                new FileDeleteRequest(request.Id), presenter);
+            return presenter.ContentResult;
         }
     }
 }
