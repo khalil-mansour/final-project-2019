@@ -72,9 +72,9 @@ You can find it on gitlab's [environment variables](https://depot.dinf.usherbroo
 
 2. This step is only required if it's the first time deploying
     ```bash
-    kubectl run hello-web --image=gcr.io/${PROJECT_ID}/${IMAGE} --port 8080
+    kubectl run hello-web --image=gcr.io/${PROJECT_ID}/${IMAGE} 
     kubectl get pods # <-- Check if your pod are up
-    kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8080
+    kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 80
     kubectl get service hello-web # <-- Get external_ip to acces the API
     ```
     
