@@ -16,7 +16,7 @@ namespace Web.Api.Infrastructure.Repositories
     internal sealed class QuoteRequestRepository : IQuoteRequestRepository
     {
         private IConfiguration _configuration;
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public QuoteRequestRepository(IConfiguration configuration)
         {
@@ -78,6 +78,38 @@ namespace Web.Api.Infrastructure.Repositories
                 }
             }
         }
+
+        public async Task<HouseQuoteRequestGetAllRepoResponse> GetAllQuotes()
+        {
+            var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
+                                    user_id AS {nameof(HouseQuoteRequest.UserId)},
+                                    house_type_id AS {nameof(HouseQuoteRequest.HouseType)},
+                                    house_location_id AS {nameof(HouseQuoteRequest.HouseLocationId)},
+                                    created_date AS {nameof(HouseQuoteRequest.CreatedDate)}, 
+                                    listing AS {nameof(HouseQuoteRequest.ListingPrice)},
+                                    down_payment AS {nameof(HouseQuoteRequest.DownPayment)},
+                                    offer AS {nameof(HouseQuoteRequest.Offer)},
+                                    first_house AS {nameof(HouseQuoteRequest.FirstHouse)},
+                                    description AS {nameof(HouseQuoteRequest.Description)},
+                                    municipal_evaluation AS {nameof(HouseQuoteRequest.MunicipalEvaluationUrl)}
+                                  FROM public.quote_request_house";
+
+            using (var conn = new NpgsqlConnection(_connectionString))
+            {
+                try
+                {
+                    var response = conn.Query<HouseQuoteRequest>(select_query).ToList();
+                    response.ForEach(x => x.HouseLocation = FindHouseLocationById(x.HouseLocationId));
+
+                    return new HouseQuoteRequestGetAllRepoResponse(response, true);
+                }
+                catch (Exception e)
+                {
+                    return new HouseQuoteRequestGetAllRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
+                }
+            }
+        }
+
         public async Task<HouseQuoteRequestGetAllRepoResponse> GetAllQuoteForUser(string userId)
         {
 
@@ -103,9 +135,9 @@ namespace Web.Api.Infrastructure.Repositories
 
                     return new HouseQuoteRequestGetAllRepoResponse(houseQuoteRequests, true);
                 }
-                catch (NpgsqlException e)
+                catch (Exception e)
                 {
-                    return new HouseQuoteRequestGetAllRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new HouseQuoteRequestGetAllRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
             }
         }

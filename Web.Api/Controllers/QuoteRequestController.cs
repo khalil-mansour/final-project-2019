@@ -14,14 +14,15 @@ namespace Web.Api.Controllers
         private readonly IHouseQuoteRequestCreateUseCase _houseQuoteRequestCreateUseCase;
         private readonly IHouseQuoteRequestGetQuotesRequestUseCase _houseQuoteRequestGetQuotesRequestUseCase;
         private readonly IHouseQuoteRequestGetDetailRequestUseCase _houseQuoteRequestGetDetailRequestUseCase;
-        private readonly HouseQuoteRequestPresenter _houseQuoteRequestPresenter;
 
-        public QuoteRequestController(IHouseQuoteRequestCreateUseCase houseQuoteRequestCreateUseCase, IHouseQuoteRequestGetQuotesRequestUseCase houseQuoteRequestGetQuotesRequestUseCase, IHouseQuoteRequestGetDetailRequestUseCase houseQuoteRequestGetDetailRequestUseCase, HouseQuoteRequestPresenter houseQuoteRequestPresenter)
+        public QuoteRequestController(
+            IHouseQuoteRequestCreateUseCase houseQuoteRequestCreateUseCase,
+            IHouseQuoteRequestGetQuotesRequestUseCase houseQuoteRequestGetQuotesRequestUseCase,
+            IHouseQuoteRequestGetDetailRequestUseCase houseQuoteRequestGetDetailRequestUseCase)
         {
             _houseQuoteRequestCreateUseCase = houseQuoteRequestCreateUseCase;
             _houseQuoteRequestGetQuotesRequestUseCase = houseQuoteRequestGetQuotesRequestUseCase;
             _houseQuoteRequestGetDetailRequestUseCase = houseQuoteRequestGetDetailRequestUseCase;
-            _houseQuoteRequestPresenter = houseQuoteRequestPresenter;
         }
 
 
@@ -32,6 +33,7 @@ namespace Web.Api.Controllers
             { // re-render the view when validation failed.
                 return BadRequest(ModelState);
             }
+            var presenter = new HouseQuoteRequestPresenter();
 
             await _houseQuoteRequestCreateUseCase.Handle(
                 new HouseQuoteCreateRequest(request.UserId, request.HouseType,
@@ -45,16 +47,22 @@ namespace Web.Api.Controllers
                 request.Description,
                 request.DocumentsId,
                 request.MunicipalEvaluationUrl),
-                _houseQuoteRequestPresenter);
+                presenter);
 
-            return _houseQuoteRequestPresenter.ContentResult;
+            return presenter.ContentResult;
         }
 
         [HttpGet("{QuoteId}")]
-        public async Task<ActionResult> GetQuoteRequestDetails(int quoteId) {
+        public async Task<ActionResult> GetQuoteRequestDetails(int quoteId)
+        {
+            if (!ModelState.IsValid)
+            { // re-render the view when validation failed.
+                return BadRequest(ModelState);
+            }
 
-            await _houseQuoteRequestGetDetailRequestUseCase.Handle(new HouseQuoteRequestGetDetailRequest(quoteId), _houseQuoteRequestPresenter);
-            return _houseQuoteRequestPresenter.ContentResult;
+            var presenter = new HouseQuoteRequestPresenter();
+            await _houseQuoteRequestGetDetailRequestUseCase.Handle(new HouseQuoteRequestGetDetailRequest(quoteId), presenter);
+            return presenter.ContentResult;
         }
 
         [HttpGet("fetchAll/{UserId}")]
@@ -64,9 +72,9 @@ namespace Web.Api.Controllers
             { // re-render the view when validation failed.
                 return BadRequest(ModelState);
             }
-
-            await _houseQuoteRequestGetQuotesRequestUseCase.Handle(new HouseQuoteRequestGetAllRequest(request.UserId), _houseQuoteRequestPresenter);
-            return _houseQuoteRequestPresenter.ContentResult;
+            var presenter = new HouseQuoteRequestPresenter();
+            await _houseQuoteRequestGetQuotesRequestUseCase.Handle(new HouseQuoteRequestGetAllRequest(request.UserId), presenter);
+            return presenter.ContentResult;
         }
 
     }

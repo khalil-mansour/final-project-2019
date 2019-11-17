@@ -9,6 +9,7 @@ namespace Web.Api.Core.Interfaces.Gateways.Repositories
     {
         Task<HouseQuoteRequestCreateRepoResponse> Create(HouseQuoteRequest houseQuoteRequest);
         Task<HouseQuoteRequestGetAllRepoResponse> GetAllQuoteForUser(string userId);
+        Task<HouseQuoteRequestGetAllRepoResponse> GetAllQuotes();
         Task<HouseQuoteRequestGetDetailResponse> GetDetailFor(int quoteRequestId);
     }
 }

@@ -79,6 +79,7 @@ namespace Web.Api.Models.Response
                     HouseType = x.HouseType,
                     HouseLocation = HouseLocationResponse.MapProperty(x.HouseLocation),
                     ListingPrice = x.ListingPrice,
+                    CreatedDate = x.CreatedDate,
                     DownPayment = x.DownPayment,
                     Offer = x.Offer,
                     FirstHouse = x.FirstHouse,
