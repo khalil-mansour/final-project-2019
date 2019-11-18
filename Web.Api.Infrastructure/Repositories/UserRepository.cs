@@ -35,10 +35,10 @@ namespace Web.Api.Infrastructure.Repositories
 
                 return returnedUser;
             }
-            catch (NpgsqlException e)
+            catch (Exception e)
             {
                 // return the response
-                return new UserLoginRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                return new UserLoginRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
             }
 
         }
@@ -61,10 +61,10 @@ namespace Web.Api.Infrastructure.Repositories
                     // return the response
                     return new UserRegisterRepoResponse(FindUserById(user.Id), success);
                 }
-                catch (NpgsqlException e)
+                catch (Exception e)
                 {
                     // return the response
-                    return new UserRegisterRepoResponse(null, false, new[] { new Error(e.ErrorCode.ToString(), e.Message) });
+                    return new UserRegisterRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
             }
         }
