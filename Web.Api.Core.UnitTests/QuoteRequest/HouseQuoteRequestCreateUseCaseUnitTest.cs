@@ -23,7 +23,7 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
         {
             // given
             HouseQuoteRequest houseQuoteRequest = new Fixture().Create<HouseQuoteRequest>();
-            HouseQuoteCreateRequest houseQuoteCreate = new Fixture().Create<HouseQuoteCreateRequest>();
+            HouseQuoteRequestCreateRequest houseQuoteCreate = new Fixture().Create<HouseQuoteRequestCreateRequest>();
 
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             mockQuoteRepository
@@ -33,10 +33,10 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
 
             var useCase = new HouseQuoteRequestCreateUseCase(mockQuoteRepository.Object);
 
-            var mockOutputPort = new Mock<IOutputPort<HouseQuoteCreateResponse>>();
+            var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestCreateResponse>>();
             mockOutputPort
                 .Setup(outputPort => outputPort
-                .Handle(It.IsAny<HouseQuoteCreateResponse>()));
+                .Handle(It.IsAny<HouseQuoteRequestCreateResponse>()));
 
             // when
 

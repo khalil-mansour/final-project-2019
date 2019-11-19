@@ -6,11 +6,11 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseRequests.QuoteRequest
 {
-    public class HouseQuoteRequestGetAllRequest : IUseCaseRequest<HouseQuoteGetAllRequestResponse>
+    public class HouseQuoteRequestFetchAllRequest : IUseCaseRequest<HouseQuoteRequestFetchAllResponse>
     {
         public string UserId { get; }
 
-        public HouseQuoteRequestGetAllRequest(string userId)
+        public HouseQuoteRequestFetchAllRequest(string userId)
         {
             UserId = userId;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
@@ -14,6 +15,8 @@ namespace Web.Api.Core.UseCases.QuoteRequest
 {
     public sealed class HouseQuoteRequestGetDetailUseCase : IHouseQuoteRequestGetDetailRequestUseCase
     {
+        // logger
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private readonly IQuoteRequestRepository _quoteRequestRepository;
         private readonly IFileRepository _fileRepository;
@@ -32,8 +35,11 @@ namespace Web.Api.Core.UseCases.QuoteRequest
             quoteDetailResponse.HouseQuoteRequest.Documents = files;
 
             outputPort.Handle(quoteDetailResponse.Success ? new HouseQuoteRequestGetDetailResponse(quoteDetailResponse.HouseQuoteRequest, true, null) : new HouseQuoteRequestGetDetailResponse(new[] { new Error("Action Failed", "Enable to get detail for house quote request") }));
+
+            if (!quoteDetailResponse.Success)
+                logger.Error(quoteDetailResponse.Errors.First().Description);
+
             return quoteDetailResponse.Success;
         }
     }
-
 }

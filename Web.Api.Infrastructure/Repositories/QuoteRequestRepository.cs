@@ -37,8 +37,8 @@ namespace Web.Api.Infrastructure.Repositories
 
             var addDocumentQuoteRequest = $@"INSERT INTO public.quote_request_document (quote_request_id, document_id)
                                            VALUES (@QuoteId, @DocumentId);";
-                                                
-                                
+
+
 
 
             using (var conn = new NpgsqlConnection(_connectionString))
@@ -79,7 +79,7 @@ namespace Web.Api.Infrastructure.Repositories
             }
         }
 
-        public async Task<HouseQuoteRequestGetAllRepoResponse> GetAllQuotes()
+        public async Task<HouseQuoteRequestFetchAllRepoResponse> GetAllQuotes()
         {
             var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
                                     user_id AS {nameof(HouseQuoteRequest.UserId)},
@@ -101,18 +101,17 @@ namespace Web.Api.Infrastructure.Repositories
                     var response = conn.Query<HouseQuoteRequest>(select_query).ToList();
                     response.ForEach(x => x.HouseLocation = FindHouseLocationById(x.HouseLocationId));
 
-                    return new HouseQuoteRequestGetAllRepoResponse(response, true);
+                    return new HouseQuoteRequestFetchAllRepoResponse(response, true);
                 }
                 catch (Exception e)
                 {
-                    return new HouseQuoteRequestGetAllRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
+                    return new HouseQuoteRequestFetchAllRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
             }
         }
 
-        public async Task<HouseQuoteRequestGetAllRepoResponse> GetAllQuoteForUser(string userId)
+        public async Task<HouseQuoteRequestFetchAllRepoResponse> GetAllQuoteForUser(string userId)
         {
-
             var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
                                     user_id AS {nameof(HouseQuoteRequest.UserId)},
                                     house_type_id AS {nameof(HouseQuoteRequest.HouseType)},
@@ -133,22 +132,22 @@ namespace Web.Api.Infrastructure.Repositories
                     var houseQuoteRequests = conn.Query<HouseQuoteRequest>(select_query, new { userId }).ToList();
                     houseQuoteRequests.ForEach(x => x.HouseLocation = FindHouseLocationById(x.HouseLocationId));
 
-                    return new HouseQuoteRequestGetAllRepoResponse(houseQuoteRequests, true);
+                    return new HouseQuoteRequestFetchAllRepoResponse(houseQuoteRequests, true);
                 }
                 catch (Exception e)
                 {
-                    return new HouseQuoteRequestGetAllRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
+                    return new HouseQuoteRequestFetchAllRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
             }
         }
 
 
-       public async Task<HouseQuoteRequestGetDetailResponse> GetDetailFor(int quoteRequestId)
+        public async Task<HouseQuoteRequestGetDetailResponse> GetDetailFor(int quoteRequestId)
         {
             return new HouseQuoteRequestGetDetailResponse(FindQuoteRequestById(quoteRequestId), true);
         }
 
-        private HouseQuoteRequest  FindQuoteRequestById(int quoteRequestId)
+        private HouseQuoteRequest FindQuoteRequestById(int quoteRequestId)
         {
             var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
                                     user_id AS {nameof(HouseQuoteRequest.UserId)},
@@ -172,12 +171,10 @@ namespace Web.Api.Infrastructure.Repositories
                 houseQuoteRequest.HouseLocation = FindHouseLocationById(houseQuoteRequest.HouseLocationId);
                 return houseQuoteRequest;
             }
-
         }
 
-        private IEnumerable<int> FindDocumentsIdFor(int quoteRequestId )
+        private IEnumerable<int> FindDocumentsIdFor(int quoteRequestId)
         {
-
             var select_query = $@"SELECT document_id FROM public.quote_request_document WHERE quote_request_id = @quoteRequestId";
 
             using (var conn = new NpgsqlConnection(_connectionString))
@@ -205,5 +202,124 @@ namespace Web.Api.Infrastructure.Repositories
             }
 
         }
+
+        public async Task<HouseQuoteRequestDeleteRepoResponse> Delete(int quoteRequestId)
+        {
+            var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
+                                    user_id AS {nameof(HouseQuoteRequest.UserId)},
+                                    house_type_id AS {nameof(HouseQuoteRequest.HouseType)},
+                                    house_location_id AS {nameof(HouseQuoteRequest.HouseLocationId)},
+                                    created_date AS {nameof(HouseQuoteRequest.CreatedDate)}, 
+                                    listing AS {nameof(HouseQuoteRequest.ListingPrice)},
+                                    down_payment AS {nameof(HouseQuoteRequest.DownPayment)},
+                                    offer AS {nameof(HouseQuoteRequest.Offer)},
+                                    first_house AS {nameof(HouseQuoteRequest.FirstHouse)},
+                                    description AS {nameof(HouseQuoteRequest.Description)},
+                                    municipal_evaluation AS {nameof(HouseQuoteRequest.MunicipalEvaluationUrl)}
+                                  FROM public.quote_request_house WHERE id=@quoteRequestId";
+
+            var delete_document_query = $@"DELETE FROM public.quote_request_document WHERE id=@quoteRequestId";
+            var delete_request_query = $@"DELETE FROM public.quote_request_house WHERE id=@quoteRequestId";
+
+            using (var conn = new NpgsqlConnection(_connectionString))
+            {
+                conn.Open();
+                var transaction = conn.BeginTransaction();
+                try
+                {
+                    // fetch quote request
+                    var response = conn.Query<HouseQuoteRequest>(select_query, new { quoteRequestId }).Single();
+                    // delete document request
+                    conn.Execute(delete_document_query, new { quoteRequestId });
+                    // delete quote request
+                    var success = Convert.ToBoolean(conn.Execute(delete_request_query, new { quoteRequestId }));
+                    // commit
+                    transaction.Commit();
+                    // return the response
+                    return new HouseQuoteRequestDeleteRepoResponse(response, success);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    // return the response
+                    return new HouseQuoteRequestDeleteRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
+                }
+            }
+        }
+
+        public async Task<HouseQuoteRequestUpdateRepoResponse> Update(int quoteRequestId, HouseQuoteRequest houseQuoteRequest)
+        {
+            var delete_document_query = $@"DELETE FROM public.quote_request_document WHERE quote_request_id = @id";
+
+            var insert_document_query = $@"INSERT INTO public.quote_request_document (quote_request_id, document_id)
+                                           VALUES (@quoteRequestId, @documentId)";
+
+            var update_house_query = $@"UPDATE public.house_location
+                                        SET postalcode = @postalCode,
+                                            city = @city,
+                                            province_id = @provinceId,
+                                            address = @address,
+                                            apartment_unit = @apartmentUnit
+                                        WHERE id = @id";
+
+            var update_request_query = $@"UPDATE public.quote_request_house
+                                          SET house_type_id = @houseTypeId,
+                                              listing = @listing,
+                                              down_payment = @downPayment,
+                                              offer = @offer,
+                                              first_house = @firstHouse,
+                                              description = @description,
+                                              municipal_evaluation = @municipalEvaluation
+                                          WHERE id = @id";
+
+            using (var conn = new NpgsqlConnection(_connectionString))
+            {
+                conn.Open();
+                var transaction = conn.BeginTransaction();
+
+                try
+                {
+                    // delete all documents for request
+                    conn.Execute(delete_document_query, new { id = quoteRequestId });
+                    // insert all updated documents
+                    houseQuoteRequest.DocumentsId.ForEach(x => conn.Execute(insert_document_query, new { quoteRequestId, documentId = x }));
+                    // update house location
+                    conn.Execute(update_house_query,
+                        new
+                        {
+                            postalCode = houseQuoteRequest.HouseLocation.PostalCode,
+                            city = houseQuoteRequest.HouseLocation.City,
+                            provinceId = houseQuoteRequest.HouseLocation.ProvinceId,
+                            address = houseQuoteRequest.HouseLocation.Address,
+                            apartmentUnit = houseQuoteRequest.HouseLocation.ApartmentUnit
+                        });
+                    // update house request
+                    conn.Execute(update_request_query,
+                        new
+                        {
+                            houseTypeId = houseQuoteRequest.HouseType,
+                            listing = houseQuoteRequest.ListingPrice,
+                            downPayment = houseQuoteRequest.DownPayment,
+                            offer = houseQuoteRequest.Offer,
+                            firstHouse = houseQuoteRequest.FirstHouse,
+                            description = houseQuoteRequest.Description,
+                            municipalEvaluation = houseQuoteRequest.MunicipalEvaluationUrl
+                        });
+
+                    // commit
+                    transaction.Commit();
+                    // return the response
+                    return new HouseQuoteRequestUpdateRepoResponse(FindQuoteRequestById(quoteRequestId), true);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    // return the response
+                    return new HouseQuoteRequestUpdateRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
+                }
+
+            }
+        }
     }
 }
+

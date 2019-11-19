@@ -12,22 +12,33 @@ namespace Web.Api.Controllers
     public class QuoteRequestController : ControllerBase
     {
         private readonly IHouseQuoteRequestCreateUseCase _houseQuoteRequestCreateUseCase;
-        private readonly IHouseQuoteRequestGetQuotesRequestUseCase _houseQuoteRequestGetQuotesRequestUseCase;
+        private readonly IHouseQuoteRequestFetchAllUseCase _houseQuoteRequestFetchAllUseCase;
         private readonly IHouseQuoteRequestGetDetailRequestUseCase _houseQuoteRequestGetDetailRequestUseCase;
+
+        // delete a house quote request
+        private readonly IHouseQuoteRequestDeleteUseCase _houseQuoteRequestDeleteUseCase;
+
+        // update a house quote request
+        private readonly IHouseQuoteRequestUpdateUseCase _houseQuoteRequestUpdateUseCase;
 
         public QuoteRequestController(
             IHouseQuoteRequestCreateUseCase houseQuoteRequestCreateUseCase,
-            IHouseQuoteRequestGetQuotesRequestUseCase houseQuoteRequestGetQuotesRequestUseCase,
-            IHouseQuoteRequestGetDetailRequestUseCase houseQuoteRequestGetDetailRequestUseCase)
+            IHouseQuoteRequestFetchAllUseCase houseQuoteRequestFetchAllUseCase,
+            IHouseQuoteRequestGetDetailRequestUseCase houseQuoteRequestGetDetailRequestUseCase,
+            IHouseQuoteRequestDeleteUseCase houseQuoteRequestDeleteUseCase,
+            IHouseQuoteRequestUpdateUseCase houseQuoteRequestUpdateUseCase
+            )
         {
             _houseQuoteRequestCreateUseCase = houseQuoteRequestCreateUseCase;
-            _houseQuoteRequestGetQuotesRequestUseCase = houseQuoteRequestGetQuotesRequestUseCase;
+            _houseQuoteRequestFetchAllUseCase = houseQuoteRequestFetchAllUseCase;
             _houseQuoteRequestGetDetailRequestUseCase = houseQuoteRequestGetDetailRequestUseCase;
+            _houseQuoteRequestDeleteUseCase = houseQuoteRequestDeleteUseCase;
+            _houseQuoteRequestUpdateUseCase = houseQuoteRequestUpdateUseCase;
         }
 
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] Models.Request.HouseQuoteCreateRequest request)
+        public async Task<ActionResult> Create([FromBody] Models.Request.QuoteRequest.HouseQuoteRequestCreateRequest request)
         {
             if (!ModelState.IsValid)
             { // re-render the view when validation failed.
@@ -36,24 +47,29 @@ namespace Web.Api.Controllers
             var presenter = new HouseQuoteRequestPresenter();
 
             await _houseQuoteRequestCreateUseCase.Handle(
-                new HouseQuoteCreateRequest(request.UserId, request.HouseType,
-                new HouseLocationRequest(request.Location.PostalCode
-                , request.Location.City, request.Location.ProvinceId,
-                request.Location.Address, request.Location.ApartmentUnit),
-                request.ListingPrice,
-                request.DownPayment,
-                request.Offer,
-                request.FirstHouse,
-                request.Description,
-                request.DocumentsId,
-                request.MunicipalEvaluationUrl),
+                new HouseQuoteRequestCreateRequest(
+                    request.UserId,
+                    request.HouseType,
+                    new HouseLocationRequest(
+                        request.Location.PostalCode,
+                        request.Location.City,
+                        request.Location.ProvinceId,
+                        request.Location.Address,
+                        request.Location.ApartmentUnit),
+                    request.ListingPrice,
+                    request.DownPayment,
+                    request.Offer,
+                    request.FirstHouse,
+                    request.Description,
+                    request.DocumentsId,
+                    request.MunicipalEvaluationUrl),
                 presenter);
 
             return presenter.ContentResult;
         }
 
-        [HttpGet("{QuoteId}")]
-        public async Task<ActionResult> GetQuoteRequestDetails(int quoteId)
+        [HttpGet("{quoteRequestId}")]
+        public async Task<ActionResult> GetQuoteRequestDetails(int quoteRequestId)
         {
             if (!ModelState.IsValid)
             { // re-render the view when validation failed.
@@ -61,21 +77,65 @@ namespace Web.Api.Controllers
             }
 
             var presenter = new HouseQuoteRequestPresenter();
-            await _houseQuoteRequestGetDetailRequestUseCase.Handle(new HouseQuoteRequestGetDetailRequest(quoteId), presenter);
+            await _houseQuoteRequestGetDetailRequestUseCase.Handle(new HouseQuoteRequestGetDetailRequest(quoteRequestId), presenter);
             return presenter.ContentResult;
         }
 
-        [HttpGet("fetchAll/{UserId}")]
-        public async Task<ActionResult> GetQuoteRequest([FromRoute]  Models.Request.HouseQuoteRequestFetchAllRequest request)
+        [HttpGet("fetchall/{UserId}")]
+        public async Task<ActionResult> GetQuoteRequest([FromRoute] Models.Request.QuoteRequest.HouseQuoteRequestFetchAllRequest request)
         {
             if (!ModelState.IsValid)
             { // re-render the view when validation failed.
                 return BadRequest(ModelState);
             }
             var presenter = new HouseQuoteRequestPresenter();
-            await _houseQuoteRequestGetQuotesRequestUseCase.Handle(new HouseQuoteRequestGetAllRequest(request.UserId), presenter);
+            await _houseQuoteRequestFetchAllUseCase.Handle(new HouseQuoteRequestFetchAllRequest(request.UserId), presenter);
             return presenter.ContentResult;
         }
 
+        [HttpPut("{quoteRequestId}")]
+        public async Task<ActionResult> UpdateQuoteRequest([FromRoute] int quoteRequestId, [FromBody] Models.Request.QuoteRequest.HouseQuoteRequestUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            { // re-render the view when validation failed.
+                return BadRequest(ModelState);
+            }
+
+            var presenter = new HouseQuoteRequestPresenter();
+            await _houseQuoteRequestUpdateUseCase.Handle(
+                new HouseQuoteRequestUpdateRequest(
+                    quoteRequestId,
+                    request.UserId,
+                    request.HouseType,
+                    new HouseLocationRequest(
+                        request.Location.PostalCode,
+                        request.Location.City,
+                        request.Location.ProvinceId,
+                        request.Location.Address,
+                        request.Location.ApartmentUnit),
+                    request.ListingPrice,
+                    request.DownPayment,
+                    request.Offer,
+                    request.FirstHouse,
+                    request.Description,
+                    request.DocumentsId,
+                    request.MunicipalEvaluationUrl),
+                presenter);
+            return presenter.ContentResult;
+
+        }
+        [HttpDelete("remove/{HouseQuoteRequestId}")]
+        public async Task<ActionResult> DeleteQuoteRequest([FromRoute] Models.Request.QuoteRequest.HouseQuoteRequestDeleteRequest request)
+        {
+            if (!ModelState.IsValid)
+            { // re-render the view when validation failed.
+                return BadRequest(ModelState);
+            }
+
+            var presenter = new HouseQuoteRequestPresenter();
+            await _houseQuoteRequestDeleteUseCase.Handle(new HouseQuoteRequestDeleteRequest(request.HouseQuoteRequestId), presenter);
+            return presenter.ContentResult;
+
+        }
     }
 }

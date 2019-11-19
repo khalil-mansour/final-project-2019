@@ -10,26 +10,26 @@ using Web.Api.Core.Interfaces.UseCases.QuoteRequest;
 
 namespace Web.Api.Core.UseCases.QuoteRequest
 {
-    public sealed class HouseQuoteGetAllRequestUseCase : IHouseQuoteRequestGetQuotesRequestUseCase
+    public sealed class HouseQuoteRequestFetchAllUseCase : IHouseQuoteRequestFetchAllUseCase
     {
         // logger
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IQuoteRequestRepository _quoteRequestRepository;
         private readonly IUserRepository _userRepository;
 
-        public HouseQuoteGetAllRequestUseCase(IQuoteRequestRepository quoteRequestReposiroty, IUserRepository userRepository)
+        public HouseQuoteRequestFetchAllUseCase(IQuoteRequestRepository quoteRequestReposiroty, IUserRepository userRepository)
         {
             _quoteRequestRepository = quoteRequestReposiroty;
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(HouseQuoteRequestGetAllRequest message, IOutputPort<HouseQuoteGetAllRequestResponse> outputPort)
+        public async Task<bool> Handle(HouseQuoteRequestFetchAllRequest message, IOutputPort<HouseQuoteRequestFetchAllResponse> outputPort)
         {
             // return user to check his type
             var user = await _userRepository.FindById(message.UserId);
 
             // response object
-            HouseQuoteRequestGetAllRepoResponse response = new HouseQuoteRequestGetAllRepoResponse(null, false);
+            HouseQuoteRequestFetchAllRepoResponse response = new HouseQuoteRequestFetchAllRepoResponse(null, false);
 
             if (user != null)
             {
@@ -42,13 +42,11 @@ namespace Web.Api.Core.UseCases.QuoteRequest
             }
             else
             {
-                outputPort.Handle(new HouseQuoteGetAllRequestResponse(new[] { new Error("Action Failed", "No corresponding user with matching ID.") }));
+                outputPort.Handle(new HouseQuoteRequestFetchAllResponse(new[] { new Error("Action Failed", "No corresponding user with matching ID.") }));
                 return true;
             }
 
-
-
-            outputPort.Handle(response.Success ? new HouseQuoteGetAllRequestResponse(response.HouseQuoteRequests, true, null) : new HouseQuoteGetAllRequestResponse(new[] { new Error("Action Failed", "Unable to fetch house quote requests") }));
+            outputPort.Handle(response.Success ? new HouseQuoteRequestFetchAllResponse(response.HouseQuoteRequests, true, null) : new HouseQuoteRequestFetchAllResponse(new[] { new Error("Action Failed", "Unable to fetch house quote requests") }));
 
             if (!response.Success)
                 logger.Error(response.Errors.First().Description);
