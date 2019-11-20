@@ -38,15 +38,18 @@ namespace Web.Api.Models.Response
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("documents_id")]
+        public List<int> DocumentIds { get; set; }
+
+        /*
         [JsonProperty("documents")]
         public List<FileResponse> Documents { get; set; }
+        */
 
         [JsonProperty("municipal_evaluation")]
         public string MunicipalEvaluationUrl { get; set; }
 
-        public HouseQuoteRequestCreateResponse()
-        {
-        }
+        public HouseQuoteRequestCreateResponse() { }
 
 
         public static string ToJson(HouseQuoteRequest houseQuoteRequest)
@@ -61,7 +64,8 @@ namespace Web.Api.Models.Response
                 CreatedDate = houseQuoteRequest.CreatedDate,
                 DownPayment = houseQuoteRequest.DownPayment,
                 Offer = houseQuoteRequest.Offer,
-                Documents = FileResponse.MapFilesToFileResponse(houseQuoteRequest.Documents),
+                DocumentIds = houseQuoteRequest.DocumentsId,
+                //Documents = FileResponse.MapFilesToFileResponse(houseQuoteRequest.Documents),
                 FirstHouse = houseQuoteRequest.FirstHouse,
                 Description = houseQuoteRequest.Description,
                 MunicipalEvaluationUrl = houseQuoteRequest.MunicipalEvaluationUrl
@@ -79,14 +83,15 @@ namespace Web.Api.Models.Response
                     HouseType = x.HouseType,
                     HouseLocation = HouseLocationResponse.MapProperty(x.HouseLocation),
                     ListingPrice = x.ListingPrice,
+                    CreatedDate = x.CreatedDate,
                     DownPayment = x.DownPayment,
                     Offer = x.Offer,
+                    DocumentIds = x.DocumentsId,
+                    //Documents = FileResponse.MapFilesToFileResponse(houseQuoteRequest.Documents),
                     FirstHouse = x.FirstHouse,
                     Description = x.Description,
                     MunicipalEvaluationUrl = x.MunicipalEvaluationUrl
-
-                }
-                ));
+                }));
             return JsonConvert.SerializeObject(responses, Formatting.Indented);
         }
     }

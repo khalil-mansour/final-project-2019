@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Web.Api.Core.Dto.UseCaseResponses.QuoteRequest;
 using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseRequests.QuoteRequest
 {
-    public class HouseQuoteCreateRequest : IUseCaseRequest<HouseQuoteCreateResponse>
-
+    public class HouseQuoteRequestCreateRequest : IUseCaseRequest<HouseQuoteRequestCreateResponse>
     {
-
         public string UserId { get; }
 
         public int HouseType { get; }
@@ -20,16 +16,17 @@ namespace Web.Api.Core.Dto.UseCaseRequests.QuoteRequest
 
         public long DownPayment { get; }
 
-        public long Offer { get;}
+        public long Offer { get; }
 
         public bool FirstHouse { get; }
+
         public string Description { get; }
 
         public List<int> DocumentsId { get; }
 
         public string MunicipalEvaluationUrl { get; }
 
-        public HouseQuoteCreateRequest(string userId, int houseType, HouseLocationRequest houseLocationRequest, long listingPrice, long downPayment, long offer, bool firstHouse, string description, List<int> documentsId, string municipalEvaluationUrl)
+        public HouseQuoteRequestCreateRequest(string userId, int houseType, HouseLocationRequest houseLocationRequest, long listingPrice, long downPayment, long offer, bool firstHouse, string description, List<int> documentsId, string municipalEvaluationUrl)
         {
             UserId = userId;
             HouseType = houseType;
@@ -42,6 +39,5 @@ namespace Web.Api.Core.Dto.UseCaseRequests.QuoteRequest
             DocumentsId = documentsId;
             MunicipalEvaluationUrl = municipalEvaluationUrl;
         }
-
     }
 }

@@ -1,14 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
-using Web.Api.Core.Dto.GatewayResponses.Repositories.QuoteRequest;
 using Web.Api.Core.Dto.UseCaseResponses.QuoteRequest;
 using Web.Api.Core.Interfaces;
-using Web.Api.Models.Response;
 
 namespace Web.Api.Presenters.QuoteRequest
 {
-    public class HouseQuoteRequestPresenter : IOutputPort<HouseQuoteCreateResponse>, IOutputPort<HouseQuoteGetAllRequestResponse>, IOutputPort<HouseQuoteRequestGetDetailResponse>
-
+    public class HouseQuoteRequestPresenter :
+        IOutputPort<HouseQuoteRequestCreateResponse>,
+        IOutputPort<HouseQuoteRequestFetchAllResponse>,
+        IOutputPort<HouseQuoteRequestGetDetailResponse>,
+        IOutputPort<HouseQuoteRequestDeleteResponse>,
+        IOutputPort<HouseQuoteRequestUpdateResponse>
     {
         public JsonContentResult ContentResult { get; }
 
@@ -17,22 +19,49 @@ namespace Web.Api.Presenters.QuoteRequest
             ContentResult = new JsonContentResult();
         }
 
-        public void Handle(HouseQuoteCreateResponse response)
+        public void Handle(HouseQuoteRequestCreateResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            ContentResult.Content = response.Success ? HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+            ContentResult.Content = response.Success ?
+                Models.Response.HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequest)
+                :
+                JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
 
-        public void Handle(HouseQuoteGetAllRequestResponse response)
+        public void Handle(HouseQuoteRequestFetchAllResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            ContentResult.Content = response.Success ? HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequests) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+            ContentResult.Content = response.Success ?
+                Models.Response.HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequests)
+                :
+                JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
 
         public void Handle(HouseQuoteRequestGetDetailResponse response)
         {
             ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            ContentResult.Content = response.Success ? HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequest) : JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+            ContentResult.Content = response.Success ?
+                Models.Response.HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequest)
+                :
+                JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+        }
+
+        public void Handle(HouseQuoteRequestDeleteResponse response)
+        {
+            ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+            ContentResult.Content = response.Success ?
+                Models.Response.HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequest)
+                :
+                JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
+        }
+
+        public void Handle(HouseQuoteRequestUpdateResponse response)
+        {
+            ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+            ContentResult.Content = response.Success ?
+                Models.Response.HouseQuoteRequestCreateResponse.ToJson(response.HouseQuoteRequest)
+                :
+                JsonConvert.SerializeObject(response.Errors, Formatting.Indented);
         }
     }
 }

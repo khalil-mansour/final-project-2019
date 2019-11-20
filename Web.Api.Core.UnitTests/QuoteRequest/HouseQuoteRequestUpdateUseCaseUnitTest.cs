@@ -13,35 +13,34 @@ using Xunit;
 
 namespace Web.Api.Core.UnitTests.QuoteRequest
 {
-    public class HouseQuoteRequestCreateUseCaseUnitTest
+    public class HouseQuoteRequestUpdateUseCaseUnitTest
     {
-        // mocked data
-
 
         [Fact]
-        public async void Should_Create_HouseQuoteRequest_When_Receiving_HouseQuote()
+        public async void Should_Update_HouseQuoteRequest_When_PUT()
         {
             // given
+
             HouseQuoteRequest houseQuoteRequest = new Fixture().Create<HouseQuoteRequest>();
-            HouseQuoteRequestCreateRequest houseQuoteCreate = new Fixture().Create<HouseQuoteRequestCreateRequest>();
+            HouseQuoteRequestUpdateRequest houseQuoteUpdate = new Fixture().Create<HouseQuoteRequestUpdateRequest>();
 
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             mockQuoteRepository
-                .Setup(repo => repo.Create(It.IsAny<HouseQuoteRequest>()))
+                .Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<HouseQuoteRequest>()))
                 .Returns(Task.FromResult(
-                    new HouseQuoteRequestCreateRepoResponse(houseQuoteRequest, true)));
+                    new HouseQuoteRequestUpdateRepoResponse(houseQuoteRequest, true)));
 
-            var useCase = new HouseQuoteRequestCreateUseCase(mockQuoteRepository.Object);
+            var useCase = new HouseQuoteRequestUpdateUseCase(mockQuoteRepository.Object);
 
-            var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestCreateResponse>>();
+            var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestUpdateResponse>>();
             mockOutputPort
                 .Setup(outputPort => outputPort
-                .Handle(It.IsAny<HouseQuoteRequestCreateResponse>()));
+                .Handle(It.IsAny<HouseQuoteRequestUpdateResponse>()));
 
             // when
 
             var response = await useCase.Handle(
-               houseQuoteCreate , mockOutputPort.Object);
+                houseQuoteUpdate, mockOutputPort.Object);
 
             // done
 

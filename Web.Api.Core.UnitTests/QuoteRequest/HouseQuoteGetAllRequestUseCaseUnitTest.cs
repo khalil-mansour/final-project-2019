@@ -27,23 +27,28 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
             // given
             HouseQuoteRequest houseQuoteRequest = new Fixture().Create<HouseQuoteRequest>();
 
+            var mockUserRepository = new Mock<IUserRepository>();
+            mockUserRepository
+                .Setup(repo => repo.Create(It.IsAny<User>()))
+                .Returns(Task.FromResult(new Dto.GatewayResponses.Repositories.UserRegisterRepoResponse(null, true)));
+
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             mockQuoteRepository
                 .Setup(repo => repo.GetAllQuoteForUser(It.IsAny<string>()))
                 .Returns(Task.FromResult(
-                    new HouseQuoteRequestGetAllRepoResponse(new List<HouseQuoteRequest> { houseQuoteRequest }, true)));
+                    new HouseQuoteRequestFetchAllRepoResponse(new List<HouseQuoteRequest> { houseQuoteRequest }, true)));
 
-            var useCase = new HouseQuoteGetAllRequestUseCase(mockQuoteRepository.Object);
+            var useCase = new HouseQuoteRequestFetchAllUseCase(mockQuoteRepository.Object, mockUserRepository.Object);
 
-            var mockOutputPort = new Mock<IOutputPort<HouseQuoteGetAllRequestResponse>>();
+            var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestFetchAllResponse>>();
             mockOutputPort
                 .Setup(outputPort => outputPort
-                .Handle(It.IsAny<HouseQuoteGetAllRequestResponse>()));
+                .Handle(It.IsAny<HouseQuoteRequestFetchAllResponse>()));
 
             // when
 
             var response = await useCase.Handle(
-                new HouseQuoteRequestGetAllRequest(userID), mockOutputPort.Object);
+                new HouseQuoteRequestFetchAllRequest(userID), mockOutputPort.Object);
 
             // done
 

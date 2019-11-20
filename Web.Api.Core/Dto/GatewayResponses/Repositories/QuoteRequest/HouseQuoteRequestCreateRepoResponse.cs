@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Web.Api.Core.Domain.Entities;
 
 namespace Web.Api.Core.Dto.GatewayResponses.Repositories.QuoteRequest
@@ -13,6 +11,5 @@ namespace Web.Api.Core.Dto.GatewayResponses.Repositories.QuoteRequest
         {
            HouseQuoteRequest = houseQuoteRequest;
         }
-
     }
 }

@@ -8,7 +8,10 @@ namespace Web.Api.Core.Interfaces.Gateways.Repositories
     public interface IQuoteRequestRepository
     {
         Task<HouseQuoteRequestCreateRepoResponse> Create(HouseQuoteRequest houseQuoteRequest);
-        Task<HouseQuoteRequestGetAllRepoResponse> GetAllQuoteForUser(string userId);
+        Task<HouseQuoteRequestFetchAllRepoResponse> GetAllQuoteForUser(string userId);
+        Task<HouseQuoteRequestFetchAllRepoResponse> GetAllQuotes();
         Task<HouseQuoteRequestGetDetailResponse> GetDetailFor(int quoteRequestId);
+        Task<HouseQuoteRequestDeleteRepoResponse> Delete(int quoteRequestId);
+        Task<HouseQuoteRequestUpdateRepoResponse> Update(int quoteRequestId, HouseQuoteRequest houseQuoteRequest);
     }
 }

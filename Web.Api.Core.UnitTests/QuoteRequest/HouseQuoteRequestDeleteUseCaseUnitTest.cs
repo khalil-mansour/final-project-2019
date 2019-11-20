@@ -13,35 +13,33 @@ using Xunit;
 
 namespace Web.Api.Core.UnitTests.QuoteRequest
 {
-    public class HouseQuoteRequestCreateUseCaseUnitTest
+    public class HouseQuoteRequestDeleteUseCaseUnitTest
     {
-        // mocked data
-
-
         [Fact]
-        public async void Should_Create_HouseQuoteRequest_When_Receiving_HouseQuote()
+        public async void Should_Update_HouseQuoteRequest_When_PUT()
         {
             // given
+
             HouseQuoteRequest houseQuoteRequest = new Fixture().Create<HouseQuoteRequest>();
-            HouseQuoteRequestCreateRequest houseQuoteCreate = new Fixture().Create<HouseQuoteRequestCreateRequest>();
+            HouseQuoteRequestDeleteRequest houseQuoteDelete = new Fixture().Create<HouseQuoteRequestDeleteRequest>();
 
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             mockQuoteRepository
-                .Setup(repo => repo.Create(It.IsAny<HouseQuoteRequest>()))
+                .Setup(repo => repo.Delete(It.IsAny<int>()))
                 .Returns(Task.FromResult(
-                    new HouseQuoteRequestCreateRepoResponse(houseQuoteRequest, true)));
+                    new HouseQuoteRequestDeleteRepoResponse(houseQuoteRequest, true)));
 
-            var useCase = new HouseQuoteRequestCreateUseCase(mockQuoteRepository.Object);
+            var useCase = new HouseQuoteRequestDeleteUseCase(mockQuoteRepository.Object);
 
-            var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestCreateResponse>>();
+            var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestDeleteResponse>>();
             mockOutputPort
                 .Setup(outputPort => outputPort
-                .Handle(It.IsAny<HouseQuoteRequestCreateResponse>()));
+                .Handle(It.IsAny<HouseQuoteRequestDeleteResponse>()));
 
             // when
 
             var response = await useCase.Handle(
-               houseQuoteCreate , mockOutputPort.Object);
+                houseQuoteDelete, mockOutputPort.Object);
 
             // done
 

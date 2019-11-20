@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Web.Api.Models.Request
+namespace Web.Api.Models.Request.QuoteRequest
 {
-    public class HouseQuoteCreateRequest
+    public class HouseQuoteRequestUpdateRequest
     {
-
         [JsonProperty("uid")]
         public string UserId { get; set; }
 
@@ -13,7 +12,7 @@ namespace Web.Api.Models.Request
         public int HouseType { get; set; }
 
         [JsonProperty("house_location")]
-        public HouseLocationCreateRequest Location {get; set;}
+        public HouseLocationCreateRequest Location { get; set; }
 
         [JsonProperty("listing")]
         public long ListingPrice { get; set; }

@@ -1,5 +1,5 @@
 ﻿
-namespace Web.Api.Models.Request
+namespace Web.Api.Models.Request.QuoteRequest
 {
     public class HouseQuoteRequestFetchAllRequest
     {

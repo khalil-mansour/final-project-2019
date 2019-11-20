@@ -1,21 +1,22 @@
-﻿DROP TABLE IF EXISTS province CASCADE;
-DROP TABLE IF EXISTS house_location CASCADE;
-DROP TABLE IF EXISTS quote_request_house CASCADE;
-DROP TABLE IF EXISTS quote_request_type_table CASCADE;
-DROP TABLE IF EXISTS quote_request_type CASCADE;
-DROP TABLE IF EXISTS quote_request CASCADE;
-DROP TABLE IF EXISTS quote CASCADE;
+﻿﻿DROP TABLE IF EXISTS quote_request_house CASCADE;
 DROP TABLE IF EXISTS comment CASCADE;
+DROP TABLE IF EXISTS quote CASCADE;
 DROP TABLE IF EXISTS user_profession CASCADE;
 DROP TABLE IF EXISTS profession_profile CASCADE;
 DROP TABLE IF EXISTS profession CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS user_type CASCADE;
-DROP TABLE IF EXISTS document CASCADE;
 DROP TABLE IF EXISTS document_type CASCADE;
 DROP TABLE IF EXISTS house_type CASCADE;
 DROP TABLE IF EXISTS quote_request_document CASCADE;
 DROP TABLE IF EXISTS financial_capacity CASCADE;
+DROP TABLE IF EXISTS quote_request CASCADE;
+DROP TABLE IF EXISTS document CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS quote_request_type_table CASCADE;
+DROP TABLE IF EXISTS quote_request_type CASCADE;
+DROP TABLE IF EXISTS house_location CASCADE;
+DROP TABLE IF EXISTS city CASCADE;
+DROP TABLE IF EXISTS province CASCADE;
 
 CREATE TABLE user_type (
 	id serial PRIMARY KEY,
@@ -69,68 +70,6 @@ CREATE TABLE user_profession (
       REFERENCES profession (id) MATCH SIMPLE
 );
 
-CREATE TABLE quote_request_type (
-	type char(3) PRIMARY KEY, -- 'HAB' pour habitation, 'AUT' pour auto, etc.
-	description varchar(100)
-);
-
-CREATE TABLE quote_request (
-	id serial PRIMARY KEY,
-	user_id varchar(200) NOT NULL,
-	quote_request_type_id char(3) NOT NULL,
-	title varchar(100) NOT NULL,
-	details varchar(500) NOT NULL,
-	
-	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
-      REFERENCES users (id) MATCH SIMPLE,
-	
-	CONSTRAINT quote_request_type_id_fkey FOREIGN KEY (quote_request_type_id)
-      REFERENCES quote_request_type (type) MATCH SIMPLE
-);
-
-CREATE TABLE quote (
-	id serial PRIMARY KEY,
-	user_id varchar(200) NOT NULL,
-	quote_request_id integer NOT NULL,
-	quote_type_id char(3) NOT NULL,
-	price numeric NOT NULL,
-	details varchar(500),
-	status char(1) NOT NULL,
-	
-	CONSTRAINT quote_request_id_fkey FOREIGN KEY (quote_request_id)
-      REFERENCES quote_request (id) MATCH SIMPLE,
-	
-	CONSTRAINT quote_type_id_id_fkey FOREIGN KEY (quote_type_id)
-      REFERENCES quote_request_type (type) MATCH SIMPLE,
-	
-	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
-      REFERENCES users (id) MATCH SIMPLE
-);
-
-CREATE TABLE comment (
-	id serial PRIMARY KEY,
-	quote_id integer NOT NULL,
-	user_id varchar(200) NOT NULL,
-	message varchar(500) NOT NULL,
-	date_time timestamp NOT NULL,
-	
-	CONSTRAINT quote_id_fkey FOREIGN KEY (quote_id)
-      REFERENCES quote (id) MATCH SIMPLE,
-	
-	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
-      REFERENCES users (id) MATCH SIMPLE
-);
-
-CREATE TABLE quote_request_type_table (
-	id serial PRIMARY KEY,
-	quote_request_type_id char(3) UNIQUE NOT NULL,
-	table_name varchar(50) NOT NULL,
-	
-	CONSTRAINT quote_request_type_id_fkey FOREIGN KEY (quote_request_type_id)
-      REFERENCES quote_request_type (type) MATCH SIMPLE
-);
-
-
 CREATE TABLE province (
 	id serial PRIMARY KEY,
 	name varchar(200)
@@ -159,7 +98,7 @@ CREATE TABLE quote_request_house (
 	id serial PRIMARY KEY,
 	user_id varchar(200) NOT NULL,
 	house_type_id integer NOT NULL,
-    	house_location_id integer NOT NULL,
+    house_location_id integer NOT NULL,
 	listing integer NOT NULL,
 	created_date timestamp NOT NULL,
 	down_payment integer,
@@ -173,6 +112,35 @@ CREATE TABLE quote_request_house (
 
 	CONSTRAINT house_location_id_fkey FOREIGN KEY (house_location_id)
       REFERENCES house_location (id) MATCH SIMPLE
+);
+
+CREATE TABLE quote (
+	id serial PRIMARY KEY,
+	user_id varchar(200) NOT NULL,
+	quote_request_house_id integer NOT NULL,
+	price numeric NOT NULL,
+	details varchar(500),
+	status char(1) NOT NULL,
+	
+	CONSTRAINT quote_request_house_id_fkey FOREIGN KEY (quote_request_house_id)
+      REFERENCES quote_request_house (id) MATCH SIMPLE,
+	
+	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
+      REFERENCES users (id) MATCH SIMPLE
+);
+
+CREATE TABLE comment (
+	id serial PRIMARY KEY,
+	quote_id integer NOT NULL,
+	user_id varchar(200) NOT NULL,
+	message varchar(500) NOT NULL,
+	date_time timestamp NOT NULL,
+	
+	CONSTRAINT quote_id_fkey FOREIGN KEY (quote_id)
+      REFERENCES quote (id) MATCH SIMPLE,
+	
+	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
+      REFERENCES users (id) MATCH SIMPLE
 );
 
 CREATE TABLE document_type (
