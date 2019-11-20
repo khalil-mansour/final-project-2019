@@ -28,7 +28,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
 
         public async Task<bool> Handle(HouseQuoteRequestGetDetailRequest message, IOutputPort<HouseQuoteRequestGetDetailResponse> outputPort)
         {
-            List<File> files = new List<File>();
+            List<Domain.Entities.File> files = new List<Domain.Entities.File>();
             var quoteDetailResponse = await _quoteRequestRepository.GetDetailFor(message.QuoteRequestId);
 
             quoteDetailResponse.HouseQuoteRequest.DocumentsId.ForEach(x => files.Add(_fileRepository.GetFile(x)));

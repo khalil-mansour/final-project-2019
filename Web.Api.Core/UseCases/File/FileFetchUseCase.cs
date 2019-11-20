@@ -29,17 +29,20 @@ namespace Web.Api.Core.UseCases
 
         public async Task<bool> Handle(FileFetchRequest message, IOutputPort<FileFetchResponse> outputPort)
         {
-            var response = await _fileRepository.Fetch(message.StorageId);
+            var response = await _fileRepository.Fetch(message.FileID);
 
-            try
+            if (response.Success)
             {
-                response.File.Url = SignUrl(message.StorageId);
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "Error signing the URL.");
-                outputPort.Handle(new FileFetchResponse(new[] { new Error(e.HResult.ToString(), "Failed to acquire signature for file.") }));
-                return true;
+                try
+                {
+                    response.File.Url = SignUrl(response.File.StorageId);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "Error signing the URL.");
+                    outputPort.Handle(new FileFetchResponse(new[] { new Error("Ation Failed", "Failed to acquire signature for file.") }));
+                    return true;
+                }
             }
 
             outputPort.Handle(response.Success ? new FileFetchResponse(response.File, true) : new FileFetchResponse(new[] { new Error("Ation Failed", "Error attempting to fetch a user.") }));

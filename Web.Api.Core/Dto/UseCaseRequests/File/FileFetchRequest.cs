@@ -7,12 +7,12 @@ namespace Web.Api.Core.Dto.UseCaseRequests
     public class FileFetchRequest : IUseCaseRequest<FileFetchResponse>
     {
 
-        [JsonProperty("storage_file_id")]
-        public string StorageId { get; }
+        [JsonProperty("file_id")]
+        public int FileID { get; }
 
-        public FileFetchRequest(string storageId)
+        public FileFetchRequest(int fileId)
         {
-            StorageId = storageId;
+            FileID = fileId;
         }
     }
 }

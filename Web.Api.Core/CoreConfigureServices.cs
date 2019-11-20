@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Web.Api.Core.Interfaces.UseCases;
+using Web.Api.Core.Interfaces.UseCases.File;
 using Web.Api.Core.Interfaces.UseCases.QuoteRequest;
 using Web.Api.Core.UseCases;
+using Web.Api.Core.UseCases.File;
 using Web.Api.Core.UseCases.QuoteRequest;
 
 namespace Web.Api.Core
