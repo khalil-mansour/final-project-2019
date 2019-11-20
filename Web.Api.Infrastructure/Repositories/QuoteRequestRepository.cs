@@ -205,19 +205,6 @@ namespace Web.Api.Infrastructure.Repositories
 
         public async Task<HouseQuoteRequestDeleteRepoResponse> Delete(int quoteRequestId)
         {
-            var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
-                                    user_id AS {nameof(HouseQuoteRequest.UserId)},
-                                    house_type_id AS {nameof(HouseQuoteRequest.HouseType)},
-                                    house_location_id AS {nameof(HouseQuoteRequest.HouseLocationId)},
-                                    created_date AS {nameof(HouseQuoteRequest.CreatedDate)}, 
-                                    listing AS {nameof(HouseQuoteRequest.ListingPrice)},
-                                    down_payment AS {nameof(HouseQuoteRequest.DownPayment)},
-                                    offer AS {nameof(HouseQuoteRequest.Offer)},
-                                    first_house AS {nameof(HouseQuoteRequest.FirstHouse)},
-                                    description AS {nameof(HouseQuoteRequest.Description)},
-                                    municipal_evaluation AS {nameof(HouseQuoteRequest.MunicipalEvaluationUrl)}
-                                  FROM public.quote_request_house WHERE id=@quoteRequestId";
-
             var delete_document_query = $@"DELETE FROM public.quote_request_document WHERE id=@quoteRequestId";
             var delete_request_query = $@"DELETE FROM public.quote_request_house WHERE id=@quoteRequestId";
 
@@ -228,7 +215,7 @@ namespace Web.Api.Infrastructure.Repositories
                 try
                 {
                     // fetch quote request
-                    var response = conn.Query<HouseQuoteRequest>(select_query, new { quoteRequestId }).Single();
+                    var response = FindQuoteRequestById(quoteRequestId);
                     // delete document request
                     conn.Execute(delete_document_query, new { quoteRequestId });
                     // delete quote request
@@ -279,6 +266,8 @@ namespace Web.Api.Infrastructure.Repositories
 
                 try
                 {
+                    //get house location id
+                    var houseLocationID = FindQuoteRequestById(quoteRequestId).HouseLocationId;
                     // delete all documents for request
                     conn.Execute(delete_document_query, new { id = quoteRequestId });
                     // insert all updated documents
@@ -287,6 +276,7 @@ namespace Web.Api.Infrastructure.Repositories
                     conn.Execute(update_house_query,
                         new
                         {
+                            id = houseLocationID,
                             postalCode = houseQuoteRequest.HouseLocation.PostalCode,
                             city = houseQuoteRequest.HouseLocation.City,
                             provinceId = houseQuoteRequest.HouseLocation.ProvinceId,
@@ -297,6 +287,7 @@ namespace Web.Api.Infrastructure.Repositories
                     conn.Execute(update_request_query,
                         new
                         {
+                            id = quoteRequestId,
                             houseTypeId = houseQuoteRequest.HouseType,
                             listing = houseQuoteRequest.ListingPrice,
                             downPayment = houseQuoteRequest.DownPayment,
