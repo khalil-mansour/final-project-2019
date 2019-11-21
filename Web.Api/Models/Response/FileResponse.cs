@@ -89,8 +89,8 @@ namespace Web.Api.Models.Response
                     StorageId = x.StorageId,
                     Visible = x.Visible,
                     CreatedDate = x.CreatedDate,
-                    DocumentType = x.DocumentType
-
+                    DocumentType = x.DocumentType,
+                    SignedUrl = x.Url
                 }));
             }
 

@@ -38,13 +38,15 @@ namespace Web.Api.Models.Response
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        /*
         [JsonProperty("documents_id")]
         public List<int> DocumentIds { get; set; }
+        */
 
-        /*
+        
         [JsonProperty("documents")]
         public List<FileResponse> Documents { get; set; }
-        */
+
 
         [JsonProperty("municipal_evaluation")]
         public string MunicipalEvaluationUrl { get; set; }
@@ -64,8 +66,8 @@ namespace Web.Api.Models.Response
                 CreatedDate = houseQuoteRequest.CreatedDate,
                 DownPayment = houseQuoteRequest.DownPayment,
                 Offer = houseQuoteRequest.Offer,
-                DocumentIds = houseQuoteRequest.DocumentsId,
-                //Documents = FileResponse.MapFilesToFileResponse(houseQuoteRequest.Documents),
+                //DocumentIds = houseQuoteRequest.DocumentsId,
+                Documents = FileResponse.MapFilesToFileResponse(houseQuoteRequest.Documents),
                 FirstHouse = houseQuoteRequest.FirstHouse,
                 Description = houseQuoteRequest.Description,
                 MunicipalEvaluationUrl = houseQuoteRequest.MunicipalEvaluationUrl
@@ -86,8 +88,8 @@ namespace Web.Api.Models.Response
                     CreatedDate = x.CreatedDate,
                     DownPayment = x.DownPayment,
                     Offer = x.Offer,
-                    DocumentIds = x.DocumentsId,
-                    //Documents = FileResponse.MapFilesToFileResponse(houseQuoteRequest.Documents),
+                    //DocumentIds = x.DocumentsId,
+                    Documents = FileResponse.MapFilesToFileResponse(x.Documents),
                     FirstHouse = x.FirstHouse,
                     Description = x.Description,
                     MunicipalEvaluationUrl = x.MunicipalEvaluationUrl

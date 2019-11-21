@@ -25,7 +25,19 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
         public async void Should_FetchAll_HouseQuoteRequest_When_Receiving_UserId()
         {
             // given
+
             HouseQuoteRequest houseQuoteRequest = new Fixture().Create<HouseQuoteRequest>();
+
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockConfigSection = new Mock<IConfigurationSection>();
+
+            mockConfigSection
+                .Setup(v => v.Value)
+                .Returns("app_document_bucket");
+
+            mockConfiguration
+                .Setup(k => k.GetSection("BucketName"))
+                .Returns(mockConfigSection.Object);
 
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository
@@ -34,11 +46,11 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
 
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             mockQuoteRepository
-                .Setup(repo => repo.GetAllQuoteForUser(It.IsAny<string>()))
+                .Setup(repo => repo.GetAllQuoteRequestsForUser(It.IsAny<string>()))
                 .Returns(Task.FromResult(
                     new HouseQuoteRequestFetchAllRepoResponse(new List<HouseQuoteRequest> { houseQuoteRequest }, true)));
 
-            var useCase = new HouseQuoteRequestFetchAllUseCase(mockQuoteRepository.Object, mockUserRepository.Object);
+            var useCase = new HouseQuoteRequestFetchAllUseCase(mockConfiguration.Object, mockQuoteRepository.Object, mockUserRepository.Object);
 
             var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestFetchAllResponse>>();
             mockOutputPort

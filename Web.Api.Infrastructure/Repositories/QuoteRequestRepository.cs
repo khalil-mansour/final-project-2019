@@ -110,7 +110,7 @@ namespace Web.Api.Infrastructure.Repositories
             }
         }
 
-        public async Task<HouseQuoteRequestFetchAllRepoResponse> GetAllQuoteForUser(string userId)
+        public async Task<HouseQuoteRequestFetchAllRepoResponse> GetAllQuoteRequestsForUser(string userId)
         {
             var select_query = $@"SELECT id AS {nameof(HouseQuoteRequest.Id)},
                                     user_id AS {nameof(HouseQuoteRequest.UserId)},
@@ -131,7 +131,7 @@ namespace Web.Api.Infrastructure.Repositories
                 {
                     var houseQuoteRequests = conn.Query<HouseQuoteRequest>(select_query, new { userId }).ToList();
                     houseQuoteRequests.ForEach(x => x.HouseLocation = FindHouseLocationById(x.HouseLocationId));
-
+                    houseQuoteRequests.ForEach(x => x.Documents = FindDocumentsFor(x.Id).ToList());
                     return new HouseQuoteRequestFetchAllRepoResponse(houseQuoteRequests, true);
                 }
                 catch (Exception e)
@@ -166,23 +166,32 @@ namespace Web.Api.Infrastructure.Repositories
             {
                 var houseQuoteRequest = conn.Query<HouseQuoteRequest>(select_query, new { quoteRequestId }).FirstOrDefault();
 
-                var quoteRequestDocuments = FindDocumentsIdFor(houseQuoteRequest.Id);
-                houseQuoteRequest.DocumentsId = quoteRequestDocuments.ToList();
+                var quoteRequestDocuments = FindDocumentsFor(houseQuoteRequest.Id);
+                houseQuoteRequest.DocumentsId = quoteRequestDocuments.Select(x => x.Id).ToList();
+                houseQuoteRequest.Documents = quoteRequestDocuments.ToList();
                 houseQuoteRequest.HouseLocation = FindHouseLocationById(houseQuoteRequest.HouseLocationId);
                 return houseQuoteRequest;
             }
         }
 
-        private IEnumerable<int> FindDocumentsIdFor(int quoteRequestId)
+        private IEnumerable<File> FindDocumentsFor(int quoteRequestId)
         {
-            var select_query = $@"SELECT document_id FROM public.quote_request_document WHERE quote_request_id = @quoteRequestId";
+            var select_query = $@"SELECT
+                                  id as { nameof(File.Id) },
+                                  user_id as { nameof(File.UserId) },
+                                  document_type_id as { nameof(File.DocumentType) },
+                                  user_file_name as { nameof(File.FileName) },
+                                  storage_file_id as { nameof(File.StorageId) },
+                                  created_date as { nameof(File.CreatedDate) },
+                                  visible as { nameof(File.Visible) }
+                                  FROM public.document
+                                  WHERE id = @quoteRequestId";
 
             using (var conn = new NpgsqlConnection(_connectionString))
             {
-                var documentsId = conn.Query<int>(select_query, new { quoteRequestId });
-                return documentsId;
+                var documents = conn.Query<File>(select_query, new { quoteRequestId });
+                return documents;
             }
-
         }
 
         private HouseLocation FindHouseLocationById(int houseLocationId)
