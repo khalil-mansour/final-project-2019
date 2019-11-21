@@ -24,6 +24,7 @@ namespace Web.Api.Infrastructure.Repositories
             _connectionString = _configuration.GetSection("ConnectionString").Value;
 
         }
+
         public async Task<HouseQuoteRequestCreateRepoResponse> Create(HouseQuoteRequest houseQuoteRequest)
         {
 
@@ -100,7 +101,7 @@ namespace Web.Api.Infrastructure.Repositories
                 {
                     var response = conn.Query<HouseQuoteRequest>(select_query).ToList();
                     response.ForEach(x => x.HouseLocation = FindHouseLocationById(x.HouseLocationId));
-
+                    response.ForEach(x => x.DocumentsId = FindDocumentsById(x.Id).ToList());
                     return new HouseQuoteRequestFetchAllRepoResponse(response, true);
                 }
                 catch (Exception e)
@@ -131,7 +132,7 @@ namespace Web.Api.Infrastructure.Repositories
                 {
                     var houseQuoteRequests = conn.Query<HouseQuoteRequest>(select_query, new { userId }).ToList();
                     houseQuoteRequests.ForEach(x => x.HouseLocation = FindHouseLocationById(x.HouseLocationId));
-                    houseQuoteRequests.ForEach(x => x.Documents = FindDocumentsFor(x.Id).ToList());
+                    houseQuoteRequests.ForEach(x => x.DocumentsId = FindDocumentsById(x.Id).ToList());
                     return new HouseQuoteRequestFetchAllRepoResponse(houseQuoteRequests, true);
                 }
                 catch (Exception e)
@@ -140,7 +141,6 @@ namespace Web.Api.Infrastructure.Repositories
                 }
             }
         }
-
 
         public async Task<HouseQuoteRequestGetDetailResponse> GetDetailFor(int quoteRequestId)
         {
@@ -165,32 +165,10 @@ namespace Web.Api.Infrastructure.Repositories
             using (var conn = new NpgsqlConnection(_connectionString))
             {
                 var houseQuoteRequest = conn.Query<HouseQuoteRequest>(select_query, new { quoteRequestId }).FirstOrDefault();
-
-                var quoteRequestDocuments = FindDocumentsFor(houseQuoteRequest.Id);
-                houseQuoteRequest.DocumentsId = quoteRequestDocuments.Select(x => x.Id).ToList();
-                houseQuoteRequest.Documents = quoteRequestDocuments.ToList();
+                houseQuoteRequest.DocumentsId = FindDocumentsById(quoteRequestId).ToList();
                 houseQuoteRequest.HouseLocation = FindHouseLocationById(houseQuoteRequest.HouseLocationId);
+                
                 return houseQuoteRequest;
-            }
-        }
-
-        private IEnumerable<File> FindDocumentsFor(int quoteRequestId)
-        {
-            var select_query = $@"SELECT
-                                  id as { nameof(File.Id) },
-                                  user_id as { nameof(File.UserId) },
-                                  document_type_id as { nameof(File.DocumentType) },
-                                  user_file_name as { nameof(File.FileName) },
-                                  storage_file_id as { nameof(File.StorageId) },
-                                  created_date as { nameof(File.CreatedDate) },
-                                  visible as { nameof(File.Visible) }
-                                  FROM public.document
-                                  WHERE id = @quoteRequestId";
-
-            using (var conn = new NpgsqlConnection(_connectionString))
-            {
-                var documents = conn.Query<File>(select_query, new { quoteRequestId });
-                return documents;
             }
         }
 
@@ -212,9 +190,19 @@ namespace Web.Api.Infrastructure.Repositories
 
         }
 
+        private IEnumerable<int> FindDocumentsById(int quoteRequestId)
+        {
+            var select_query = $@"SELECT document_id FROM public.quote_request_document WHERE quote_request_id = @quoteRequestId";
+
+            using (var conn = new NpgsqlConnection(_connectionString))
+            {
+                return conn.Query<int>(select_query, new { quoteRequestId });
+            }
+        }
+
         public async Task<HouseQuoteRequestDeleteRepoResponse> Delete(int quoteRequestId)
         {
-            var delete_document_query = $@"DELETE FROM public.quote_request_document WHERE id=@quoteRequestId";
+            var delete_document_query = $@"DELETE FROM public.quote_request_document WHERE quote_request_id=@quoteRequestId";
             var delete_request_query = $@"DELETE FROM public.quote_request_house WHERE id=@quoteRequestId";
 
             using (var conn = new NpgsqlConnection(_connectionString))

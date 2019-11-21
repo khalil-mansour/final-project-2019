@@ -45,13 +45,18 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
                 .Setup(repo => repo.Create(It.IsAny<User>()))
                 .Returns(Task.FromResult(new Dto.GatewayResponses.Repositories.UserRegisterRepoResponse(null, true)));
 
+            var mockFileRepository = new Mock<IFileRepository>();
+            mockFileRepository
+                .Setup(repo => repo.GetFile(It.IsAny<int>()))
+                .Returns(It.IsAny<Domain.Entities.File>());
+
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             mockQuoteRepository
                 .Setup(repo => repo.GetAllQuoteRequestsForUser(It.IsAny<string>()))
                 .Returns(Task.FromResult(
                     new HouseQuoteRequestFetchAllRepoResponse(new List<HouseQuoteRequest> { houseQuoteRequest }, true)));
 
-            var useCase = new HouseQuoteRequestFetchAllUseCase(mockConfiguration.Object, mockQuoteRepository.Object, mockUserRepository.Object);
+            var useCase = new HouseQuoteRequestFetchAllUseCase(mockConfiguration.Object, mockQuoteRepository.Object, mockUserRepository.Object, mockFileRepository.Object);
 
             var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestFetchAllResponse>>();
             mockOutputPort

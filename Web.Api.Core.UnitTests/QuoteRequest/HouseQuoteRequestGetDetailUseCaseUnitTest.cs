@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
@@ -23,6 +24,17 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
             HouseQuoteRequest houseQuoteRequest = new Fixture().Create<HouseQuoteRequest>();
             Domain.Entities.File file = new Fixture().Create<Domain.Entities.File>();
 
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockConfigSection = new Mock<IConfigurationSection>();
+
+            mockConfigSection
+                .Setup(v => v.Value)
+                .Returns("app_document_bucket");
+
+            mockConfiguration
+                .Setup(k => k.GetSection("BucketName"))
+                .Returns(mockConfigSection.Object);
+
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             var mockFileRepository = new Mock<IFileRepository>();
 
@@ -35,7 +47,7 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
                 .Setup(repo => repo.GetFile(It.IsAny<int>()))
                 .Returns(file);
 
-            var useCase = new HouseQuoteRequestGetDetailUseCase(mockQuoteRepository.Object, mockFileRepository.Object);
+            var useCase = new HouseQuoteRequestGetDetailUseCase(mockConfiguration.Object, mockQuoteRepository.Object, mockFileRepository.Object);
 
             var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestGetDetailResponse>>();
             mockOutputPort

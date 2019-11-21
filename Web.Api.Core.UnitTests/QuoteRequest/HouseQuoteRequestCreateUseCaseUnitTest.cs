@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
@@ -15,15 +16,25 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
 {
     public class HouseQuoteRequestCreateUseCaseUnitTest
     {
-        // mocked data
-
-
         [Fact]
         public async void Should_Create_HouseQuoteRequest_When_Receiving_HouseQuote()
         {
             // given
+
             HouseQuoteRequest houseQuoteRequest = new Fixture().Create<HouseQuoteRequest>();
             HouseQuoteRequestCreateRequest houseQuoteCreate = new Fixture().Create<HouseQuoteRequestCreateRequest>();
+            Domain.Entities.File file = new Fixture().Create<Domain.Entities.File>();
+
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockConfigSection = new Mock<IConfigurationSection>();
+
+            mockConfigSection
+                .Setup(v => v.Value)
+                .Returns("app_document_bucket");
+
+            mockConfiguration
+                .Setup(k => k.GetSection("BucketName"))
+                .Returns(mockConfigSection.Object);
 
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             mockQuoteRepository
@@ -31,7 +42,12 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
                 .Returns(Task.FromResult(
                     new HouseQuoteRequestCreateRepoResponse(houseQuoteRequest, true)));
 
-            var useCase = new HouseQuoteRequestCreateUseCase(mockQuoteRepository.Object);
+            var mockFileRepository = new Mock<IFileRepository>();
+            mockFileRepository
+                .Setup(repo => repo.GetFile(It.IsAny<int>()))
+                .Returns(file);
+
+            var useCase = new HouseQuoteRequestCreateUseCase(mockConfiguration.Object, mockQuoteRepository.Object, mockFileRepository.Object);
 
             var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestCreateResponse>>();
             mockOutputPort

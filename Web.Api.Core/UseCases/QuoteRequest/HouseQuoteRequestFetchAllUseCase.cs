@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,11 +21,13 @@ namespace Web.Api.Core.UseCases.QuoteRequest
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IQuoteRequestRepository _quoteRequestRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IFileRepository _fileRepository;
         private readonly IConfiguration _configuration;
 
-        public HouseQuoteRequestFetchAllUseCase(IConfiguration configuration, IQuoteRequestRepository quoteRequestReposiroty, IUserRepository userRepository)
+        public HouseQuoteRequestFetchAllUseCase(IConfiguration configuration, IQuoteRequestRepository quoteRequestReposiroty, IUserRepository userRepository, IFileRepository fileRepository)
         {
             _configuration = configuration;
+            _fileRepository = fileRepository;
             _quoteRequestRepository = quoteRequestReposiroty;
             _userRepository = userRepository;
         }
@@ -52,11 +55,22 @@ namespace Web.Api.Core.UseCases.QuoteRequest
                 return true;
             }
 
-            response.HouseQuoteRequests.ForEach(x => x.Documents.ForEach(y => y.Url = SignUrl(y.StorageId)));
-            outputPort.Handle(response.Success ? new HouseQuoteRequestFetchAllResponse(response.HouseQuoteRequests, true, null) : new HouseQuoteRequestFetchAllResponse(new[] { new Error("Action Failed", "Unable to fetch house quote requests") }));
-
-            if (!response.Success)
+            if (response.Success)
+            {
+                // instanciate list
+                response.HouseQuoteRequests.ForEach(y => y.Documents = new List<Domain.Entities.File>());
+                // fetch files
+                response.HouseQuoteRequests.ForEach(x => x.DocumentsId.ForEach(y => x.Documents.Add(_fileRepository.GetFile(y))));
+                // sign urls
+                response.HouseQuoteRequests.ForEach(x => x.Documents.ForEach(y => y.Url = SignUrl(y.StorageId)));
+                // return response
+                outputPort.Handle(new HouseQuoteRequestFetchAllResponse(response.HouseQuoteRequests, true));
+            }
+            else
+            {
                 logger.Error(response.Errors.First().Description);
+                outputPort.Handle(new HouseQuoteRequestFetchAllResponse(new[] { new Error("Action Failed", "Unable to fetch house quote requests.") }));
+            }
 
             return response.Success;
         }

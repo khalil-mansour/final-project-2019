@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Google.Cloud.Storage.V1;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
 using Web.Api.Core.Dto;
@@ -16,11 +20,16 @@ namespace Web.Api.Core.UseCases.QuoteRequest
         // logger
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
+        private readonly IConfiguration _configuration;
         private readonly IQuoteRequestRepository _quoteRequestRepository;
+        private readonly IFileRepository _fileRepository;
 
-        public HouseQuoteRequestUpdateUseCase(IQuoteRequestRepository quoteRequestRepository)
+
+        public HouseQuoteRequestUpdateUseCase(IConfiguration configuration, IQuoteRequestRepository quoteRequestRepository, IFileRepository fileRepository)
         {
+            _configuration = configuration;
             _quoteRequestRepository = quoteRequestRepository;
+            _fileRepository = fileRepository;
         }
 
         public async Task<bool> Handle(HouseQuoteRequestUpdateRequest message, IOutputPort<HouseQuoteRequestUpdateResponse> outputPort)
@@ -42,12 +51,30 @@ namespace Web.Api.Core.UseCases.QuoteRequest
                 message.DocumentsId,
                 message.MunicipalEvaluationUrl));
 
-            outputPort.Handle(response.Success ? new HouseQuoteRequestUpdateResponse(response.HouseQuoteRequest, true, null) : new HouseQuoteRequestUpdateResponse(new[] { new Error("Update Failed", "Unable to update house quote request") }));
-
-            if (!response.Success)
+            if (response.Success)
+            {
+                // instanciate list
+                response.HouseQuoteRequest.Documents = new List<Domain.Entities.File>();
+                // fetch files
+                response.HouseQuoteRequest.DocumentsId.ForEach(x => response.HouseQuoteRequest.Documents.Add(_fileRepository.GetFile(x)));
+                // sign url
+                response.HouseQuoteRequest.Documents.ForEach(x => x.Url = SignUrl(x.StorageId));
+                // return response
+                outputPort.Handle(new HouseQuoteRequestUpdateResponse(response.HouseQuoteRequest, true));
+            }
+            else
+            {
                 logger.Error(response.Errors.First()?.Description);
+                outputPort.Handle(new HouseQuoteRequestUpdateResponse(new[] { new Error("Update Failed", "Unable to update house quote request") }));
+            }
 
             return response.Success;
+        }
+
+        private string SignUrl(string storageId)
+        {
+            UrlSigner urlSigner = UrlSigner.FromServiceAccountPath(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS"));
+            return urlSigner.Sign(_configuration.GetSection("BucketName").Value, storageId, TimeSpan.FromHours(1), HttpMethod.Get);
         }
     }
 }

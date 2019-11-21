@@ -124,6 +124,7 @@ namespace Web.Api.Controllers
             return presenter.ContentResult;
 
         }
+
         [HttpDelete("remove/{HouseQuoteRequestId}")]
         public async Task<ActionResult> DeleteQuoteRequest([FromRoute] Models.Request.QuoteRequest.HouseQuoteRequestDeleteRequest request)
         {

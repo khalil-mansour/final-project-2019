@@ -23,13 +23,18 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
             HouseQuoteRequest houseQuoteRequest = new Fixture().Create<HouseQuoteRequest>();
             HouseQuoteRequestDeleteRequest houseQuoteDelete = new Fixture().Create<HouseQuoteRequestDeleteRequest>();
 
+            var mockFileRepository = new Mock<IFileRepository>();
+            mockFileRepository
+                .Setup(repo => repo.GetFile(It.IsAny<int>()))
+                .Returns(It.IsAny<Domain.Entities.File>());
+
             var mockQuoteRepository = new Mock<IQuoteRequestRepository>();
             mockQuoteRepository
                 .Setup(repo => repo.Delete(It.IsAny<int>()))
                 .Returns(Task.FromResult(
                     new HouseQuoteRequestDeleteRepoResponse(houseQuoteRequest, true)));
 
-            var useCase = new HouseQuoteRequestDeleteUseCase(mockQuoteRepository.Object);
+            var useCase = new HouseQuoteRequestDeleteUseCase(mockQuoteRepository.Object, mockFileRepository.Object);
 
             var mockOutputPort = new Mock<IOutputPort<HouseQuoteRequestDeleteResponse>>();
             mockOutputPort

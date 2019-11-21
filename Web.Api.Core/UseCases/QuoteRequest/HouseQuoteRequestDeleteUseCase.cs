@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.UseCaseRequests.QuoteRequest;
@@ -15,9 +16,11 @@ namespace Web.Api.Core.UseCases.QuoteRequest
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private readonly IQuoteRequestRepository _quoteRequestRepository;
+        private readonly IFileRepository _fileRepository;
 
-        public HouseQuoteRequestDeleteUseCase(IQuoteRequestRepository quoteRequestRepository)
+        public HouseQuoteRequestDeleteUseCase(IQuoteRequestRepository quoteRequestRepository, IFileRepository fileRepository)
         {
+            _fileRepository = fileRepository;
             _quoteRequestRepository = quoteRequestRepository;
         }
 
@@ -25,16 +28,22 @@ namespace Web.Api.Core.UseCases.QuoteRequest
         {
             var response = await _quoteRequestRepository.Delete(message.HouseQuoteRequestId);
 
-            outputPort.Handle(response.Success ?
-                new HouseQuoteRequestDeleteResponse(response.HouseQuoteRequest, true)
-                :
-                new HouseQuoteRequestDeleteResponse(new[] { new Error("Delete Failed", "Failed to delete the quote request.") }));
-
-            if (!response.Success)
+            if (response.Success)
+            {
+                // instanciate list
+                response.HouseQuoteRequest.Documents = new List<Domain.Entities.File>();
+                // fetch files
+                response.HouseQuoteRequest.DocumentsId.ForEach(x => response.HouseQuoteRequest.Documents.Add(_fileRepository.GetFile(x)));
+                // return response
+                outputPort.Handle(new HouseQuoteRequestDeleteResponse(response.HouseQuoteRequest, true));
+            }
+            else
+            {
                 logger.Error(response.Errors.First()?.Description);
+                outputPort.Handle(new HouseQuoteRequestDeleteResponse(new[] { new Error("Delete Failed", "Failed to delete the quote request.") }));
+            }
 
             return response.Success;
-
         }
     }
 }
