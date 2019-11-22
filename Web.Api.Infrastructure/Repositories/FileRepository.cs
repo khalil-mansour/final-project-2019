@@ -90,6 +90,8 @@ namespace Web.Api.Infrastructure.Repositories
 
         public async Task<FileDeleteRepoResponse> Delete(int id)
         {
+
+
             var select_document_query = $@"SELECT
                                   id as { nameof(File.Id) },
                                   user_id as { nameof(File.UserId) },
@@ -101,8 +103,9 @@ namespace Web.Api.Infrastructure.Repositories
                                   FROM public.document
                                   WHERE id = @id";
 
+            // if document is linked to a quote request
+            var delete_quote_request_document_query = $@"DELETE FROM public.quote_request_document WHERE document_id = @id";
             var delete_document_query = $@"DELETE FROM public.document WHERE id = @id";
-            var delete_quote_request_doc_query = $@"DELETE FROM public.quote_request_document WHERE document_id = @document_id";
 
             using (var conn = new NpgsqlConnection(_connectionString))
             {
@@ -111,17 +114,16 @@ namespace Web.Api.Infrastructure.Repositories
                 try
                 {
                     // fetch document
-                    var response = conn.Query<File>(select_document_query, new { id }).Single();
+                    var response = conn.Query<File>(select_document_query, new { id }).FirstOrDefault();
+                    // delete link to quote requests
+                    conn.Execute(delete_quote_request_document_query, new { id });
                     // delete document
-                    var success = Convert.ToBoolean(conn.Execute(delete_document_query, new { id }));
-                    // delete quote_request_document
-                    var success2 = conn.Execute(delete_quote_request_doc_query, new { document_id = id });
-
-
+                    conn.Execute(delete_document_query, new { id });
+                    // commit
                     transaction.Commit();
 
                     // return the response
-                    return new FileDeleteRepoResponse(response, success);
+                    return new FileDeleteRepoResponse(response, true);
                 }
                 catch (Exception e)
                 {
