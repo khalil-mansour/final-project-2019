@@ -9,7 +9,6 @@ using Web.Api.Core.Dto.UseCaseRequests.File;
 
 namespace Web.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class FileController : ControllerBase
     {
@@ -32,7 +31,7 @@ namespace Web.Api.Controllers
         }
 
         // GET: api/file/fetchall/userId
-        [HttpGet("fetchall/{userId}")]
+        [HttpGet("api/file/fetchall/{userId}")]
         // Authorize
         public async Task<ActionResult> GetAllUserFiles([FromRoute] Models.Request.FileFetchAllRequest request)
         {
@@ -45,7 +44,7 @@ namespace Web.Api.Controllers
         }
 
         // GET: api/file/fetch/{id}
-        [HttpGet("fetch/{id}")]
+        [HttpGet("api/file/fetch/{id}")]
         // Authorize
         public async Task<ActionResult> GetSingleFile([FromRoute] Models.Request.FileFetchRequest request)
         {
@@ -58,7 +57,7 @@ namespace Web.Api.Controllers
         }
 
         // POST: api/file/upload
-        [HttpPost("upload")]
+        [HttpPost("api/file/upload")]
         //[Authorize]
         public async Task<ActionResult> CreateFile([FromForm] Models.Request.FileUploadRequest request)
         {

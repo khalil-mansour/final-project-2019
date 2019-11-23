@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -30,7 +29,7 @@ namespace Web.Api.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("api/user")]
         public async Task<ActionResult> Register([FromBody] Models.Request.UserRegisterRequest request)
         {
             if (!ModelState.IsValid)
@@ -41,7 +40,7 @@ namespace Web.Api.Controllers
             return _userRegisterPresenter.ContentResult;
         }
 
-        [HttpPost("login")]
+        [HttpPost("api/user/login")]
         public async Task<ActionResult> Login([FromBody] Models.Request.UserLoginRequest request)
         {
             if (!ModelState.IsValid)

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class FinancialCapacityController : ControllerBase
     {
@@ -38,7 +37,7 @@ namespace Web.Api.Controllers
         /// <returns>A newly created financial capacity</returns>
         /// <response code="201">Returns the newly created item</response>
         /// <response code="400">If the item is null</response>    
-        [HttpPost]
+        [HttpPost("api/financial")]
         public async Task<ActionResult> Register([FromBody] Models.Request.FinancialCapacityRegisterRequest request)
         {
             if (!ModelState.IsValid)
@@ -58,7 +57,7 @@ namespace Web.Api.Controllers
             return _financialCapacityRegisterPresenter.ContentResult;
         }
 
-        [HttpPost("find")]
+        [HttpPost("api/financial/find")]
         public async Task<ActionResult> Find([FromBody] Models.Request.FinancialCapacityFindRequest request)
         {
             if (!ModelState.IsValid)

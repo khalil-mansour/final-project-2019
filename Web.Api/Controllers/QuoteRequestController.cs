@@ -7,7 +7,6 @@ using Web.Api.Presenters.QuoteRequest;
 
 namespace Web.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class QuoteRequestController : ControllerBase
     {
@@ -37,7 +36,7 @@ namespace Web.Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("api/quoterequest")]
         public async Task<ActionResult> Create([FromBody] Models.Request.QuoteRequest.HouseQuoteRequestCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -68,7 +67,7 @@ namespace Web.Api.Controllers
             return presenter.ContentResult;
         }
 
-        [HttpGet("{quoteRequestId}")]
+        [HttpGet("api/quoterequest/{quoteRequestId}")]
         public async Task<ActionResult> GetQuoteRequestDetails(int quoteRequestId)
         {
             if (!ModelState.IsValid)
@@ -81,7 +80,7 @@ namespace Web.Api.Controllers
             return presenter.ContentResult;
         }
 
-        [HttpGet("fetchall/{UserId}")]
+        [HttpGet("/api/quoterequest/fetchall/{UserId}")]
         public async Task<ActionResult> GetQuoteRequest([FromRoute] Models.Request.QuoteRequest.HouseQuoteRequestFetchAllRequest request)
         {
             if (!ModelState.IsValid)
@@ -93,7 +92,7 @@ namespace Web.Api.Controllers
             return presenter.ContentResult;
         }
 
-        [HttpPut("{quoteRequestId}")]
+        [HttpPut("api/quoterequest/{quoteRequestId}")]
         public async Task<ActionResult> UpdateQuoteRequest([FromRoute] int quoteRequestId, [FromBody] Models.Request.QuoteRequest.HouseQuoteRequestUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -125,7 +124,7 @@ namespace Web.Api.Controllers
 
         }
 
-        [HttpDelete("remove/{HouseQuoteRequestId}")]
+        [HttpDelete("api/quoterequest/remove/{HouseQuoteRequestId}")]
         public async Task<ActionResult> DeleteQuoteRequest([FromRoute] Models.Request.QuoteRequest.HouseQuoteRequestDeleteRequest request)
         {
             if (!ModelState.IsValid)
