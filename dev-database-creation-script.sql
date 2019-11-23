@@ -221,5 +221,5 @@ INSERT INTO province(id, name) VALUES (13,'YT');
 INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
 INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc');
 
-INSERT INTO document(id, user_id, document_type_id, user_file_name, storage_file_id, created_date, visible) 
-VALUES (1, 'Xe96ZW433IRLemqork9dGvp2tjQ2',1,'lol', 'dsdsa', '2016-06-22 19:10:25-07', True)
+INSERT INTO document(user_id, document_type_id, user_file_name, storage_file_id, created_date, visible) 
+VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2',1,'lol', 'dsdsa', '2016-06-22 19:10:25-07', True)
