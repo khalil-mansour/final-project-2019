@@ -1,4 +1,6 @@
-﻿DROP TABLE IF EXISTS quote_request_house CASCADE;
+﻿DROP TABLE IF EXISTS rate_type CASCADE;
+DROP TABLE IF EXISTS payment_frequency CASCADE;
+DROP TABLE IF EXISTS quote_request_house CASCADE;
 DROP TABLE IF EXISTS comment CASCADE;
 DROP TABLE IF EXISTS quote CASCADE;
 DROP TABLE IF EXISTS user_profession CASCADE;
@@ -17,6 +19,16 @@ DROP TABLE IF EXISTS quote_request_type CASCADE;
 DROP TABLE IF EXISTS house_location CASCADE;
 DROP TABLE IF EXISTS city CASCADE;
 DROP TABLE IF EXISTS province CASCADE;
+
+CREATE TABLE rate_type (
+	id serial PRIMARY KEY,
+	description varchar(100)
+);
+
+CREATE TABLE payment_frequency (
+	id serial PRIMARY KEY,
+	description VARCHAR(100)
+);
 
 CREATE TABLE user_type (
 	id serial PRIMARY KEY,
@@ -116,13 +128,19 @@ CREATE TABLE quote_request_house (
 
 CREATE TABLE quote (
 	id serial PRIMARY KEY,
-	user_id varchar(200) NOT NULL,
-	quote_request_house_id integer NOT NULL,
-	price numeric NOT NULL,
-	details varchar(500),
-	status char(1) NOT NULL,
+	user_id varchar(500) NOT NULL,
+	request_id integer NOT NULL,
+	annual_interest_rate float8,
+	loan float8,
+	mensuality float8,
+	rate_type integer,
+	contract_duration integer,
+	loan_duration integer,
+	payment_frequency integer,
+	description varchar(500),
+	submitted boolean NOT NULL,
 	
-	CONSTRAINT quote_request_house_id_fkey FOREIGN KEY (quote_request_house_id)
+	CONSTRAINT request_id_fkey FOREIGN KEY (request_id)
       REFERENCES quote_request_house (id) MATCH SIMPLE,
 	
 	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
@@ -221,5 +239,11 @@ INSERT INTO province(id, name) VALUES (13,'YT');
 INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
 INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc');
 
-INSERT INTO document(user_id, document_type_id, user_file_name, storage_file_id, created_date, visible) 
-VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2',1,'lol', 'dsdsa', '2016-06-22 19:10:25-07', True)
+INSERT INTO rate_type VALUES (1, 'fix')
+INSERT INTO rate_type VALUES (2, 'variable')
+
+INSERT INTO payment_frequency VALUES (1, 'mensual')
+INSERT INTO payment_frequency VALUES (2, 'bi_mensual')
+INSERT INTO payment_frequency VALUES (3, 'bi_mensual_accelerated')
+INSERT INTO payment_frequency VALUES (4, 'weekly')
+INSERT INTO payment_frequency VALUES (5, 'weekly_accelerated')

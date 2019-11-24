@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Web.Api.Core.Interfaces.UseCases;
 using Web.Api.Core.Interfaces.UseCases.File;
+using Web.Api.Core.Interfaces.UseCases.Offer;
 using Web.Api.Core.Interfaces.UseCases.QuoteRequest;
 using Web.Api.Core.UseCases;
 using Web.Api.Core.UseCases.File;
+using Web.Api.Core.UseCases.Offer;
 using Web.Api.Core.UseCases.QuoteRequest;
 
 namespace Web.Api.Core
@@ -26,12 +28,16 @@ namespace Web.Api.Core
             services.AddTransient<IFinancialCapacityFindUseCase, FindFinancialCapacityUseCase>();
             services.AddTransient<IFinancialCapacityRegisterUseCase, RegisterFinancialCapacityUseCase>();
 
-            //quoterequest
-            services.AddTransient<IHouseQuoteRequestCreateUseCase, HouseQuoteRequestCreateUseCase>();
-            services.AddTransient<IHouseQuoteRequestFetchAllUseCase, HouseQuoteRequestFetchAllUseCase>();
-            services.AddTransient<IHouseQuoteRequestGetDetailRequestUseCase, HouseQuoteRequestGetDetailUseCase>();
-            services.AddTransient<IHouseQuoteRequestDeleteUseCase, HouseQuoteRequestDeleteUseCase>();
-            services.AddTransient<IHouseQuoteRequestUpdateUseCase, HouseQuoteRequestUpdateUseCase>();
+
+
+            //offer
+            services.AddTransient<IOfferCreateUseCase, OfferCreateUseCase>();
+            services.AddTransient<IOfferFetchUseCase, OfferFetchUseCase>();
+            services.AddTransient<IOfferFetchAllUseCase, OfferFetchAllUseCase>();
+            services.AddTransient<IOfferDeleteUseCase, OfferDeleteUseCase>();
+            services.AddTransient<IOfferFetchAllByReqUseCase, OfferFetchAllByReqUseCase>();
+            services.AddTransient<IOfferUpdateUseCase, OfferUpdateUseCase>();
+
         }
     }
 }
