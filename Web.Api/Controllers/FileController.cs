@@ -17,17 +17,30 @@ namespace Web.Api.Controllers
         private readonly IFileFetchAllUseCase _fileFetchAllUseCase;
         private readonly IFileDeleteUseCase _fileDeleteUseCase;
 
+        private readonly FileUploadPresenter _fileUploadPresenter;
+        private readonly FileFetchPresenter _fileFetchPresenter;
+        private readonly FileFetchAllPresenter _fileFetchAllPresenter;
+        private readonly FileDeletePresenter _fileDeletePresenter;
+
 
         public FileController(
             IFileUploadUseCase fileUploadUseCase,
             IFileFetchUseCase fileFetchUseCase,
             IFileFetchAllUseCase fileFetchAllUseCase,
-            IFileDeleteUseCase fileDeleteUseCase)
+            IFileDeleteUseCase fileDeleteUseCase,
+            FileUploadPresenter fileUploadPresenter,
+            FileFetchPresenter fileFetchPresenter,
+            FileFetchAllPresenter fileFetchAllPresenter,
+            FileDeletePresenter fileDeletePresenter)
         {
             _fileUploadUseCase = fileUploadUseCase;
             _fileFetchAllUseCase = fileFetchAllUseCase;
             _fileFetchUseCase = fileFetchUseCase;
             _fileDeleteUseCase = fileDeleteUseCase;
+            _fileDeletePresenter = fileDeletePresenter;
+            _fileUploadPresenter = fileUploadPresenter;
+            _fileFetchAllPresenter = fileFetchAllPresenter;
+            _fileFetchPresenter = fileFetchPresenter;
         }
 
         // GET: api/file/fetchall/userId
@@ -38,9 +51,8 @@ namespace Web.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var presenter = new FileFetchAllPresenter();
-            await _fileFetchAllUseCase.Handle(new FileFetchAllRequest(request.UserId), presenter);
-            return presenter.ContentResult;
+            await _fileFetchAllUseCase.Handle(new FileFetchAllRequest(request.UserId), _fileFetchAllPresenter);
+            return _fileFetchAllPresenter.ContentResult;
         }
 
         // GET: api/file/fetch/{id}
@@ -51,9 +63,8 @@ namespace Web.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var presenter = new FileFetchPresenter();
-            await _fileFetchUseCase.Handle(new FileFetchRequest(request.Id), presenter);
-            return presenter.ContentResult;
+            await _fileFetchUseCase.Handle(new FileFetchRequest(request.Id), _fileFetchPresenter);
+            return _fileFetchPresenter.ContentResult;
         }
 
         // POST: api/file/upload
@@ -63,29 +74,27 @@ namespace Web.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            var presenter = new FileUploadPresenter();
+            
             await _fileUploadUseCase.Handle(
                 new FileUploadRequest(
                     request.File,
                     request.UserId,
                     request.DocumentTypeId,
                     request.Visible
-                    ), presenter);
-            return presenter.ContentResult;
+                    ), _fileUploadPresenter);
+            return _fileUploadPresenter.ContentResult;
         }
 
         // DELETE: api/file/remove/{id}
-        [HttpDelete("remove/{id}")]
+        [HttpDelete("api/file/remove/{id}")]
         public async Task<ActionResult> DeleteFile([FromRoute] Models.Request.File.FileDeleteRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var presenter = new FileDeletePresenter();
             await _fileDeleteUseCase.Handle(
-                new FileDeleteRequest(request.Id), presenter);
-            return presenter.ContentResult;
+                new FileDeleteRequest(request.Id), _fileDeletePresenter);
+            return _fileDeletePresenter.ContentResult;
         }
     }
 }

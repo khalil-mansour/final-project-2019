@@ -6,7 +6,6 @@ using Web.Api.Presenters.Offer;
 
 namespace Web.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class OfferController : ControllerBase
     {
@@ -41,8 +40,8 @@ namespace Web.Api.Controllers
 
         }
 
-        // GET: api/offer/offersbyrequest/requestId
-        [HttpGet("offersbyrequest/{requestId}")]
+        // GET: api/offer/offersbyrequest/{requestId}
+        [HttpGet("api/offer/offersbyrequest/{requestId}")]
         // Authorize
         public async Task<ActionResult> GetAllRequestOffers([FromRoute] Models.Request.Offer.OfferFetchAllByReqRequest request)
         {
@@ -55,7 +54,7 @@ namespace Web.Api.Controllers
         }
 
         // GET: api/offer/offersbyuser/userId
-        [HttpGet("offersbyuser/{userId}")]
+        [HttpGet("api/offer/offersbyuser/{userId}")]
         // Authorize
         public async Task<ActionResult> GetAllUserOffers([FromRoute] Models.Request.Offer.OfferFetchAllRequest request)
         {
@@ -69,7 +68,7 @@ namespace Web.Api.Controllers
 
 
         // GET: api/offer/fetch/{id}
-        [HttpGet("fetch/{id}")]
+        [HttpGet("api/offer/fetch/{id}")]
         // Authorize
         public async Task<ActionResult> GetSingleOffer([FromRoute] Models.Request.Offer.OfferFetchRequest request)
         {
@@ -82,7 +81,7 @@ namespace Web.Api.Controllers
         }
 
         // PUT :api/offer/edit/{id}
-        [HttpPut("edit/{quoteRequestId}")]
+        [HttpPut("api/offer/edit/{quoteRequestId}")]
         public async Task<ActionResult> EditSingleOffer([FromRoute] int quoteRequestId, [FromForm] Models.Request.Offer.OfferUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -107,7 +106,7 @@ namespace Web.Api.Controllers
 
 
         // POST: api/offer/create
-        [HttpPost("create")]
+        [HttpPost("api/offer/create")]
         //[Authorize]
         public async Task<ActionResult> CreateOffer([FromForm] Models.Request.Offer.OfferCreateRequest request)
         {
@@ -125,7 +124,7 @@ namespace Web.Api.Controllers
         }
 
         // DELETE: api/offer/remove/{id}
-        [HttpDelete("remove/{id}")]
+        [HttpDelete("api/offer/remove/{id}")]
         public async Task<ActionResult> DeleteOffer([FromRoute] Models.Request.Offer.OfferDeleteRequest request)
         {
             if (!ModelState.IsValid)

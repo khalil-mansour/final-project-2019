@@ -15,22 +15,28 @@ namespace Web.Api.Core
 
         public static void MapCoreServices(this IServiceCollection services)
         {
-            //user
+            // user
             services.AddTransient<IUserRegisterUseCase, UserRegisterUseCase>();
             services.AddTransient<IUserLoginUseCase, UserLoginUseCase>();
 
-            //file
+            // file
             services.AddTransient<IFileUploadUseCase, FileUploadUseCase>();
             services.AddTransient<IFileFetchUseCase, FileFetchUseCase>();
             services.AddTransient<IFileFetchAllUseCase, FileFetchAllUseCase>();
             services.AddTransient<IFileDeleteUseCase, FileDeleteUseCase>();
 
+            // financial capacity
             services.AddTransient<IFinancialCapacityFindUseCase, FindFinancialCapacityUseCase>();
             services.AddTransient<IFinancialCapacityRegisterUseCase, RegisterFinancialCapacityUseCase>();
 
+            // quote request
+            services.AddTransient<IHouseQuoteRequestCreateUseCase, HouseQuoteRequestCreateUseCase>();
+            services.AddTransient<IHouseQuoteRequestDeleteUseCase, HouseQuoteRequestDeleteUseCase>();
+            services.AddTransient<IHouseQuoteRequestFetchAllUseCase, HouseQuoteRequestFetchAllUseCase>();
+            services.AddTransient<IHouseQuoteRequestGetDetailRequestUseCase, HouseQuoteRequestGetDetailUseCase>();
+            services.AddTransient<IHouseQuoteRequestUpdateUseCase, HouseQuoteRequestUpdateUseCase>();
 
-
-            //offer
+            // offer
             services.AddTransient<IOfferCreateUseCase, OfferCreateUseCase>();
             services.AddTransient<IOfferFetchUseCase, OfferFetchUseCase>();
             services.AddTransient<IOfferFetchAllUseCase, OfferFetchAllUseCase>();
