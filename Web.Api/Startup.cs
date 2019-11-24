@@ -7,13 +7,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog;
-using System;
-using System.IO;
-using System.Reflection;
 using Web.Api.Core;
 using Web.Api.Infrastructure;
 using Web.Api.Presenters;
 using Web.Api.Presenters.File;
+using Web.Api.Presenters.Offer;
 using Web.Api.Presenters.QuoteRequest;
 
 namespace Web.Api
@@ -59,6 +57,12 @@ namespace Web.Api
             services.AddSingleton<HouseQuoteRequestPresenter>();
             services.AddSingleton<FinancialCapacityFindPresenter>();
             services.AddSingleton<FinancialCapacityRegisterPresenter>();
+            services.AddSingleton<OfferCreatePresenter>();
+            services.AddSingleton<OfferDeletePresenter>();
+            services.AddSingleton<OfferFetchAllPresenter>();
+            services.AddSingleton<OfferFetchPresenter>();
+            services.AddSingleton<OfferFetchAllByReqPresenter>();
+            services.AddSingleton<OfferUpdatePresenter>();
 
             services.AddSwaggerGen(c =>
             {

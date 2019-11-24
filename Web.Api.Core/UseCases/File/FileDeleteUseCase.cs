@@ -47,6 +47,7 @@ namespace Web.Api.Core.UseCases.File
 
             outputPort.Handle(response.Success ? new FileDeleteResponse(response.File, true) : new FileDeleteResponse(new[] { new Error("Action failed", "Error attempting to delete document from database.") }));
             
+
             if (!response.Success)
                 logger.Error(response.Errors.First()?.Description);
 
