@@ -39,7 +39,7 @@ namespace Web.Api.Models.Response
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("Submitted")]
+        [JsonProperty("submitted")]
         public bool Submitted { get; set; }
 
         public static string ToJson(Offer offer)
