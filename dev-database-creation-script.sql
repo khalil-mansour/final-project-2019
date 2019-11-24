@@ -239,11 +239,11 @@ INSERT INTO province(id, name) VALUES (13,'YT');
 INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
 INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc');
 
-INSERT INTO rate_type VALUES (1, 'fix')
-INSERT INTO rate_type VALUES (2, 'variable')
+INSERT INTO rate_type VALUES (1, 'fix');
+INSERT INTO rate_type VALUES (2, 'variable');
 
-INSERT INTO payment_frequency VALUES (1, 'mensual')
-INSERT INTO payment_frequency VALUES (2, 'bi_mensual')
-INSERT INTO payment_frequency VALUES (3, 'bi_mensual_accelerated')
-INSERT INTO payment_frequency VALUES (4, 'weekly')
-INSERT INTO payment_frequency VALUES (5, 'weekly_accelerated')
+INSERT INTO payment_frequency VALUES (1, 'mensual');
+INSERT INTO payment_frequency VALUES (2, 'bi_mensual');
+INSERT INTO payment_frequency VALUES (3, 'bi_mensual_accelerated');
+INSERT INTO payment_frequency VALUES (4, 'weekly');
+INSERT INTO payment_frequency VALUES (5, 'weekly_accelerated');
