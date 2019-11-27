@@ -61,7 +61,7 @@ namespace Web.Api.Core.UnitTests
 
             // when
 
-            var response = await useCase.Handle(
+            var response = await useCase.HandleAsync(
                 new FileUploadRequest(mockFile, userId, docType, visible), mockOutputPort.Object);
 
             // done

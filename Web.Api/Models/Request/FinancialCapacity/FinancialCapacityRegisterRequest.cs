@@ -8,28 +8,28 @@ namespace Web.Api.Models.Request
 {
     public class FinancialCapacityRegisterRequest
     {
-        [JsonProperty("uid")]
-        public string Id { get; set; }
+        [JsonProperty("user_id")]
+        public string User_Id { get; set; }
 
-        [JsonProperty("annualIncome")]
-        public int AnnualIncome { get; set; }
+        [JsonProperty("annual_income")]
+        public int Annual_Income { get; set; }
 
-        [JsonProperty("downPayment")]
-        public int DownPayment { get; set; }
+        [JsonProperty("down_payment")]
+        public int Down_Payment { get; set; }
 
-        [JsonProperty("mensualDebt")]
-        public int MensualDebt { get; set; }
+        [JsonProperty("mensual_debt")]
+        public int Mensual_Debt { get; set; }
 
-        [JsonProperty("interestRate")]
-        public float InterestRate { get; set; }
+        [JsonProperty("interest_rate")]
+        public float Interest_Rate { get; set; }
 
-        [JsonProperty("municipalTaxes")]
-        public int MunicipalTaxes { get; set; }
+        [JsonProperty("municipal_taxes")]
+        public int Municipal_Taxes { get; set; }
 
-        [JsonProperty("heatingCost")]
-        public int HeatingCost { get; set; }
+        [JsonProperty("heating_cost")]
+        public int Heating_Cost { get; set; }
 
-        [JsonProperty("condoFee")]
-        public int CondoFee { get; set; }
+        [JsonProperty("condo_fee")]
+        public int Condo_Fee { get; set; }
     }
 }

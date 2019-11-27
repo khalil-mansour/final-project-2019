@@ -57,6 +57,7 @@ namespace Web.Api
             services.AddSingleton<HouseQuoteRequestPresenter>();
             services.AddSingleton<FinancialCapacityFindPresenter>();
             services.AddSingleton<FinancialCapacityRegisterPresenter>();
+            services.AddSingleton<UserUpdatePresenter>();
             services.AddSingleton<OfferCreatePresenter>();
             services.AddSingleton<OfferDeletePresenter>();
             services.AddSingleton<OfferFetchAllPresenter>();

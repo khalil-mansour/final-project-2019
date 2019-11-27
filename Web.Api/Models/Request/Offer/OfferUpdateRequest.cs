@@ -4,14 +4,11 @@ namespace Web.Api.Models.Request.Offer
 {
     public class OfferUpdateRequest
     {
-        [JsonProperty("userid")]
-        public string UserId { get; set; }
+        [JsonProperty("user_id")]
+        public string User_Id { get; set; }
 
-        [JsonProperty("quoterequestid")]
-        public int QuoteRequestId { get; set; }
-
-        [JsonProperty("annualinterestrate")]
-        public double AnnualInterestRate { get; set; }
+        [JsonProperty("annual_interest_rate")]
+        public double Annual_Interest_Rate { get; set; }
 
         [JsonProperty("loan")]
         public double Loan { get; set; }
@@ -19,17 +16,17 @@ namespace Web.Api.Models.Request.Offer
         [JsonProperty("mensuality")]
         public double Mensuality { get; set; }
 
-        [JsonProperty("ratetype")]
-        public int RateType { get; set; }
+        [JsonProperty("rate_type")]
+        public int Rate_Type { get; set; }
 
-        [JsonProperty("contractduration")]
-        public int ContractDuration { get; set; }
+        [JsonProperty("contract_duration")]
+        public int Contract_Duration { get; set; }
 
-        [JsonProperty("loanduration")]
-        public int LoanDuration { get; set; }
+        [JsonProperty("loan_duration")]
+        public int Loan_Duration { get; set; }
 
-        [JsonProperty("paymentfrequency")]
-        public int PaymentFrequency { get; set; }
+        [JsonProperty("payment_frequency")]
+        public int Payment_Frequency { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }

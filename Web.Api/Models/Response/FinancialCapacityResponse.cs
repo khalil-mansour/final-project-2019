@@ -9,28 +9,28 @@ namespace Web.Api.Models.Response
 {
     public class FinancialCapacityResponse
     {
-        [JsonProperty("uid")]
+        [JsonProperty("user_id")]
         public string Id { get; set; }
 
-        [JsonProperty("annualIncome")]
+        [JsonProperty("annual_income")]
         public int AnnualIncome { get; set; }
 
-        [JsonProperty("downPayment")]
+        [JsonProperty("down_payment")]
         public int DownPayment { get; set; }
 
-        [JsonProperty("mensualDebt")]
+        [JsonProperty("mensual_debt")]
         public int MensualDebt { get; set; }
 
-        [JsonProperty("interestRate")]
+        [JsonProperty("interest_rate")]
         public float InterestRate { get; set; }
 
-        [JsonProperty("municipalTaxes")]
+        [JsonProperty("municipal_taxes")]
         public int MunicipalTaxes { get; set; }
 
-        [JsonProperty("heatingCost")]
+        [JsonProperty("heating_cost")]
         public int HeatingCost { get; set; }
 
-        [JsonProperty("condoFee")]
+        [JsonProperty("condo_fee")]
         public int CondoFee{ get; set; }
 
         public FinancialCapacityResponse() {

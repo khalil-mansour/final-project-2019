@@ -29,7 +29,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
             _fileRepository = fileRepository;
         }
 
-        public async Task<bool> Handle(HouseQuoteRequestGetDetailRequest message, IOutputPort<HouseQuoteRequestGetDetailResponse> outputPort)
+        public async Task<bool> HandleAsync(HouseQuoteRequestGetDetailRequest message, IOutputPort<HouseQuoteRequestGetDetailResponse> outputPort)
         {            
             var response = await _quoteRequestRepository.GetDetailFor(message.QuoteRequestId);
 

@@ -49,7 +49,7 @@ namespace Web.Api.Controllers
                 return BadRequest(ModelState);
 
             var presenter = new OfferFetchAllByReqPresenter();
-            await _offerFetchAllByReqUseCase.Handle(new OfferFetchAllByReqRequest(request.RequestId), presenter);
+            await _offerFetchAllByReqUseCase.HandleAsync(new OfferFetchAllByReqRequest(request.RequestId), presenter);
             return presenter.ContentResult;
         }
 
@@ -62,13 +62,13 @@ namespace Web.Api.Controllers
                 return BadRequest(ModelState);
 
             var presenter = new OfferFetchAllPresenter();
-            await _offerFetchAllUseCase.Handle(new OfferFetchAllRequest(request.UserId), presenter);
+            await _offerFetchAllUseCase.HandleAsync(new OfferFetchAllRequest(request.UserId), presenter);
             return presenter.ContentResult;
         }
 
 
-        // GET: api/offer/fetch/{id}
-        [HttpGet("api/offer/fetch/{id}")]
+        // GET: api/offer/{id}
+        [HttpGet("api/offer/{id}")]
         // Authorize
         public async Task<ActionResult> GetSingleOffer([FromRoute] Models.Request.Offer.OfferFetchRequest request)
         {
@@ -76,62 +76,61 @@ namespace Web.Api.Controllers
                 return BadRequest(ModelState);
 
             var presenter = new OfferFetchPresenter();
-            await _offerFetchUseCase.Handle(new OfferFetchRequest(request.Id), presenter);
+            await _offerFetchUseCase.HandleAsync(new OfferFetchRequest(request.Id), presenter);
             return presenter.ContentResult;
         }
 
-        // PUT :api/offer/edit/{id}
-        [HttpPut("api/offer/edit/{quoteRequestId}")]
-        public async Task<ActionResult> EditSingleOffer([FromRoute] int quoteRequestId, [FromForm] Models.Request.Offer.OfferUpdateRequest request)
+        // PUT :api/offer/{id}
+        [HttpPut("api/offer/{id}")]
+        public async Task<ActionResult> EditSingleOffer([FromRoute] int id, [FromBody] Models.Request.Offer.OfferUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var presenter = new OfferUpdatePresenter();
-            await _offerUpdateUseCase.Handle(new OfferUpdateRequest(
-                quoteRequestId,
-                request.UserId,
-                request.QuoteRequestId,
-                request.AnnualInterestRate,
+            await _offerUpdateUseCase.HandleAsync(new OfferUpdateRequest(
+                id,
+                request.User_Id,
+                request.Annual_Interest_Rate,
                 request.Loan,
                 request.Mensuality,
-                request.RateType,
-                request.ContractDuration,
-                request.LoanDuration,
-                request.PaymentFrequency,
+                request.Rate_Type,
+                request.Contract_Duration,
+                request.Loan_Duration,
+                request.Payment_Frequency,
                 request.Description,
                 request.Submitted), presenter);
             return presenter.ContentResult;
         }
 
 
-        // POST: api/offer/create
-        [HttpPost("api/offer/create")]
+        // POST: api/offer
+        [HttpPost("api/offer")]
         //[Authorize]
-        public async Task<ActionResult> CreateOffer([FromForm] Models.Request.Offer.OfferCreateRequest request)
+        public async Task<ActionResult> CreateOffer([FromBody] Models.Request.Offer.OfferCreateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var presenter = new OfferCreatePresenter();
-            await _offerCreateUseCase.Handle(
+            await _offerCreateUseCase.HandleAsync(
                 new OfferCreateRequest(
-                    request.UserId,
-                    request.QuoteRequestId,
+                    request.User_Id,
+                    request.Quote_Request_Id,
                     request.Submitted
                     ), presenter);
             return presenter.ContentResult;
         }
 
-        // DELETE: api/offer/remove/{id}
-        [HttpDelete("api/offer/remove/{id}")]
+        // DELETE: api/offer/{id}
+        [HttpDelete("api/offer/{id}")]
         public async Task<ActionResult> DeleteOffer([FromRoute] Models.Request.Offer.OfferDeleteRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var presenter = new OfferDeletePresenter();
-            await _offerDeleteUseCase.Handle(
+            await _offerDeleteUseCase.HandleAsync(
                 new OfferDeleteRequest(request.Id), presenter);
             return presenter.ContentResult;
         }

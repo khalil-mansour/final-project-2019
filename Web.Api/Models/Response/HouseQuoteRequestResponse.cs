@@ -20,7 +20,7 @@ namespace Web.Api.Models.Response
         [JsonProperty("house_location")]
         public HouseLocationResponse HouseLocation { get; set; }
 
-        [JsonProperty("listing")]
+        [JsonProperty("listing_price")]
         public long ListingPrice { get; set; }
 
         [JsonProperty("created_date")]

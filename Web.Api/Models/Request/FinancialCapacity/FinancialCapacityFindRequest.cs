@@ -8,7 +8,7 @@ namespace Web.Api.Models.Request
 {
     public class FinancialCapacityFindRequest
     {
-        [JsonProperty("uid")]
+        [JsonProperty("user_id")]
         public string Id { get; set; }
     }
 }

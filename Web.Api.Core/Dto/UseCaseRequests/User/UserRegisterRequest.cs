@@ -1,4 +1,5 @@
-﻿using Web.Api.Core.Dto.UseCaseResponses;
+﻿using System;
+using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseRequests
@@ -12,9 +13,10 @@ namespace Web.Api.Core.Dto.UseCaseRequests
         public int UserType { get;  }
         public string Phone { get; }
         public string PostalCode{ get; }
-        public string Province{ get; }
+        public string Birthday { get; }
+        public int? Province{ get; }
 
-        public UserRegisterRequest(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, string province)
+        public UserRegisterRequest(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, string birthday, int? province)
         {
             Id = id;
             FirstName = firstName;
@@ -23,6 +25,7 @@ namespace Web.Api.Core.Dto.UseCaseRequests
             UserType = usertype;
             Phone = phone;
             PostalCode = postalcode;
+            Birthday = birthday;
             Province = province;
         }
     }

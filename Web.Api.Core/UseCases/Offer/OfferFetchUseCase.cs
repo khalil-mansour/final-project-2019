@@ -21,7 +21,7 @@ namespace Web.Api.Core.UseCases.Offer
             _offerRepository = offerRepository;
         }
 
-        public async Task<bool> Handle(OfferFetchRequest message, Interfaces.IOutputPort<OfferFetchResponse> outputPort)
+        public async Task<bool> HandleAsync(OfferFetchRequest message, Interfaces.IOutputPort<OfferFetchResponse> outputPort)
         {
             var response = await _offerRepository.Fetch(message.OfferID);
 

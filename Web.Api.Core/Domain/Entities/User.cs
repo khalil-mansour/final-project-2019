@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Web.Api.Core.Domain.Entities
 {
     public class User
@@ -17,9 +19,14 @@ namespace Web.Api.Core.Domain.Entities
 
         public string PostalCode{ get; }
 
-        public string Province{ get; }
+        public int? Province{ get; }
 
-        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, string province)
+        public DateTime? Birthday { get; set; }
+
+        public Profile Profile { get; set; }
+
+
+        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime? birthday)
         {
             Id = id;
             FirstName = firstName;
@@ -29,6 +36,46 @@ namespace Web.Api.Core.Domain.Entities
             Phone = phone;
             PostalCode = postalcode;
             Province = province;
+            Birthday = birthday;
+        }
+
+        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime? birthday, Profile profile)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            UserType = usertype;
+            Phone = phone;
+            PostalCode = postalcode;
+            Province = province;
+            Birthday = birthday;
+            Profile = profile;
+        }
+
+        internal User(string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime? birthday)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            UserType = usertype;
+            Phone = phone;
+            PostalCode = postalcode;
+            Province = province;
+            Birthday = birthday;
+        }
+
+        internal User(string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime? birthday, Profile profile)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            UserType = usertype;
+            Phone = phone;
+            PostalCode = postalcode;
+            Province = province;
+            Birthday = birthday;
+            Profile = profile;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Web.Api.Core.UnitTests.File
 
             // when
 
-            var response = await useCase.Handle(new FileDeleteRequest(documentID), mockOutputPort.Object);
+            var response = await useCase.HandleAsync(new FileDeleteRequest(documentID), mockOutputPort.Object);
 
             // done
 

@@ -26,7 +26,7 @@ namespace Web.Api.Core.UseCases
             _fileRepository = fileRepository;
         }
 
-        public async Task<bool> Handle(FileUploadRequest message, Interfaces.IOutputPort<FileUploadResponse> outputPort)
+        public async Task<bool> HandleAsync(FileUploadRequest message, Interfaces.IOutputPort<FileUploadResponse> outputPort)
         {
             string uploadedFileName, signedUrl;
 

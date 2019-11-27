@@ -43,7 +43,7 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
 
             // when
 
-            var response = await useCase.Handle(
+            var response = await useCase.HandleAsync(
                 houseQuoteDelete, mockOutputPort.Object);
 
             // done

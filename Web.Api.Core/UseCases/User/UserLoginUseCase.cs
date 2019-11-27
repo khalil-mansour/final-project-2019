@@ -21,7 +21,7 @@ namespace Web.Api.Core.UseCases
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(UserLoginRequest message, IOutputPort<UserLoginResponse> outputPort)
+        public async Task<bool> HandleAsync(UserLoginRequest message, IOutputPort<UserLoginResponse> outputPort)
         {
             // confirm user exists with ID
             var response = await _userRepository.FindById(message.ID);

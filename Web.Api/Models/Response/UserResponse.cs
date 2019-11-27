@@ -1,15 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
 
 namespace Web.Api.Models.Response
 {
     public class UserResponse
     {
-        [JsonProperty("uid")]
+        [JsonProperty("user_id")]
         public string Id { get; set; }
 
         [JsonProperty("firstname")]
@@ -30,8 +27,11 @@ namespace Web.Api.Models.Response
         [JsonProperty("postal_code")]
         public string PostalCode{ get; set; }
 
-        [JsonProperty("province")]
-        public string Province{ get; set; }
+        [JsonProperty("birthday")]
+        public string Birthday { get; set; }
+
+        [JsonProperty("province_id")]
+        public int? Province{ get; set; }
 
         public UserResponse() {
         }
@@ -47,8 +47,10 @@ namespace Web.Api.Models.Response
                 Phone = user.Phone,
                 PostalCode = user.PostalCode,
                 Province = user.Province
-
             };
+            // check if DateTime? has a value before mapping response
+            if (user.Birthday.HasValue)
+                response.Birthday = user.Birthday.Value.ToString("yyyy-MM-dd");
 
             return JsonConvert.SerializeObject(response, Formatting.Indented);
 

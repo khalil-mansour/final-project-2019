@@ -18,7 +18,7 @@ namespace Web.Api.Core.UseCases
             _financialCapacityRepository = financialCapacityRepository;
         }
 
-        public async Task<bool> Handle(FinancialCapacityRegisterRequest message, IOutputPort<FinancialCapacityRegisterRepoResponse> outputPort)
+        public async Task<bool> HandleAsync(FinancialCapacityRegisterRequest message, IOutputPort<FinancialCapacityRegisterRepoResponse> outputPort)
         {
             var response = await _financialCapacityRepository.
                 Create(new FinancialCapacity(

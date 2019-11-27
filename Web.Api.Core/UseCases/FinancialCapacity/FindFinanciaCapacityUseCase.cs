@@ -16,7 +16,7 @@ namespace Web.Api.Core.UseCases
             _financialCapacityRepository = financialCapacityRepository;
         }
 
-        public async Task<bool> Handle(FinancialCapacityFindRequest message, IOutputPort<FinancialCapacityFindResponse> outputPort)
+        public async Task<bool> HandleAsync(FinancialCapacityFindRequest message, IOutputPort<FinancialCapacityFindResponse> outputPort)
         {
             // confirm financialCapacity exists with ID
             var response = await _financialCapacityRepository.FindById(message.ID);

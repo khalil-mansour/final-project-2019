@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Web.Api.Core.Dto.UseCaseResponses;
 using Web.Api.Core.Interfaces;
 using Web.Api.Core.Dto.UseCaseRequests;
+using System;
 
 namespace Web.Api.Core.UnitTests
 {   
@@ -21,8 +22,9 @@ namespace Web.Api.Core.UnitTests
         private readonly string email = "boubou@boubou.com";
         private readonly int userType = 1;
         private readonly string phone = "";
-        private readonly string province  = "Qc";
+        private readonly int? province  = 1;
         private readonly string postalcode = "1221";
+        private readonly string birthdate = "2019-11-26T15:37:51.100Z";
 
 
         [Fact]
@@ -47,7 +49,7 @@ namespace Web.Api.Core.UnitTests
 
             // when
 
-            var response = await useCase.Handle(new UserRegisterRequest(id, firstName, lastName, email, userType, phone, postalcode, province), mockOutputPort.Object);
+            var response = await useCase.HandleAsync(new UserRegisterRequest(id, firstName, lastName, email, userType, phone, postalcode, birthdate, province), mockOutputPort.Object);
                         
             // done
 

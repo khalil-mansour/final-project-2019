@@ -6,7 +6,7 @@ namespace Web.Api.Core.Dto.UseCaseResponses
 {
     public class UserRegisterRepoResponse : UseCaseResponseMessage
     {
-        public User User { get; }
+        public Domain.Entities.User User { get; }
         public IEnumerable<Error> Errors { get; }
 
         public UserRegisterRepoResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
@@ -14,7 +14,7 @@ namespace Web.Api.Core.Dto.UseCaseResponses
             Errors = errors;
         }
 
-        public UserRegisterRepoResponse(User user, bool success = false, string message = null) : base(success, message)
+        public UserRegisterRepoResponse(Domain.Entities.User user, bool success = false, string message = null) : base(success, message)
         {
             User = user;
         }

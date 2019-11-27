@@ -32,7 +32,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(HouseQuoteRequestFetchAllRequest message, IOutputPort<HouseQuoteRequestFetchAllResponse> outputPort)
+        public async Task<bool> HandleAsync(HouseQuoteRequestFetchAllRequest message, IOutputPort<HouseQuoteRequestFetchAllResponse> outputPort)
         {
             // return user to check his type
             var user = await _userRepository.FindById(message.UserId);
