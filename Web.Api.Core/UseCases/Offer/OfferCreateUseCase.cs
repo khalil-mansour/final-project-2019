@@ -21,7 +21,7 @@ namespace Web.Api.Core.UseCases.Offer
             _offerRepository = offerRepository;
         }
 
-        public async Task<bool> Handle(OfferCreateRequest message, IOutputPort<OfferCreateResponse> outputPort)
+        public async Task<bool> HandleAsync(OfferCreateRequest message, IOutputPort<OfferCreateResponse> outputPort)
         {
             var response = await _offerRepository.
                 Create(new Domain.Entities.Offer(

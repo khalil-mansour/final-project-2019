@@ -8,7 +8,6 @@ namespace Web.Api.Models.Request.File
 {
     public class FileDeleteRequest
     {
-        [JsonProperty("document_id")]
         public int Id { get; set; }
     }
 }

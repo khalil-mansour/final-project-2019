@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.Api.Core.Domain.Entities;
 using Web.Api.Core.Dto;
@@ -22,10 +23,17 @@ namespace Web.Api.Core.UseCases
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(UserRegisterRequest message, IOutputPort<UserRegisterRepoResponse> outputPort)
+        public async Task<bool> HandleAsync(UserRegisterRequest message, IOutputPort<UserRegisterRepoResponse> outputPort)
         {
+            // convert string to datetime for birthdate
+            DateTime? birthdate;
+            if (message.Birthday != null)
+                birthdate = Convert.ToDateTime(message.Birthday);
+            else
+                birthdate = null;
+
             var response = await _userRepository.
-                Create(new User(
+                Create(new Domain.Entities.User(
                     message.Id,
                     message.FirstName,
                     message.LastName,
@@ -33,9 +41,10 @@ namespace Web.Api.Core.UseCases
                     message.UserType,
                     message?.Phone,
                     message?.PostalCode,
-                    message?.Province));
+                    message?.Province,
+                    birthdate));
 
-            outputPort.Handle(response.Success ? new UserRegisterRepoResponse(response.User, true) : new UserRegisterRepoResponse(response.Errors));
+            outputPort.Handle(response.Success ? new UserRegisterRepoResponse(response.User, true) : new UserRegisterRepoResponse(new[] { new Error("Registration Failed", "Failed to create a new user.") }));
 
             if (!response.Success)
                 logger.Error(response.Errors.First()?.Description);

@@ -5,34 +5,34 @@ namespace Web.Api.Models.Request.QuoteRequest
 {
     public class HouseQuoteRequestCreateRequest
     {
-        [JsonProperty("uid")]
-        public string UserId { get; set; }
+        [JsonProperty("user_id")]
+        public string User_Id { get; set; }
 
         [JsonProperty("house_type_id")]
-        public int HouseType { get; set; }
+        public int House_Type_Id { get; set; }
 
         [JsonProperty("house_location")]
-        public HouseLocationCreateRequest Location {get; set;}
+        public HouseLocationCreateRequest House_Location {get; set;}
 
-        [JsonProperty("listing")]
-        public long ListingPrice { get; set; }
+        [JsonProperty("listing_price")]
+        public long Listing_Price { get; set; }
 
         [JsonProperty("down_payment")]
-        public long DownPayment { get; set; }
+        public long Down_Payment { get; set; }
 
         [JsonProperty("offer")]
         public long Offer { get; set; }
 
         [JsonProperty("first_house")]
-        public bool FirstHouse { get; set; }
+        public bool First_House { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }
 
         [JsonProperty("documents_id")]
-        public List<int> DocumentsId { get; set; }
+        public List<int> Documents_Id { get; set; }
 
-        [JsonProperty("municipal_evaluation")]
-        public string MunicipalEvaluationUrl { get; set; }
+        [JsonProperty("municipal_evaluation_url")]
+        public string Municipal_Evaluation_Url { get; set; }
     }
 }

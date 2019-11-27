@@ -65,7 +65,7 @@ namespace Web.Api.Core.UnitTests.QuoteRequest
 
             // when
 
-            var response = await useCase.Handle(
+            var response = await useCase.HandleAsync(
                 new HouseQuoteRequestFetchAllRequest(userID), mockOutputPort.Object);
 
             // done

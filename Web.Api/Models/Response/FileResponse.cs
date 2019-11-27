@@ -11,7 +11,7 @@ namespace Web.Api.Models.Response
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("uid")]
+        [JsonProperty("user_id")]
         public string UserId { get; set; }
 
         [JsonProperty("document_type_id")]

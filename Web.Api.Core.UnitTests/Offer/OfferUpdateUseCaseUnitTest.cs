@@ -37,10 +37,9 @@ namespace Web.Api.Core.UnitTests.Offer
 
             // when
 
-            var response = await useCase.Handle(
+            var response = await useCase.HandleAsync(
                 new OfferUpdateRequest(
                     offer.UserId,
-                    offer.QuoteRequestId,
                     offer.AnnualInterestRate,
                     offer.Loan,
                     offer.Mensuality,

@@ -21,13 +21,12 @@ namespace Web.Api.Core.UseCases.Offer
             _offerRepository = offerRepository;
         }
 
-        public async Task<bool> Handle(OfferUpdateRequest message, IOutputPort<OfferUpdateResponse> outputPort)
+        public async Task<bool> HandleAsync(OfferUpdateRequest message, IOutputPort<OfferUpdateResponse> outputPort)
         {
             var response = await _offerRepository.Update(
                 message.Id,
                 (new Domain.Entities.Offer(
                     message.UserId,
-                    message.QuoteRequestId,
                     message.AnnualInterestRate,
                     message.Loan,
                     message.Mensuality,
@@ -38,7 +37,7 @@ namespace Web.Api.Core.UseCases.Offer
                     message.Description,
                     message.Submitted)));
 
-            outputPort.Handle(response.Success ? new OfferUpdateResponse(response.Offer, true) : new OfferUpdateResponse(new[] { new Error("Ation Failed", "Failed to update offer.") }));
+            outputPort.Handle(response.Success ? new OfferUpdateResponse(response.Offer, true) : new OfferUpdateResponse(new[] { new Error("Update Failed", "Failed to update offer.") }));
 
             if (!response.Success)
                 logger.Error(response.Errors.First()?.Description);

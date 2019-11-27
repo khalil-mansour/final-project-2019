@@ -45,23 +45,23 @@ namespace Web.Api.Controllers
             }
             var presenter = new HouseQuoteRequestPresenter();
 
-            await _houseQuoteRequestCreateUseCase.Handle(
+            await _houseQuoteRequestCreateUseCase.HandleAsync(
                 new HouseQuoteRequestCreateRequest(
-                    request.UserId,
-                    request.HouseType,
+                    request.User_Id,
+                    request.House_Type_Id,
                     new HouseLocationRequest(
-                        request.Location.PostalCode,
-                        request.Location.City,
-                        request.Location.ProvinceId,
-                        request.Location.Address,
-                        request.Location.ApartmentUnit),
-                    request.ListingPrice,
-                    request.DownPayment,
+                        request.House_Location.Postal_Code,
+                        request.House_Location.City,
+                        request.House_Location.Province_Id,
+                        request.House_Location.Address,
+                        request.House_Location.Apartment_Unit),
+                    request.Listing_Price,
+                    request.Down_Payment,
                     request.Offer,
-                    request.FirstHouse,
+                    request.First_House,
                     request.Description,
-                    request.DocumentsId,
-                    request.MunicipalEvaluationUrl),
+                    request.Documents_Id,
+                    request.Municipal_Evaluation_Url),
                 presenter);
 
             return presenter.ContentResult;
@@ -76,7 +76,7 @@ namespace Web.Api.Controllers
             }
 
             var presenter = new HouseQuoteRequestPresenter();
-            await _houseQuoteRequestGetDetailRequestUseCase.Handle(new HouseQuoteRequestGetDetailRequest(quoteRequestId), presenter);
+            await _houseQuoteRequestGetDetailRequestUseCase.HandleAsync(new HouseQuoteRequestGetDetailRequest(quoteRequestId), presenter);
             return presenter.ContentResult;
         }
 
@@ -88,7 +88,7 @@ namespace Web.Api.Controllers
                 return BadRequest(ModelState);
             }
             var presenter = new HouseQuoteRequestPresenter();
-            await _houseQuoteRequestFetchAllUseCase.Handle(new HouseQuoteRequestFetchAllRequest(request.UserId), presenter);
+            await _houseQuoteRequestFetchAllUseCase.HandleAsync(new HouseQuoteRequestFetchAllRequest(request.UserId), presenter);
             return presenter.ContentResult;
         }
 
@@ -101,30 +101,30 @@ namespace Web.Api.Controllers
             }
 
             var presenter = new HouseQuoteRequestPresenter();
-            await _houseQuoteRequestUpdateUseCase.Handle(
+            await _houseQuoteRequestUpdateUseCase.HandleAsync(
                 new HouseQuoteRequestUpdateRequest(
                     quoteRequestId,
-                    request.UserId,
-                    request.HouseType,
+                    request.User_Id,
+                    request.House_Type_Id,
                     new HouseLocationRequest(
-                        request.Location.PostalCode,
-                        request.Location.City,
-                        request.Location.ProvinceId,
-                        request.Location.Address,
-                        request.Location.ApartmentUnit),
-                    request.ListingPrice,
-                    request.DownPayment,
+                        request.House_Location.Postal_Code,
+                        request.House_Location.City,
+                        request.House_Location.Province_Id,
+                        request.House_Location.Address,
+                        request.House_Location.Apartment_Unit),
+                    request.Listing_Price,
+                    request.Down_Payment,
                     request.Offer,
-                    request.FirstHouse,
+                    request.First_House,
                     request.Description,
-                    request.DocumentsId,
-                    request.MunicipalEvaluationUrl),
+                    request.Documents_Id,
+                    request.Municipal_Evaluation_Url),
                 presenter);
             return presenter.ContentResult;
 
         }
 
-        [HttpDelete("api/quoterequest/remove/{HouseQuoteRequestId}")]
+        [HttpDelete("api/quoterequest/{HouseQuoteRequestId}")]
         public async Task<ActionResult> DeleteQuoteRequest([FromRoute] Models.Request.QuoteRequest.HouseQuoteRequestDeleteRequest request)
         {
             if (!ModelState.IsValid)
@@ -133,7 +133,7 @@ namespace Web.Api.Controllers
             }
 
             var presenter = new HouseQuoteRequestPresenter();
-            await _houseQuoteRequestDeleteUseCase.Handle(new HouseQuoteRequestDeleteRequest(request.HouseQuoteRequestId), presenter);
+            await _houseQuoteRequestDeleteUseCase.HandleAsync(new HouseQuoteRequestDeleteRequest(request.HouseQuoteRequestId), presenter);
             return presenter.ContentResult;
 
         }

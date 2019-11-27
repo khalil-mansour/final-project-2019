@@ -21,7 +21,7 @@ namespace Web.Api.Core.UseCases.Offer
             _offerRepository = offerRepository;
         }
 
-        public async Task<bool> Handle(OfferDeleteRequest message, Interfaces.IOutputPort<OfferDeleteResponse> outputPort)
+        public async Task<bool> HandleAsync(OfferDeleteRequest message, Interfaces.IOutputPort<OfferDeleteResponse> outputPort)
         {
             var response = await _offerRepository.Delete(message.OfferId);
 

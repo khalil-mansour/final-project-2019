@@ -32,7 +32,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
             _fileRepository = fileRepository;
         }
 
-        public async Task<bool> Handle(HouseQuoteRequestUpdateRequest message, IOutputPort<HouseQuoteRequestUpdateResponse> outputPort)
+        public async Task<bool> HandleAsync(HouseQuoteRequestUpdateRequest message, IOutputPort<HouseQuoteRequestUpdateResponse> outputPort)
         {
             var response = await _quoteRequestRepository.Update(
                 message.QuoteRequestId,

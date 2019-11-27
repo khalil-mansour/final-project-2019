@@ -22,7 +22,7 @@ namespace Web.Api.Core.UseCases.Offer
             _offerRepository = offerRepository;
         }
 
-        public async Task<bool> Handle(OfferFetchAllByReqRequest message, Interfaces.IOutputPort<OfferFetchAllByReqResponse> outputPort)
+        public async Task<bool> HandleAsync(OfferFetchAllByReqRequest message, Interfaces.IOutputPort<OfferFetchAllByReqResponse> outputPort)
         {
             var response = await _offerRepository.FetchAllByRequest(message.RequestId);
 

@@ -36,7 +36,7 @@ namespace Web.Api.Core.UnitTests
 
             // when
 
-            var response = await useCase.Handle(new UserLoginRequest(id), mockOutputPort.Object);
+            var response = await useCase.HandleAsync(new UserLoginRequest(id), mockOutputPort.Object);
 
             // done
 

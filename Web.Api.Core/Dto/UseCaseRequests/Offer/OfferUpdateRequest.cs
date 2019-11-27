@@ -9,8 +9,6 @@ namespace Web.Api.Core.Dto.UseCaseRequests.Offer
 
         public string UserId { get; }
 
-        public int QuoteRequestId { get; }
-
         public double AnnualInterestRate { get; }
 
         public double Loan { get; }
@@ -29,10 +27,9 @@ namespace Web.Api.Core.Dto.UseCaseRequests.Offer
 
         public bool Submitted { get; }
 
-        public OfferUpdateRequest(string userId, int quoteRequestId, double annualInterestRate, double loan, double mensuality, int rateType, int contractDuration, int loanDuration, int paymentFrequency, string description, bool submitted)
+        public OfferUpdateRequest(string userId, double annualInterestRate, double loan, double mensuality, int rateType, int contractDuration, int loanDuration, int paymentFrequency, string description, bool submitted)
         {
             UserId = userId;
-            QuoteRequestId = quoteRequestId;
             AnnualInterestRate = annualInterestRate;
             Loan = loan;
             Mensuality = mensuality;
@@ -44,11 +41,10 @@ namespace Web.Api.Core.Dto.UseCaseRequests.Offer
             Submitted = submitted;
         }
 
-        public OfferUpdateRequest(int id, string userId, int quoteRequestId, double annualInterestRate, double loan, double mensuality, int rateType, int contractDuration, int loanDuration, int paymentFrequency, string description, bool submitted)
+        public OfferUpdateRequest(int id, string userId, double annualInterestRate, double loan, double mensuality, int rateType, int contractDuration, int loanDuration, int paymentFrequency, string description, bool submitted)
         {
             Id = id;
             UserId = userId;
-            QuoteRequestId = quoteRequestId;
             AnnualInterestRate = annualInterestRate;
             Loan = loan;
             Mensuality = mensuality;

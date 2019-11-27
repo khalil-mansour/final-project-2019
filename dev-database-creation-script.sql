@@ -19,6 +19,17 @@ DROP TABLE IF EXISTS quote_request_type CASCADE;
 DROP TABLE IF EXISTS house_location CASCADE;
 DROP TABLE IF EXISTS city CASCADE;
 DROP TABLE IF EXISTS province CASCADE;
+DROP TABLE IF EXISTS user_gender CASCADE;
+
+CREATE TABLE user_gender (
+	id serial PRIMARY KEY,
+	description VARCHAR(100)
+);
+
+CREATE TABLE province (
+	id serial PRIMARY KEY,
+	name varchar(200)
+);
 
 CREATE TABLE rate_type (
 	id serial PRIMARY KEY,
@@ -32,8 +43,7 @@ CREATE TABLE payment_frequency (
 
 CREATE TABLE user_type (
 	id serial PRIMARY KEY,
-	type varchar(100) NOT NULL,
-	description varchar(100)
+	type varchar(100) NOT NULL
 );
 
 CREATE TABLE users (
@@ -44,47 +54,31 @@ CREATE TABLE users (
 	email varchar(50) NOT NULL,
 	phone varchar(50),
 	postalcode varchar(50),
-	province varchar(3),
+	province integer,
 	birthday date, 
+
+	CONSTRAINT province_fkey FOREIGN KEY (province)
+      REFERENCES province (id) MATCH SIMPLE,
 	
 	CONSTRAINT user_type_id_fkey FOREIGN KEY (user_type_id)
       REFERENCES user_type (id) MATCH SIMPLE
 );
 
-CREATE TABLE profession (
-	id serial PRIMARY KEY,
-	name varchar(100) NOT NULL,
-	description varchar(200) NOT NULL
-);
-
 CREATE TABLE profession_profile (
 	id serial PRIMARY KEY,
-	gender char(1) NOT NULL,
-	photo varchar(200),
-	business_name varchar(100) NOT NULL,
-	business_phone varchar(100) NOT NULL,
-	business_email varchar(100) NOT NULL,
-	description varchar(500)
-);
-CREATE TABLE user_profession (
-	id serial PRIMARY KEY,
 	user_id varchar(200) NOT NULL,
-	profession_profile_id integer NOT NULL,
-	profession_id integer NOT NULL,
-	
-	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
-      REFERENCES users (id) MATCH SIMPLE,
-	
-	CONSTRAINT profession_profile_id_fkey FOREIGN KEY (profession_profile_id)
-      REFERENCES profession_profile (id) MATCH SIMPLE,
-	
-	CONSTRAINT profession_id_fkey FOREIGN KEY (profession_id)
-      REFERENCES profession (id) MATCH SIMPLE
-);
+	gender INTEGER,
+	photo varchar(200),
+	business_name varchar(100),
+	business_phone varchar(100),
+	business_email varchar(100),
+	description varchar(500),
 
-CREATE TABLE province (
-	id serial PRIMARY KEY,
-	name varchar(200)
+	CONSTRAINT user_id_unique UNIQUE (user_id),
+	CONSTRAINT gender_fkey FOREIGN KEY (gender)
+	  REFERENCES user_gender (id) MATCH SIMPLE,
+	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
+	  REFERENCES users (id) MATCH SIMPLE
 );
 
 CREATE TABLE house_type (
@@ -98,8 +92,7 @@ CREATE TABLE house_location (
 	city varchar(200) NOT NULL,
 	province_id integer NOT NULL,
 	address varchar(100) NOT NULL,
-	apartment_unit varchar(5),
-	
+	apartment_unit varchar(5),	
 
 	CONSTRAINT province_id_fkey FOREIGN KEY (province_id)
       REFERENCES province (id) MATCH SIMPLE
@@ -236,8 +229,10 @@ INSERT INTO province(id, name) VALUES (12,'SK');
 INSERT INTO province(id, name) VALUES (13,'YT');
 
 
-INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 'qc');
-INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 'qc');
+INSERT INTO users  VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1', 2, 'Billy', 'Joe le courtier', 'courtier@admin.com', '8196445878', 'r3rw3w', 1);
+INSERT INTO users  VALUES ('Xe96ZW433IRLemqork9dGvp2tjQ2', 1, 'Billy', 'Joe le client', 'client@admin.com', '8196445878', 'r3rw3w', 3);
+
+INSERT INTO profession_profile (user_id) VALUES ('uv3dy6EmGYXu9gJcs5LL4POZbKf1');
 
 INSERT INTO rate_type VALUES (1, 'fix');
 INSERT INTO rate_type VALUES (2, 'variable');
@@ -247,3 +242,6 @@ INSERT INTO payment_frequency VALUES (2, 'bi_mensual');
 INSERT INTO payment_frequency VALUES (3, 'bi_mensual_accelerated');
 INSERT INTO payment_frequency VALUES (4, 'weekly');
 INSERT INTO payment_frequency VALUES (5, 'weekly_accelerated');
+
+INSERT INTO user_gender VALUES (1, 'male');
+INSERT INTO user_gender VALUES (2, 'female');

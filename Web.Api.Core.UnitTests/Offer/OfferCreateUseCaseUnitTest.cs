@@ -38,7 +38,7 @@ namespace Web.Api.Core.UnitTests.Offer
 
             // when
 
-            var response = await useCase.Handle(
+            var response = await useCase.HandleAsync(
                 new OfferCreateRequest(userId, quoteRequestID, status), mockOutputPort.Object);
 
             // done

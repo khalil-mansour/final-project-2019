@@ -3,10 +3,12 @@ using Web.Api.Core.Interfaces.UseCases;
 using Web.Api.Core.Interfaces.UseCases.File;
 using Web.Api.Core.Interfaces.UseCases.Offer;
 using Web.Api.Core.Interfaces.UseCases.QuoteRequest;
+using Web.Api.Core.Interfaces.UseCases.User;
 using Web.Api.Core.UseCases;
 using Web.Api.Core.UseCases.File;
 using Web.Api.Core.UseCases.Offer;
 using Web.Api.Core.UseCases.QuoteRequest;
+using Web.Api.Core.UseCases.User;
 
 namespace Web.Api.Core
 {
@@ -18,6 +20,10 @@ namespace Web.Api.Core
             // user
             services.AddTransient<IUserRegisterUseCase, UserRegisterUseCase>();
             services.AddTransient<IUserLoginUseCase, UserLoginUseCase>();
+            services.AddTransient<IUserUpdateUseCase, UserUpdateUseCase>();
+            services.AddTransient<IUserProfileUpdateUseCase, UserProfileUpdateUseCase>();
+            services.AddTransient<IUserFetchUseCase, UserFetchUseCase>();
+            services.AddTransient<IUserProfileFetchUseCase, UserProfileFetchUseCase>();
 
             // file
             services.AddTransient<IFileUploadUseCase, FileUploadUseCase>();

@@ -11,20 +11,14 @@ namespace Web.Api.Controllers
     public class FinancialCapacityController : ControllerBase
     {
         private readonly IFinancialCapacityRegisterUseCase _financialCapacityRegisterUseCase;
-        private readonly FinancialCapacityRegisterPresenter _financialCapacityRegisterPresenter;
         private readonly IFinancialCapacityFindUseCase _financialCapacityFindUseCase;
-        private readonly FinancialCapacityFindPresenter _financialCapacityFindPresenter;
 
 
         public FinancialCapacityController(
             IFinancialCapacityRegisterUseCase financialCapacityRegisterUseCase,
-            FinancialCapacityRegisterPresenter financialCapacityRegisterPresenter,
-            IFinancialCapacityFindUseCase financialCapacityFindUseCase, 
-            FinancialCapacityFindPresenter financialCapacityFindPresenter)
+            IFinancialCapacityFindUseCase financialCapacityFindUseCase)
         {
             _financialCapacityRegisterUseCase = financialCapacityRegisterUseCase;
-            _financialCapacityRegisterPresenter = financialCapacityRegisterPresenter;
-            _financialCapacityFindPresenter = financialCapacityFindPresenter;
             _financialCapacityFindUseCase = financialCapacityFindUseCase;
 
         }
@@ -44,17 +38,19 @@ namespace Web.Api.Controllers
             { // re-render the view when validation failed.
                 return BadRequest(ModelState);
             }
-            await _financialCapacityRegisterUseCase.Handle(
-                new FinancialCapacityRegisterRequest(request.Id, 
-                    request.AnnualIncome, 
-                    request.DownPayment, 
-                    request.MensualDebt, 
-                    request.InterestRate, 
-                    request.MunicipalTaxes, 
-                    request.HeatingCost, 
-                    request.CondoFee), 
-                _financialCapacityRegisterPresenter);
-            return _financialCapacityRegisterPresenter.ContentResult;
+
+            var presenter = new FinancialCapacityRegisterPresenter();
+            await _financialCapacityRegisterUseCase.HandleAsync(
+                new FinancialCapacityRegisterRequest(request.User_Id, 
+                    request.Annual_Income, 
+                    request.Down_Payment, 
+                    request.Mensual_Debt, 
+                    request.Interest_Rate, 
+                    request.Municipal_Taxes, 
+                    request.Heating_Cost, 
+                    request.Condo_Fee),
+                presenter);
+            return presenter.ContentResult;
         }
 
         [HttpPost("api/financial/find")]
@@ -64,8 +60,10 @@ namespace Web.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            await _financialCapacityFindUseCase.Handle(new FinancialCapacityFindRequest(request.Id), _financialCapacityFindPresenter);
-            return _financialCapacityFindPresenter.ContentResult;
+
+            var presenter = new FinancialCapacityFindPresenter();
+            await _financialCapacityFindUseCase.HandleAsync(new FinancialCapacityFindRequest(request.Id), presenter);
+            return presenter.ContentResult;
         }
 
     }

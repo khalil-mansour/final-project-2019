@@ -27,7 +27,7 @@ namespace Web.Api.Core.UseCases
             _fileRepository = fileRepository;
         }
 
-        public async Task<bool> Handle(FileFetchAllRequest message, IOutputPort<FileFetchAllResponse> outputPort)
+        public async Task<bool> HandleAsync(FileFetchAllRequest message, IOutputPort<FileFetchAllResponse> outputPort)
         {
             var response = await _fileRepository.FetchAll(message.UserId);
 

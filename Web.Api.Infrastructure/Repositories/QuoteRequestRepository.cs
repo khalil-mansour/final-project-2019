@@ -203,6 +203,7 @@ namespace Web.Api.Infrastructure.Repositories
         public async Task<HouseQuoteRequestDeleteRepoResponse> Delete(int quoteRequestId)
         {
             var delete_document_query = $@"DELETE FROM public.quote_request_document WHERE quote_request_id=@quoteRequestId";
+            var delete_quote_query = $@"DELETE FROM public.quote WHERE request_id=@quoteRequestId";
             var delete_request_query = $@"DELETE FROM public.quote_request_house WHERE id=@quoteRequestId";
 
             using (var conn = new NpgsqlConnection(_connectionString))
@@ -215,6 +216,8 @@ namespace Web.Api.Infrastructure.Repositories
                     var response = FindQuoteRequestById(quoteRequestId);
                     // delete document request
                     conn.Execute(delete_document_query, new { quoteRequestId });
+                    // delete linked quote
+                    conn.Execute(delete_quote_query, new { quoteRequestId });
                     // delete quote request
                     var success = Convert.ToBoolean(conn.Execute(delete_request_query, new { quoteRequestId }));
                     // commit

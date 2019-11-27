@@ -10,18 +10,18 @@ namespace Web.Api.Models.Request.QuoteRequest
     {
 
         [JsonProperty("postal_code")]
-        public string PostalCode { get; set; }
+        public string Postal_Code { get; set; }
 
         [JsonProperty("city")]
         public string City  {get; set;}
 
         [JsonProperty("province_id")]
-        public int ProvinceId { get; set; }
+        public int Province_Id { get; set; }
 
         [JsonProperty("address")]
         public string Address { get; set; }
 
         [JsonProperty("apartment_unit")]
-        public string ApartmentUnit { get; set; }
+        public string Apartment_Unit { get; set; }
     }
 }

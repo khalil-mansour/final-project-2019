@@ -38,17 +38,16 @@ namespace Web.Api.Core.Domain.Entities
             Mensuality = mensuality;
             RateType = rateType;
             ContractDuration = contractDuration;
-            LoanDuration = LoanDuration;
+            LoanDuration = loanDuration;
             PaymentFrequency = paymentFrequency;
             Description = description;
             Submitted = submitted;
         }
 
         // update request constructor
-        public Offer(string userId, int quoteRequestId, double annualInterestRate, double loan, double mensuality, int rateType, int contractDuration, int loanDuration, int paymentFrequency, string description, bool submitted)
+        public Offer(string userId, double annualInterestRate, double loan, double mensuality, int rateType, int contractDuration, int loanDuration, int paymentFrequency, string description, bool submitted)
         {
             UserId = userId;
-            QuoteRequestId = quoteRequestId;
             AnnualInterestRate = annualInterestRate;
             Loan = loan;
             Mensuality = mensuality;
@@ -64,8 +63,8 @@ namespace Web.Api.Core.Domain.Entities
         public Offer(int id, string userId, int quoteRequestId, bool submitted)
         {
             Id = id;
-            UserId = userId;
             QuoteRequestId = quoteRequestId;
+            UserId = userId;
             Submitted = submitted;
         }
 

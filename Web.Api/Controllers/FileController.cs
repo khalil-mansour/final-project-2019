@@ -17,30 +17,16 @@ namespace Web.Api.Controllers
         private readonly IFileFetchAllUseCase _fileFetchAllUseCase;
         private readonly IFileDeleteUseCase _fileDeleteUseCase;
 
-        private readonly FileUploadPresenter _fileUploadPresenter;
-        private readonly FileFetchPresenter _fileFetchPresenter;
-        private readonly FileFetchAllPresenter _fileFetchAllPresenter;
-        private readonly FileDeletePresenter _fileDeletePresenter;
-
-
         public FileController(
             IFileUploadUseCase fileUploadUseCase,
             IFileFetchUseCase fileFetchUseCase,
             IFileFetchAllUseCase fileFetchAllUseCase,
-            IFileDeleteUseCase fileDeleteUseCase,
-            FileUploadPresenter fileUploadPresenter,
-            FileFetchPresenter fileFetchPresenter,
-            FileFetchAllPresenter fileFetchAllPresenter,
-            FileDeletePresenter fileDeletePresenter)
+            IFileDeleteUseCase fileDeleteUseCase)
         {
             _fileUploadUseCase = fileUploadUseCase;
             _fileFetchAllUseCase = fileFetchAllUseCase;
             _fileFetchUseCase = fileFetchUseCase;
             _fileDeleteUseCase = fileDeleteUseCase;
-            _fileDeletePresenter = fileDeletePresenter;
-            _fileUploadPresenter = fileUploadPresenter;
-            _fileFetchAllPresenter = fileFetchAllPresenter;
-            _fileFetchPresenter = fileFetchPresenter;
         }
 
         // GET: api/file/fetchall/userId
@@ -51,50 +37,54 @@ namespace Web.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _fileFetchAllUseCase.Handle(new FileFetchAllRequest(request.UserId), _fileFetchAllPresenter);
-            return _fileFetchAllPresenter.ContentResult;
+            var presenter = new FileFetchAllPresenter();
+            await _fileFetchAllUseCase.HandleAsync(new FileFetchAllRequest(request.UserId), presenter);
+            return presenter.ContentResult;
         }
 
-        // GET: api/file/fetch/{id}
-        [HttpGet("api/file/fetch/{id}")]
+        // GET: api/file/{id}
+        [HttpGet("api/file/{id}")]
         // Authorize
         public async Task<ActionResult> GetSingleFile([FromRoute] Models.Request.FileFetchRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _fileFetchUseCase.Handle(new FileFetchRequest(request.Id), _fileFetchPresenter);
-            return _fileFetchPresenter.ContentResult;
+            var presenter = new FileFetchPresenter();
+            await _fileFetchUseCase.HandleAsync(new FileFetchRequest(request.Id), presenter);
+            return presenter.ContentResult;
         }
 
-        // POST: api/file/upload
-        [HttpPost("api/file/upload")]
+        // POST: api/file
+        [HttpPost("api/file")]
         //[Authorize]
         public async Task<ActionResult> CreateFile([FromForm] Models.Request.FileUploadRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            
-            await _fileUploadUseCase.Handle(
+
+            var presenter = new FileUploadPresenter();
+            await _fileUploadUseCase.HandleAsync(
                 new FileUploadRequest(
                     request.File,
-                    request.UserId,
-                    request.DocumentTypeId,
+                    request.User_Id,
+                    request.Document_Type_Id,
                     request.Visible
-                    ), _fileUploadPresenter);
-            return _fileUploadPresenter.ContentResult;
+                    ), presenter);
+            return presenter.ContentResult;
         }
 
-        // DELETE: api/file/remove/{id}
-        [HttpDelete("api/file/remove/{id}")]
+        // DELETE: api/file/{id}
+        [HttpDelete("api/file/{id}")]
         public async Task<ActionResult> DeleteFile([FromRoute] Models.Request.File.FileDeleteRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _fileDeleteUseCase.Handle(
-                new FileDeleteRequest(request.Id), _fileDeletePresenter);
-            return _fileDeletePresenter.ContentResult;
+            var presenter = new FileDeletePresenter();
+            await _fileDeleteUseCase.HandleAsync(
+                new FileDeleteRequest(request.Id), presenter);
+            return presenter.ContentResult;
         }
     }
 }

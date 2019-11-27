@@ -31,7 +31,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
             _quoteRequestRepository = quoteRequestReposiroty;
         }
 
-        public async Task<bool> Handle(HouseQuoteRequestCreateRequest message, IOutputPort<HouseQuoteRequestCreateResponse> outputPort)
+        public async Task<bool> HandleAsync(HouseQuoteRequestCreateRequest message, IOutputPort<HouseQuoteRequestCreateResponse> outputPort)
         {
             var response = await _quoteRequestRepository.Create(
                 new HouseQuoteRequest(message.UserId, message.HouseType,

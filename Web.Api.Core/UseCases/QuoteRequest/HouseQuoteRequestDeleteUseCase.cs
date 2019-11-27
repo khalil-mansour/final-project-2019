@@ -24,7 +24,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
             _quoteRequestRepository = quoteRequestRepository;
         }
 
-        public async Task<bool> Handle(HouseQuoteRequestDeleteRequest message, IOutputPort<HouseQuoteRequestDeleteResponse> outputPort)
+        public async Task<bool> HandleAsync(HouseQuoteRequestDeleteRequest message, IOutputPort<HouseQuoteRequestDeleteResponse> outputPort)
         {
             var response = await _quoteRequestRepository.Delete(message.HouseQuoteRequestId);
 

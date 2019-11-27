@@ -50,7 +50,7 @@ namespace Web.Api.Core.UnitTests
 
             // when
 
-            var response = await useCase.Handle(
+            var response = await useCase.HandleAsync(
                 new FileFetchRequest(ID), mockOutputPort.Object);
 
             // done

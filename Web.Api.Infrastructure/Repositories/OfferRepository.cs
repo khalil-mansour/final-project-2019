@@ -44,7 +44,7 @@ namespace Web.Api.Infrastructure.Repositories
             {
                 try
                 {
-                    return conn.Query<Offer>(select_query, new { id }).FirstOrDefault();
+                    return conn.Query<Offer>(select_query, new { id }).Single();
                 }
                 catch (NpgsqlException e)
                 {
@@ -241,6 +241,8 @@ namespace Web.Api.Infrastructure.Repositories
 
                 try
                 {
+                    // check if offer exists
+                    GetOffer(offerId);
                     conn.Execute(update_offer_query,
                         new
                         {

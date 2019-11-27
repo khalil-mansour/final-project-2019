@@ -27,7 +27,7 @@ namespace Web.Api.Core.UseCases.File
         }
 
 
-        public async Task<bool> Handle(FileDeleteRequest message, IOutputPort<FileDeleteResponse> outputPort)
+        public async Task<bool> HandleAsync(FileDeleteRequest message, IOutputPort<FileDeleteResponse> outputPort)
         {
             var response = await _fileRepository.Delete(message.DocumentId);
 
