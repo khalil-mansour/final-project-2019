@@ -38,7 +38,7 @@ namespace Web.Api.Core.UseCases
             }
             catch (Exception e)
             {
-                logger.Error(e, "Error uploading to GCLOUD.");
+                logger.Error(e, $"Error uploading to GCLOUD. : {e.Message}");
                 outputPort.Handle(new FileUploadResponse(new Error("Action Failed", "Failed to upload file to the Google Cloud service.")));
                 return true;
             }
