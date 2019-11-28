@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS house_location CASCADE;
 DROP TABLE IF EXISTS city CASCADE;
 DROP TABLE IF EXISTS province CASCADE;
 DROP TABLE IF EXISTS user_gender CASCADE;
+DROP TABLE IF EXISTS chat CASCADE;
 
 CREATE TABLE user_gender (
 	id serial PRIMARY KEY,
@@ -204,6 +205,19 @@ CREATE TABLE financial_capacity
     CONSTRAINT uid_fkey FOREIGN KEY (uid)
       REFERENCES users (id) MATCH SIMPLE
 );
+
+CREATE TABLE chat (
+	id serial PRIMARY KEY,
+	user_id VARCHAR(200) NOT NULL PRIMARY KEY,
+	quote_id integer NOT NULL,
+	message VARCHAR(500) NOT NULL,
+	sent TIMESTAMP NOT NULL,
+	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
+		REFERENCES users (id) MATCH SIMPLE,
+	CONSTRAINT quote_id_fkey FOREIGN KEY (quote_id)
+		REFERENCES quote (id) MATCH SIMPLE
+);
+
 
 INSERT INTO user_type(type) VALUES ('client');
 INSERT INTO user_type(type) VALUES ('broker');
