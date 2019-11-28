@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Web.Api.Core.Interfaces.UseCases;
+using Web.Api.Core.Interfaces.UseCases.Chat;
 using Web.Api.Core.Interfaces.UseCases.File;
 using Web.Api.Core.Interfaces.UseCases.Offer;
 using Web.Api.Core.Interfaces.UseCases.QuoteRequest;
 using Web.Api.Core.Interfaces.UseCases.User;
 using Web.Api.Core.UseCases;
+using Web.Api.Core.UseCases.Chat;
 using Web.Api.Core.UseCases.File;
 using Web.Api.Core.UseCases.Offer;
 using Web.Api.Core.UseCases.QuoteRequest;
@@ -50,6 +52,9 @@ namespace Web.Api.Core
             services.AddTransient<IOfferFetchAllByReqUseCase, OfferFetchAllByReqUseCase>();
             services.AddTransient<IOfferUpdateUseCase, OfferUpdateUseCase>();
 
+            // chat
+            services.AddTransient<IChatSendUseCase, ChatSendUseCase>();
+            services.AddTransient<IChatFetchUseCase, ChatFetchUseCase>();
         }
     }
 }
