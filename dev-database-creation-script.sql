@@ -208,7 +208,7 @@ CREATE TABLE financial_capacity
 
 CREATE TABLE chat (
 	id serial PRIMARY KEY,
-	user_id VARCHAR(200) NOT NULL PRIMARY KEY,
+	user_id VARCHAR(200) NOT NULL,
 	quote_id integer NOT NULL,
 	message VARCHAR(500) NOT NULL,
 	sent TIMESTAMP NOT NULL,
