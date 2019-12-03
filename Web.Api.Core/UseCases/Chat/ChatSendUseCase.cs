@@ -21,7 +21,7 @@ namespace Web.Api.Core.UseCases.Chat
             _chatRepository = chatRepository;
         }
 
-        public async Task<bool> HandleAsync(ChatSendRequest message, IOutputPort<ChatResponse> outputPort)
+        public async Task<bool> HandleAsync(ChatSendRequest message, IOutputPort<ChatPostResponse> outputPort)
         {
             var response = await _chatRepository.
                 SendMessage(new Domain.Entities.Chat(
@@ -30,7 +30,7 @@ namespace Web.Api.Core.UseCases.Chat
                     message.Message,
                     message.TimeStamp));
 
-            outputPort.Handle(response.Success ? new ChatResponse(response.Chat, true) : new ChatResponse(new[] { new Error("Send Failed", "Failed to send the chat.") }));
+            outputPort.Handle(response.Success ? new ChatPostResponse(response.Chat, true) : new ChatPostResponse(new[] { new Error("Send Failed", "Failed to send the chat.") }));
 
             if (!response.Success)
                 logger.Error(response.Errors.First()?.Description);

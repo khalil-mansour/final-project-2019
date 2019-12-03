@@ -4,7 +4,7 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseRequests.Chat
 {
-    public class ChatSendRequest : IUseCaseRequest<ChatResponse>
+    public class ChatSendRequest : IUseCaseRequest<ChatPostResponse>
     {
         public string UserId { get; }
 

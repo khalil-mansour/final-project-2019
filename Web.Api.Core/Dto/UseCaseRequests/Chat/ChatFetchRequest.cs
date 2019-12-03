@@ -4,16 +4,16 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseRequests.Chat
 {
-    public class ChatFetchRequest : IUseCaseRequest<ChatResponse>
+    public class ChatFetchRequest : IUseCaseRequest<ChatFetchResponse>
     {
         public int QuoteId { get; }
 
-        public DateTime TimeStamp { get; }
+        public string Timestamp { get; }
 
-        public ChatFetchRequest(int quoteId, DateTime timeStamp)
+        public ChatFetchRequest(int quoteId, string timestamp)
         {
             QuoteId = quoteId;
-            TimeStamp = timeStamp;
+            Timestamp = timestamp;
         }
     }
 }

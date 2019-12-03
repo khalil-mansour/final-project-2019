@@ -3,17 +3,17 @@ using Web.Api.Core.Interfaces;
 
 namespace Web.Api.Core.Dto.UseCaseResponses.Chat
 {
-    public class ChatResponse : UseCaseResponseMessage
+    public class ChatPostResponse : UseCaseResponseMessage
     {
         public Domain.Entities.Chat Chat { get; }
         public IEnumerable<Error> Errors { get; }
 
-        public ChatResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
+        public ChatPostResponse(IEnumerable<Error> errors, bool success = false, string message = null) : base(success, message)
         {
             Errors = errors;
         }
 
-        public ChatResponse(Domain.Entities.Chat chat, bool success = false, string message = null) : base(success, message)
+        public ChatPostResponse(Domain.Entities.Chat chat, bool success = false, string message = null) : base(success, message)
         {
             Chat = chat;
         }
