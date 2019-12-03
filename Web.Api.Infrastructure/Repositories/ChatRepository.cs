@@ -22,12 +22,36 @@ namespace Web.Api.Infrastructure.Repositories
             _connectionString = _configuration.GetSection("ConnectionString").Value;
         }
 
-        public async Task<ChatRepoResponse> FetchMessage(int quoteId, DateTime time)
+        public async Task<ChatFetchRepoResponse> FetchMessages(int quoteId, DateTime time)
         {
-            throw new NotImplementedException();
+            var select_query = $@"SELECT
+                                  id as { nameof(Chat.Id) },
+                                  user_id as { nameof(Chat.UserId) },
+                                  quote_id as { nameof(Chat.QuoteId) },
+                                  message as { nameof(Chat.Message) },
+                                  sent as { nameof(Chat.TimeStamp) }
+                                  FROM public.chat
+                                  WHERE sent >= @datetime";
+            
+            using (var conn = new NpgsqlConnection(_connectionString))
+            {
+                conn.Open();
+                try
+                {
+                    // select
+                    var response = conn.Query<Chat>(select_query, new { datetime = time }).ToList();
+
+                    // return the response
+                    return new ChatFetchRepoResponse(response, true);
+                }
+                catch (Exception e)
+                {
+                    return new ChatFetchRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
+                }
+            }
         }
 
-        public async Task<ChatRepoResponse> SendMessage(Chat chat)
+        public async Task<ChatPostRepoResponse> SendMessage(Chat chat)
         {
             var add_chat = $@"INSERT INTO public.chat (user_id, quote_id, message, sent)
                               VALUES (@userid, @quoteid, @message, @timestamp)
@@ -55,12 +79,12 @@ namespace Web.Api.Infrastructure.Repositories
                     transaction.Commit();
 
                     // return the response
-                    return new ChatRepoResponse(response, true);
+                    return new ChatPostRepoResponse(response, true);
                 }
                 catch (Exception e)
                 {
                     transaction.Rollback();
-                    return new ChatRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
+                    return new ChatPostRepoResponse(null, false, new[] { new Error(e.HResult.ToString(), e.Message) });
                 }
             }
         }

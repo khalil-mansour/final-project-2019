@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.Api.Core.Dto;
 using Web.Api.Core.Dto.UseCaseRequests.Chat;
@@ -21,12 +22,15 @@ namespace Web.Api.Core.UseCases.Chat
             _chatRepository = chatRepository;
         }
 
-        public async Task<bool> HandleAsync(ChatFetchRequest message, IOutputPort<ChatResponse> outputPort)
+        public async Task<bool> HandleAsync(ChatFetchRequest message, IOutputPort<ChatFetchResponse> outputPort)
         {
-            var response = await _chatRepository.
-                FetchMessage(message.QuoteId, message.TimeStamp);
+            // convert Timestamp string to DateTime
+            var dateTime = Convert.ToDateTime(message.Timestamp);
 
-            outputPort.Handle(response.Success ? new ChatResponse(response.Chat, true) : new ChatResponse(new[] { new Error("Ation Failed", "Failed to fetch the chat.") }));
+            var response = await _chatRepository.
+                FetchMessages(message.QuoteId, dateTime);
+
+            outputPort.Handle(response.Success ? new ChatFetchResponse(response.Chats, true) : new ChatFetchResponse(new[] { new Error("Ation Failed", "Failed to fetch the request chat messages.") }));
 
             if (!response.Success)
                 logger.Error(response.Errors.First()?.Description);

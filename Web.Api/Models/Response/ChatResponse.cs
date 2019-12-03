@@ -33,5 +33,23 @@ namespace Web.Api.Models.Response
             };
             return JsonConvert.SerializeObject(response);
         }
+
+        public static string ToJson(IEnumerable<Chat> chats)
+        {
+            List<ChatResponse> responses = new List<ChatResponse>();
+            foreach (var chat in chats)
+            {
+                var response = new ChatResponse
+                {
+                    Id = chat.Id,
+                    UserId = chat.UserId,
+                    QuoteId = chat.QuoteId,
+                    Message = chat.Message,
+                    Timestamp = chat.TimeStamp.ToString()
+                };
+                responses.Add(response);
+            }
+            return JsonConvert.SerializeObject(responses);
+        }
     }
 }
