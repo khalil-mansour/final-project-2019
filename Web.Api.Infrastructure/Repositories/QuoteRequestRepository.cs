@@ -202,7 +202,10 @@ namespace Web.Api.Infrastructure.Repositories
 
         public async Task<HouseQuoteRequestDeleteRepoResponse> Delete(int quoteRequestId)
         {
+            var select_quote_id = $@"SELECT id FROM public.quote WHERE request_id = @id";
+
             var delete_document_query = $@"DELETE FROM public.quote_request_document WHERE quote_request_id=@quoteRequestId";
+            var delete_quote_chat_query = $@"DELETE FROM public.chat WHERE quote_id = @id";
             var delete_quote_query = $@"DELETE FROM public.quote WHERE request_id=@quoteRequestId";
             var delete_request_query = $@"DELETE FROM public.quote_request_house WHERE id=@quoteRequestId";
 
@@ -216,7 +219,11 @@ namespace Web.Api.Infrastructure.Repositories
                     var response = FindQuoteRequestById(quoteRequestId);
                     // delete document request
                     conn.Execute(delete_document_query, new { quoteRequestId });
-                    // delete linked quote
+                    // get quote ids
+                    var quoteIds = conn.Query<int>(select_quote_id, new { id = quoteRequestId }).ToList();
+                    // delete chats for all quotes linked to quote request
+                    quoteIds.ForEach(x => conn.Execute(delete_quote_chat_query, new { id = x }));                    
+                    // delete linked quotes
                     conn.Execute(delete_quote_query, new { quoteRequestId });
                     // delete quote request
                     var success = Convert.ToBoolean(conn.Execute(delete_request_query, new { quoteRequestId }));
