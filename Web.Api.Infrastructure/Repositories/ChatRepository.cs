@@ -31,7 +31,8 @@ namespace Web.Api.Infrastructure.Repositories
                                   message as { nameof(Chat.Message) },
                                   sent as { nameof(Chat.TimeStamp) }
                                   FROM public.chat
-                                  WHERE sent >= @datetime";
+                                  WHERE sent >= @datetime
+                                  AND quote_id = @id";
             
             using (var conn = new NpgsqlConnection(_connectionString))
             {
@@ -39,7 +40,7 @@ namespace Web.Api.Infrastructure.Repositories
                 try
                 {
                     // select
-                    var response = conn.Query<Chat>(select_query, new { datetime = time }).ToList();
+                    var response = conn.Query<Chat>(select_query, new { datetime = time, id = quoteId }).ToList();
 
                     // return the response
                     return new ChatFetchRepoResponse(response, true);
