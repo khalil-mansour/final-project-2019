@@ -10,6 +10,7 @@ using NLog;
 using Web.Api.Core;
 using Web.Api.Infrastructure;
 using Web.Api.Presenters;
+using Web.Api.Presenters.Chat;
 using Web.Api.Presenters.File;
 using Web.Api.Presenters.Offer;
 using Web.Api.Presenters.QuoteRequest;
@@ -64,6 +65,8 @@ namespace Web.Api
             services.AddSingleton<OfferFetchPresenter>();
             services.AddSingleton<OfferFetchAllByReqPresenter>();
             services.AddSingleton<OfferUpdatePresenter>();
+            services.AddSingleton<ChatSendPresenter>();
+            services.AddSingleton<ChatFetchPresenter>();
 
             services.AddSwaggerGen(c =>
             {

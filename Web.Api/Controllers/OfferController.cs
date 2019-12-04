@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Web.Api.Core.Dto.UseCaseRequests.Chat;
 using Web.Api.Core.Dto.UseCaseRequests.Offer;
+using Web.Api.Core.Interfaces.UseCases.Chat;
 using Web.Api.Core.Interfaces.UseCases.Offer;
+using Web.Api.Presenters.Chat;
 using Web.Api.Presenters.Offer;
 
 namespace Web.Api.Controllers
@@ -21,6 +25,10 @@ namespace Web.Api.Controllers
         private readonly IOfferDeleteUseCase _offerDeleteUseCase;
         // get all offers for request
         private readonly IOfferFetchAllByReqUseCase _offerFetchAllByReqUseCase;
+        // send a message
+        private readonly IChatSendUseCase _chatSendUseCase;
+        // fetch a message
+        private readonly IChatFetchUseCase _chatFetchUseCase;
 
         public OfferController(
             IOfferFetchUseCase offerFetchUseCase,
@@ -28,7 +36,9 @@ namespace Web.Api.Controllers
             IOfferDeleteUseCase offerDeleteUseCase,
             IOfferCreateUseCase offerCreateUseCase,
             IOfferFetchAllByReqUseCase offerFetchAllByReqUseCase,
-            IOfferUpdateUseCase offerUpdateUseCase
+            IOfferUpdateUseCase offerUpdateUseCase,
+            IChatSendUseCase chatSendUseCase,
+            IChatFetchUseCase chatFetchUseCase
             )
         {
             _offerCreateUseCase = offerCreateUseCase;
@@ -37,7 +47,38 @@ namespace Web.Api.Controllers
             _offerDeleteUseCase = offerDeleteUseCase;
             _offerFetchAllByReqUseCase = offerFetchAllByReqUseCase;
             _offerUpdateUseCase = offerUpdateUseCase;
+            _chatSendUseCase = chatSendUseCase;
+            _chatFetchUseCase = chatFetchUseCase;
+        }
 
+        
+        // GET : api/offer/{quoteId}/messages
+        [HttpGet("api/offer/{quoteId}/messages")]
+        public async Task<ActionResult> GetUnseenMessages(int quoteId, [FromQuery] Models.Request.Chat.ChatFetchRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var presenter = new ChatFetchPresenter();
+            await _chatFetchUseCase.HandleAsync(new ChatFetchRequest(quoteId, request.Timestamp), presenter);
+            return presenter.ContentResult;
+        }
+       
+        // POST : api/offer/messages
+        [HttpPost("api/offer/messages")]
+        public async Task<ActionResult> SendMessage([FromBody] Models.Request.Chat.ChatSendRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var presenter = new ChatSendPresenter();
+            await _chatSendUseCase.HandleAsync(
+                new ChatSendRequest(
+                    request.User_Id,
+                    request.Quote_Id,
+                    request.Message,
+                    Convert.ToDateTime(request.Timestamp)), presenter);
+            return presenter.ContentResult;
         }
 
         // GET: api/offer/offersbyrequest/{requestId}

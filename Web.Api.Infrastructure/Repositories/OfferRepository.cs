@@ -127,6 +127,8 @@ namespace Web.Api.Infrastructure.Repositories
 
         public async Task<OfferDeleteRepoResponse> Delete(int offerId)
         {
+            var delete_offer_chat_query = $@"DELETE FROM public.chat WHERE quote_id = @id";
+
             var delete_offer_query = $@"DELETE FROM public.quote WHERE id = @id";
 
             using (var conn = new NpgsqlConnection(_connectionString))
@@ -137,6 +139,8 @@ namespace Web.Api.Infrastructure.Repositories
                 {
                     // fetch document
                     var response = GetOffer(offerId);
+                    // delete related chats
+                    conn.Execute(delete_offer_chat_query, new { id = offerId });
                     // delete document
                     var success = Convert.ToBoolean(conn.Execute(delete_offer_query, new { id = offerId }));
                     // commit
