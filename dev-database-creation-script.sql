@@ -211,7 +211,7 @@ CREATE TABLE chat (
 	user_id VARCHAR(200) NOT NULL,
 	quote_id integer NOT NULL,
 	message VARCHAR(500) NOT NULL,
-	sent TIMESTAMP NOT NULL,
+	sent TIMESTAMPTZ NOT NULL,
 	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
 		REFERENCES users (id) MATCH SIMPLE,
 	CONSTRAINT quote_id_fkey FOREIGN KEY (quote_id)

@@ -22,7 +22,7 @@ namespace Web.Api.Infrastructure.Repositories
             _connectionString = _configuration.GetSection("ConnectionString").Value;
         }
 
-        public async Task<ChatFetchRepoResponse> FetchMessages(int quoteId, DateTime time)
+        public async Task<ChatFetchRepoResponse> FetchMessages(int quoteId, DateTimeOffset time)
         {
             var select_query = $@"SELECT
                                   id as { nameof(Chat.Id) },

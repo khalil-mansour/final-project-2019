@@ -29,7 +29,7 @@ namespace Web.Api.Models.Response
                 UserId = chat.UserId,
                 QuoteId = chat.QuoteId,
                 Message = chat.Message,
-                Timestamp = chat.TimeStamp.ToString()
+                Timestamp = chat.TimeStamp.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
             };
             return JsonConvert.SerializeObject(response);
         }

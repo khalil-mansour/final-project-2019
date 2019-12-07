@@ -8,6 +8,6 @@ namespace Web.Api.Core.Interfaces.Gateways.Repositories
     public interface IChatRepository
     {
         Task<ChatPostRepoResponse> SendMessage(Chat chat);
-        Task<ChatFetchRepoResponse> FetchMessages(int quoteId, DateTime time);
+        Task<ChatFetchRepoResponse> FetchMessages(int quoteId, DateTimeOffset time);
     }
 }
