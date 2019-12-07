@@ -23,13 +23,14 @@ namespace Web.Api.Models.Response
 
         public static string ToJson(Chat chat)
         {
+            //var c = chat.TimeStamp.ToUniversalTime();
             var response = new ChatResponse
             {
                 Id = chat.Id,
                 UserId = chat.UserId,
                 QuoteId = chat.QuoteId,
                 Message = chat.Message,
-                Timestamp = chat.TimeStamp.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
+                Timestamp = chat.TimeStamp.ToString()
             };
             return JsonConvert.SerializeObject(response);
         }

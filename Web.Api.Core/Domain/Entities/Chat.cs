@@ -14,14 +14,14 @@ namespace Web.Api.Core.Domain.Entities
 
         public string Message { get; }
 
-        public DateTime TimeStamp { get; }
+        public DateTimeOffset TimeStamp { get; }
         
-        public Chat(string userId, int quoteId, string message, DateTime timeStamp)
+        public Chat(string userId, int quoteId, string message, string timeStamp)
         {
             UserId = userId;
             QuoteId = quoteId;
             Message = message;
-            TimeStamp = timeStamp;
+            TimeStamp = DateTimeOffset.Parse(timeStamp);
         }
 
         public Chat(int id, string userId, int quoteId, string message, DateTime timeStamp)
@@ -30,7 +30,7 @@ namespace Web.Api.Core.Domain.Entities
             UserId = userId;
             QuoteId = quoteId;
             Message = message;
-            TimeStamp = timeStamp;
+            TimeStamp = DateTimeOffset.Parse(timeStamp.ToString());
         }
     }
 }

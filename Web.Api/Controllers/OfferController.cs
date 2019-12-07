@@ -77,7 +77,7 @@ namespace Web.Api.Controllers
                     request.User_Id,
                     request.Quote_Id,
                     request.Message,
-                    Convert.ToDateTime(request.Timestamp)), presenter);
+                    request.Timestamp), presenter);
             return presenter.ContentResult;
         }
 

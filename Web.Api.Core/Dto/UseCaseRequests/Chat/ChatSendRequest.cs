@@ -12,9 +12,9 @@ namespace Web.Api.Core.Dto.UseCaseRequests.Chat
 
         public string Message { get; }
 
-        public DateTime TimeStamp { get; }
+        public string TimeStamp { get; }
 
-        public ChatSendRequest(string userId, int quoteId, string message, DateTime timeStamp)
+        public ChatSendRequest(string userId, int quoteId, string message, string timeStamp)
         {
             UserId = userId;
             QuoteId = quoteId;
