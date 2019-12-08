@@ -24,12 +24,10 @@ namespace Web.Api.Core.UseCases
 
         public async Task<bool> HandleAsync(UserUpdateRequest message, IOutputPort<UserUpdateResponse> outputPort)
         {
-            // convert string to datetime for birthdate
-            DateTime? birthdate;
+            DateTimeOffset? birthday = null;
+            // check timestamp
             if (message.Birthday != null)
-                birthdate = Convert.ToDateTime(message.Birthday);
-            else
-                birthdate = null;
+                birthday = DateTimeOffset.Parse(message.Birthday);
 
             var response = await _userRepository.
                 UpdateUser(
@@ -43,7 +41,7 @@ namespace Web.Api.Core.UseCases
                         message?.Phone,
                         message?.PostalCode,                        
                         message?.Province,
-                        birthdate));
+                        birthday));
 
             outputPort.Handle(response.Success ? new UserUpdateResponse(response.User, true) : new UserUpdateResponse(response.Errors));
 

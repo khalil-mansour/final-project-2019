@@ -56,7 +56,7 @@ namespace Web.Api.Core.Domain.Entities
             HouseType = houseType;
             HouseLocationId = houseLocationId;
             ListingPrice = listingPrice;
-            CreatedDate = createdDate;
+            CreatedDate = createdDate.ToUniversalTime();
             DownPayment = downPayment;
             Offer = offer;
             FirstHouse = firstHouse;

@@ -56,7 +56,7 @@ CREATE TABLE users (
 	phone varchar(50),
 	postalcode varchar(50),
 	province integer,
-	birthday date, 
+	birthday timestamptz, 
 
 	CONSTRAINT province_fkey FOREIGN KEY (province)
       REFERENCES province (id) MATCH SIMPLE,
@@ -106,7 +106,7 @@ CREATE TABLE quote_request_house (
 	house_type_id integer NOT NULL,
     house_location_id integer NOT NULL,
 	listing integer NOT NULL,
-	created_date timestamp NOT NULL,
+	created_date timestamptz NOT NULL,
 	down_payment integer,
 	offer integer,
 	first_house boolean NOT NULL,
@@ -136,20 +136,6 @@ CREATE TABLE quote (
 	
 	CONSTRAINT request_id_fkey FOREIGN KEY (request_id)
       REFERENCES quote_request_house (id) MATCH SIMPLE,
-	
-	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
-      REFERENCES users (id) MATCH SIMPLE
-);
-
-CREATE TABLE comment (
-	id serial PRIMARY KEY,
-	quote_id integer NOT NULL,
-	user_id varchar(200) NOT NULL,
-	message varchar(500) NOT NULL,
-	date_time timestamp NOT NULL,
-	
-	CONSTRAINT quote_id_fkey FOREIGN KEY (quote_id)
-      REFERENCES quote (id) MATCH SIMPLE,
 	
 	CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
       REFERENCES users (id) MATCH SIMPLE

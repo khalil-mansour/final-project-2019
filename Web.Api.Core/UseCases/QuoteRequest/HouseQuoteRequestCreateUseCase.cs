@@ -41,7 +41,7 @@ namespace Web.Api.Core.UseCases.QuoteRequest
                 message.HouseLocationRequest.Address,
                 message.HouseLocationRequest.ApartmentUnit),
                 message.ListingPrice, 
-                DateTime.Now,
+                DateTime.UtcNow,
                 message.DownPayment,
                 message.Offer,
                 message.FirstHouse, 

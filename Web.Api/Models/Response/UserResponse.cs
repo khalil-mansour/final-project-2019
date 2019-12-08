@@ -48,9 +48,11 @@ namespace Web.Api.Models.Response
                 PostalCode = user.PostalCode,
                 Province = user.Province
             };
-            // check if DateTime? has a value before mapping response
-            if (user.Birthday.HasValue)
-                response.Birthday = user.Birthday.Value.ToString("yyyy-MM-dd");
+            // check if Date is not null
+            if (user.Birthday.Value.Year == 1)
+                response.Birthday = null;
+            else
+                response.Birthday = user.Birthday.ToString();
 
             return JsonConvert.SerializeObject(response, Formatting.Indented);
 

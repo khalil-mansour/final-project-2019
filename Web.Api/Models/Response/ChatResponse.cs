@@ -23,7 +23,6 @@ namespace Web.Api.Models.Response
 
         public static string ToJson(Chat chat)
         {
-            //var c = chat.TimeStamp.ToUniversalTime();
             var response = new ChatResponse
             {
                 Id = chat.Id,

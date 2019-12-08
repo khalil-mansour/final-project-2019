@@ -21,12 +21,12 @@ namespace Web.Api.Core.Domain.Entities
 
         public int? Province{ get; }
 
-        public DateTime? Birthday { get; set; }
+        public DateTimeOffset? Birthday { get; set; }
 
         public Profile Profile { get; set; }
 
 
-        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime? birthday)
+        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTimeOffset? birthday)
         {
             Id = id;
             FirstName = firstName;
@@ -39,7 +39,7 @@ namespace Web.Api.Core.Domain.Entities
             Birthday = birthday;
         }
 
-        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime? birthday, Profile profile)
+        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTimeOffset? birthday, Profile profile)
         {
             Id = id;
             FirstName = firstName;
@@ -53,8 +53,9 @@ namespace Web.Api.Core.Domain.Entities
             Profile = profile;
         }
 
-        internal User(string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime? birthday)
+        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime birthday)
         {
+            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
@@ -62,11 +63,12 @@ namespace Web.Api.Core.Domain.Entities
             Phone = phone;
             PostalCode = postalcode;
             Province = province;
-            Birthday = birthday;
+            Birthday = DateTimeOffset.Parse(birthday.ToString());
         }
 
-        internal User(string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime? birthday, Profile profile)
+        internal User(string id, string firstName, string lastName, string email, int usertype, string phone, string postalcode, int? province, DateTime birthday, Profile profile)
         {
+            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
@@ -74,7 +76,7 @@ namespace Web.Api.Core.Domain.Entities
             Phone = phone;
             PostalCode = postalcode;
             Province = province;
-            Birthday = birthday;
+            Birthday = DateTimeOffset.Parse(birthday.ToString());
             Profile = profile;
         }
     }

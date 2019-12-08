@@ -259,6 +259,7 @@ namespace Web.Api.Infrastructure.Repositories
             var update_request_query = $@"UPDATE public.quote_request_house
                                           SET house_type_id = @houseTypeId,
                                               listing = @listing,
+                                              created_date = @createdDate,
                                               down_payment = @downPayment,
                                               offer = @offer,
                                               first_house = @firstHouse,
@@ -297,6 +298,7 @@ namespace Web.Api.Infrastructure.Repositories
                             id = quoteRequestId,
                             houseTypeId = houseQuoteRequest.HouseType,
                             listing = houseQuoteRequest.ListingPrice,
+                            createdDate = houseQuoteRequest.CreatedDate,
                             downPayment = houseQuoteRequest.DownPayment,
                             offer = houseQuoteRequest.Offer,
                             firstHouse = houseQuoteRequest.FirstHouse,
